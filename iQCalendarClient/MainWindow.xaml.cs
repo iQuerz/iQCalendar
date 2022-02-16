@@ -23,6 +23,13 @@ namespace iQCalendarClient
         public MainWindow()
         {
             InitializeComponent();
+
+            Loaded += Client_Loaded;
+        }
+
+        private void Client_Loaded(object sender, EventArgs e)
+        {
+           
         }
     }
 }

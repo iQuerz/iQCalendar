@@ -7,6 +7,178 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+       
+        <Grid x:Name="CalendarContainer" 
+              Grid.Row="1" Grid.Column="1"
+              Margin="10"
+              >
+            
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="8*"/>
+                </Grid.RowDefinitions>
+
+            <Button x:Name="LeftArrowButton" Grid.Column="0" Grid.Row="0" BorderBrush="White" Cursor="Hand">
+                <Image Source="Resources/LeftArrow.png"></Image>
+                
+            </Button>
+            <Button x:Name="RightArrowButton" Grid.Column="7" Grid.Row="0" BorderBrush="White" Cursor="Hand">
+                <Image Source="Resources/RightArrow.png"/>
+
+            </Button>
+    
+            <!--#region Viewboxevi za Dane u nedelji (Nema Kodovanja)-->
+            
+            <Viewbox Grid.Column="0" Grid.Row="1">
+                <TextBlock x:Name="MondayLabel" Text="Pon" 
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+            </Viewbox>
+            <Viewbox Grid.Column="1" Grid.Row="1">
+                <TextBlock x:Name="TuesdayLabel" Text="Uto" 
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+            </Viewbox>
+            <Viewbox Grid.Column="2" Grid.Row="1">
+                <TextBlock x:Name="WednesdayLabel" Text="Sre" 
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+            </Viewbox>
+            <Viewbox Grid.Column="3" Grid.Row="1">
+                <TextBlock x:Name="ThursdayLabel" Text="Čet" 
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+            </Viewbox>
+            <Viewbox Grid.Column="4" Grid.Row="1">
+                <TextBlock x:Name="FridayLabel" Text="Pet" 
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+            </Viewbox>
+            <Viewbox Grid.Column="5" Grid.Row="1">
+                <TextBlock x:Name="SaturdayLabel" Text="Sub" 
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+            </Viewbox>
+            <Viewbox Grid.Column="6" Grid.Row="1">
+                <TextBlock x:Name="SundayLabel" Text="Ned" 
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+            </Viewbox>
+
+            <!--#endregion-->
+            
+            
+            <!-- Viewbox za Mesece na gridu x:Name = MonthLabel -->
+            <Viewbox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="5">
+                <TextBlock x:Name="MonthLabel" Text="Mesec">
+                </TextBlock>
+            </Viewbox>
+                
+            
+           
+            
+            <Grid x:Name="CalendarGrid"
+              Grid.Row="2" Grid.Column="0" 
+                      Grid.ColumnSpan="7">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+
+                </Grid.RowDefinitions>
+
+
+                <Border BorderThickness="0.5 0.5 0.5 0.5"
+                    BorderBrush="Black"
+                    Grid.Column="0" Grid.RowSpan="7"/>
+                <Border BorderThickness="0 0.5 0.5 0.5"
+                    BorderBrush="Black"
+                    Grid.Column="1" Grid.RowSpan="7"/>
+                <Border BorderThickness="0 0.5 0.5 0.5"
+                    BorderBrush="Black"
+                    Grid.Column="2" Grid.RowSpan="7"/>
+                <Border BorderThickness="0 0.5 0.5 0.5"
+                    BorderBrush="Black"
+                    Grid.Column="3" Grid.RowSpan="7"/>
+                <Border BorderThickness="0 0.5 0.5 0.5"
+                    BorderBrush="Black"
+                    Grid.Column="4" Grid.RowSpan="7"/>
+                <Border BorderThickness="0 0.5 0.5 0.5"
+                    BorderBrush="Black"
+                    Grid.Column="5" Grid.RowSpan="7"/>
+                <Border BorderThickness="0 0.5 0.5 0.5"
+                    BorderBrush="Black"
+                    Grid.Column="6" Grid.RowSpan="7"/>
+                <Border BorderThickness="0 0 0.5 0"
+                    BorderBrush="Black"
+                    Grid.Column="6" Grid.RowSpan="7"/>
+
+
+
+                <Border BorderThickness="0 0 0 0.5"
+                    BorderBrush="Black"
+                    Grid.Row="0" Grid.ColumnSpan="7"/>
+                <Border BorderThickness="0 0 0 0.5"
+                    BorderBrush="Black"
+                    Grid.Row="1" Grid.ColumnSpan="7"/>
+                <Border BorderThickness="0 0 0 0.5"
+                    BorderBrush="Black"
+                    Grid.Row="2" Grid.ColumnSpan="7"/>
+                <Border BorderThickness="0 0 0 0.5"
+                    BorderBrush="Black"
+                    Grid.Row="3" Grid.ColumnSpan="7"/>
+                <Border BorderThickness="0 0 0 0.5"
+                    BorderBrush="Black"
+                    Grid.Row="4" Grid.ColumnSpan="7"/>
+                <Border BorderThickness="0 0 0 0"
+                    BorderBrush="Black"
+                    Grid.Row="5" Grid.ColumnSpan="7"/>
+
+                <!-- Viewbox Labele za Datume IMPORTANT AF!!!-->
+                <Viewbox Grid.Column="0" Grid.Row="0">
+                    <Grid>
+                        
+                        
+                    </Grid>
+                </Viewbox>
+                           
+            </Grid>
+        </Grid>
 
     </Grid>
 </Window>
