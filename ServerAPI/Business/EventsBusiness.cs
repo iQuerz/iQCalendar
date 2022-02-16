@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using ServerAPI.Data.Models;
@@ -9,18 +10,38 @@ namespace ServerAPI.Business
     {
         public async Task<List<Event>> GetMonthlyEvents(int accountID, int month, int year)
         {
+            if (accountID <= 0)
+            {
+                var err = new iQError
+                {
+                    Error = "Invalid ID.",
+                    Details = "S01 - Negative ID sent. ID's start with 1 and go only above."
+                };
+                throw new iQException(err, 400);
+            }
 
-            #region Exceptions
             if (month < 1 || month > 12)
-                throw new iQException();
+            {
+                var err = new iQError
+                {
+                    Error = "Invalid request.",
+                    Details = "E01 - Month value is outside of bounds. Make sure the month number is between 1 and 12."
+                };
+                throw new iQException(err, 400);
+            }
 
             var account = await _context.Accounts.FindAsync(accountID);
 
             if (account == null)
-                throw new iQException();
-            #endregion
+            {
+                var err = new iQError
+                {
+                    Error = "Account not found.",
+                    Details = "A01 - The specified account does not exist in our database. Try with a different one."
+                };
+                throw new iQException(err, 404);
+            }
 
-            #region Code
             //list to be returned
             List<Event> events = new List<Event>();
 
@@ -40,11 +61,22 @@ namespace ServerAPI.Business
 
             return events;
 
-            #endregion
         }
 
         public async Task<Event> CreateEvent(Event @event)
         {
+            var e = _context.Events.FirstOrDefault(ev => ev.Name == @event.Name);
+
+            if (e != null)
+            {
+                var err = new iQError
+                {
+                    Error = "Event already exists.",
+                    Details = "E02 - The database already has an event with the same name. Try giving it a different name."
+                };
+                throw new iQException(err, 400);
+            }
+
             await _context.Events.AddAsync(@event);
             await _context.SaveChangesAsync();
             return @event;
@@ -55,7 +87,14 @@ namespace ServerAPI.Business
             var e = await _context.Events.FindAsync(@event.EventID);
 
             if (e == null)
-                throw new iQException();
+            {
+                var err = new iQError
+                {
+                    Error = "Event not found.",
+                    Details = "E03 - The specified event does not exist in our database. Try a different one."
+                };
+                throw new iQException(err, 404);
+            }
 
             e.AccountID = @event.AccountID;
             e.Name = @event.Name;
@@ -73,17 +112,28 @@ namespace ServerAPI.Business
 
         public async Task DeleteEvent(int eventID)
         {
-            #region Exceptions
 
             if (eventID < 0)
-                throw new iQException("Invalid ID.");
+            {
+                var err = new iQError
+                {
+                    Error = "Invalid ID.",
+                    Details = "S01 - Negative ID sent. ID's start with 1 and go only above."
+                };
+                throw new iQException(err, 400);
+            }
 
             var e = await _context.Events.FindAsync(eventID);
 
             if (e == null)
-                throw new iQException("Can't find the event.");
-
-            #endregion
+            {
+                var err = new iQError
+                {
+                    Error = "Event not found.",
+                    Details = "E03 - The specified event does not exist in our database. Try a different one."
+                };
+                throw new iQException(err, 404);
+            }
 
             _context.Events.Remove(e);
             await _context.SaveChangesAsync();

@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
-using ServerAPI.Data;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using ServerAPI.Data;
 
 namespace ServerAPI.Business
 {

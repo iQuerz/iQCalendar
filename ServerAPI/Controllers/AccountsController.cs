@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 using ServerAPI.Business;
 using ServerAPI.Data;
 using ServerAPI.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ServerAPI.Controllers
 {
@@ -26,9 +24,14 @@ namespace ServerAPI.Controllers
         {
             if (!await _logic.Authenticate(Request))
                 return Unauthorized();
+
             try
             {
                 return Ok(await _logic.GetAccount(username));
+            }
+            catch (iQException e)
+            {
+                return StatusCode(e.StatusCode, e.Error);
             }
             catch (Exception e)
             {
@@ -43,9 +46,13 @@ namespace ServerAPI.Controllers
             {
                 return Ok(await _logic.CreateAccount(account));
             }
-            catch(Exception e)
+            catch (iQException e)
             {
-                return BadRequest();
+                return StatusCode(e.StatusCode, e.Error);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
             }
         }
 
@@ -59,7 +66,11 @@ namespace ServerAPI.Controllers
             {
                 return Ok(await _logic.UpdateAccount(account));
             }
-            catch(Exception e)
+            catch (iQException e)
+            {
+                return StatusCode(e.StatusCode, e.Error);
+            }
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
@@ -76,6 +87,10 @@ namespace ServerAPI.Controllers
             {
                 await _logic.DeleteAccount(accountID);
                 return Ok();
+            }
+            catch (iQException e)
+            {
+                return StatusCode(e.StatusCode, e.Error);
             }
             catch (Exception e)
             {

@@ -28,7 +28,11 @@ namespace ServerAPI.Controllers
             {
                 return Ok(await _logic.GetMonthlyEvents(accountID, month, year));
             }
-            catch(Exception e)
+            catch(iQException e)
+            {
+                return StatusCode(e.StatusCode, e.Error);
+            }
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
@@ -43,7 +47,11 @@ namespace ServerAPI.Controllers
             {
                 return Ok(await _logic.CreateEvent(@event));
             }
-            catch(Exception e)
+            catch (iQException e)
+            {
+                return StatusCode(e.StatusCode, e.Error);
+            }
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
@@ -58,7 +66,11 @@ namespace ServerAPI.Controllers
             {
                 return Ok(await _logic.UpdateEvent(@event));
             }
-            catch(Exception e)
+            catch (iQException e)
+            {
+                return StatusCode(e.StatusCode, e.Error);
+            }
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
@@ -75,7 +87,11 @@ namespace ServerAPI.Controllers
                 await _logic.DeleteEvent(eventID);
                 return Ok();
             }
-            catch(iQException e)
+            catch (iQException e)
+            {
+                return StatusCode(e.StatusCode, e.Error);
+            }
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }

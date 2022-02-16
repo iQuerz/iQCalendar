@@ -13,7 +13,14 @@ namespace ServerAPI.Business
             var account = _context.Accounts.FirstOrDefault(a => a.Name == username);
 
             if (account == null)
-                throw new iQException($"Account {username} not found.");
+            {
+                var err = new iQError
+                {
+                    Error = "Account not found.",
+                    Details = "A01 - The specified account does not exist in our database. Try with a different one."
+                };
+                throw new iQException(err, 404);
+            }
 
             return account;
         }
@@ -23,7 +30,14 @@ namespace ServerAPI.Business
             var a = _context.Accounts.FirstOrDefault(a => a.Name == account.Name);
 
             if (a != null)
-                throw new iQException($"Account {account.Name} already exists.");
+            {
+                var err = new iQError
+                {
+                    Error = $"Account '{account.Name}' already exists.",
+                    Details = "A02 - The specified account name already exists in our database. Try with a different one."
+                };
+                throw new iQException(err, 400);
+            }
 
             _context.Accounts.Add(account);
             await _context.SaveChangesAsync();
@@ -35,7 +49,14 @@ namespace ServerAPI.Business
             var a = await _context.Accounts.FindAsync(account.AccountID);
 
             if (a == null)
-                throw new iQException($"Account {account.Name} not found.");
+            {
+                var err = new iQError
+                {
+                    Error = "Account not found.",
+                    Details = "A01 - The specified account does not exist in our database. Try with a different one."
+                };
+                throw new iQException(err, 404);
+            }
 
             a.Name = account.Name;
             a.AdminPassword = account.AdminPassword;
@@ -52,7 +73,14 @@ namespace ServerAPI.Business
             var a = await _context.Accounts.FindAsync(accountID);
 
             if (a == null)
-                throw new iQException($"Account not found.");
+            {
+                var err = new iQError
+                {
+                    Error = "Account not found.",
+                    Details = "A01 - The specified account does not exist in our database. Try with a different one."
+                };
+                throw new iQException(err, 404);
+            }
 
             foreach(var e in _context.Events)
             {
