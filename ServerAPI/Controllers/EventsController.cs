@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using ServerAPI.Business;
 using ServerAPI.Data;
 using ServerAPI.Data.Models;
 using System;
@@ -10,27 +11,73 @@ using System.Threading.Tasks;
 namespace ServerAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class EventsController : ControllerBase
     {
-        CalendarContext _context;
+        Logic _logic;
         public EventsController(CalendarContext context)
         {
-            _context = context;
+            _logic = new Logic(context);
         }
 
         [HttpGet]
-        public async Task<ActionResult> getEvents()
+        [Route("{accountID}/{month}/{year}")]
+        public async Task<ActionResult> getEventsByMonth(int accountID, int month, int year)
         {
-            return Ok(_context.Events);
+            if (!await _logic.Authenticate(Request))
+                return Unauthorized();
+            try
+            {
+                return Ok(await _logic.GetMonthlyEvents(accountID, month, year));
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost]
         public async Task<ActionResult> postEvent([FromBody] Event @event)
         {
-            await _context.Events.AddAsync(@event);
-            await _context.SaveChangesAsync();
-            return Ok(@event);
+            try
+            {
+                return Ok(await _logic.CreateEvent(@event));
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> putEvent([FromBody] Event @event)
+        {
+            try
+            {
+                return Ok(await _logic.UpdateEvent(@event));
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Route("{eventID}")]
+        public async Task<ActionResult> deleteEvent(int eventID)
+        {
+            if (!await _logic.Authenticate(Request))
+                return Unauthorized();
+
+            try
+            {
+                await _logic.DeleteEvent(eventID);
+                return Ok();
+            }
+            catch(iQException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }
