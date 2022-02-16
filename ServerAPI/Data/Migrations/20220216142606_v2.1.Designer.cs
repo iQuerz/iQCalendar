@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ServerAPI.Data;
 
 namespace ServerAPI.Migrations
 {
     [DbContext(typeof(CalendarContext))]
-    partial class CalendarContextModelSnapshot : ModelSnapshot
+    [Migration("20220216142606_v2.1")]
+    partial class v21
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
