@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.32002.261
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerAPI", "ServerAPI\ServerAPI.csproj", "{B5CAE59A-EB53-416F-8E49-07645018F05A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iQCalendarClient", "iQCalendarClient\iQCalendarClient.csproj", "{AAD543F1-E23C-4E60-B392-87F73C6F39D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iQCalendarClient", "iQCalendarClient\iQCalendarClient.csproj", "{AAD543F1-E23C-4E60-B392-87F73C6F39D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

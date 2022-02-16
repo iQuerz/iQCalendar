@@ -2,6 +2,7 @@
 {
     public enum RecurringType
     {
+        NonRecurring,
         Daily,
         Weekly,
         Monthly,

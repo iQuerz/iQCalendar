@@ -1,15 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace ServerAPI.Models
+using ServerAPI.Data.Models;
+
+namespace ServerAPI.Data
 {
 
     public class CalendarContext : DbContext
     {
+        public DbSet<Account> Accounts { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<Settings> Settings { get; set; }
 
         public CalendarContext(DbContextOptions options)
             :base(options)

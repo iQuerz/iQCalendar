@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using ServerAPI.Models;
+using ServerAPI.Data;
+using ServerAPI.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
