@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
+
 using ServerAPI.Business;
 using ServerAPI.Data;
 using ServerAPI.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ServerAPI.Controllers
 {
@@ -39,6 +37,8 @@ namespace ServerAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> postEvent([FromBody] Event @event)
         {
+            if (!await _logic.AuthenticateAdmin(Request))
+                return Unauthorized();
             try
             {
                 return Ok(await _logic.CreateEvent(@event));
@@ -52,6 +52,8 @@ namespace ServerAPI.Controllers
         [HttpPut]
         public async Task<ActionResult> putEvent([FromBody] Event @event)
         {
+            if (!await _logic.AuthenticateAdmin(Request))
+                return Unauthorized();
             try
             {
                 return Ok(await _logic.UpdateEvent(@event));
@@ -66,9 +68,8 @@ namespace ServerAPI.Controllers
         [Route("{eventID}")]
         public async Task<ActionResult> deleteEvent(int eventID)
         {
-            if (!await _logic.Authenticate(Request))
+            if (!await _logic.AuthenticateAdmin(Request))
                 return Unauthorized();
-
             try
             {
                 await _logic.DeleteEvent(eventID);

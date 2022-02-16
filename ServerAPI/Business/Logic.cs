@@ -17,25 +17,29 @@ namespace ServerAPI.Business
             _context = context;
         }
 
-        public async Task<bool> Authenticate(HttpRequest request)
+        internal async Task<bool> Authenticate(HttpRequest request)
         {
+            // extract auth header value
             string header = request.Headers["Authorization"];
-            if (!header.StartsWith("Basic"))
+            if (header == null || !header.StartsWith("Basic"))
                 return false;
 
+            // its hashed as username:password
             string username, password;
             DecodeAuth(out username, out password, header);
 
             var account = _context.Accounts.FirstOrDefault(a => a.Name == username);
             if (password == account.ClientPassword)
                 return true;
+            if (password == account.AdminPassword) // admin should have access to normal stuff too
+                return true;
 
             return false;
         }
-        public async Task<bool> AuthenticateAdmin(HttpRequest request)
+        internal async Task<bool> AuthenticateAdmin(HttpRequest request)
         {
             string header = request.Headers["Authorization"];
-            if (!header.StartsWith("Basic"))
+            if (header == null || !header.StartsWith("Basic"))
                 return false;
 
             string username, password;
@@ -49,7 +53,7 @@ namespace ServerAPI.Business
         }
 
 
-        public void DecodeAuth(out string username, out string password, string header)
+        private void DecodeAuth(out string username, out string password, string header)
         {
             string encodedCredentials = header.Substring("Basic ".Length).Trim();
 

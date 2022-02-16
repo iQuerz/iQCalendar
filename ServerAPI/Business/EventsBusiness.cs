@@ -1,8 +1,7 @@
-﻿using ServerAPI.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+
+using ServerAPI.Data.Models;
 
 namespace ServerAPI.Business
 {
@@ -11,7 +10,7 @@ namespace ServerAPI.Business
         public async Task<List<Event>> GetMonthlyEvents(int accountID, int month, int year)
         {
 
-            #region Exception Handling
+            #region Exceptions
             if (month < 1 || month > 12)
                 throw new iQException();
 
@@ -39,9 +38,9 @@ namespace ServerAPI.Business
                 events.Add(e);
             }
 
-            #endregion
-
             return events;
+
+            #endregion
         }
 
         public async Task<Event> CreateEvent(Event @event)
@@ -74,6 +73,8 @@ namespace ServerAPI.Business
 
         public async Task DeleteEvent(int eventID)
         {
+            #region Exceptions
+
             if (eventID < 0)
                 throw new iQException("Invalid ID.");
 
@@ -82,7 +83,11 @@ namespace ServerAPI.Business
             if (e == null)
                 throw new iQException("Can't find the event.");
 
+            #endregion
+
             _context.Events.Remove(e);
+            await _context.SaveChangesAsync();
         }
+
     }
 }
