@@ -51,7 +51,21 @@ namespace ServerAPI.Business
 
             return false;
         }
+        internal async Task<bool> AuthenticateServer(HttpRequest request)
+        {
+            string header = request.Headers["Authorization"];
+            if (header == null || !header.StartsWith("Basic"))
+                return false;
 
+            string username, password;
+            DecodeAuth(out username, out password, header);
+
+            var settings = _context.Settings.FirstOrDefault(s => s.ServerName == username);
+            if (password == settings.ServerPassword)
+                return true;
+
+            return false;
+        }
 
         private void DecodeAuth(out string username, out string password, string header)
         {
