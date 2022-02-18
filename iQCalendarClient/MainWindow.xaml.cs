@@ -29,7 +29,6 @@ namespace iQCalendarClient
 
         private void Client_Loaded(object sender, EventArgs e)
         {
-           
         }
     }
 }

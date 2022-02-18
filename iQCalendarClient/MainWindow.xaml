@@ -6,25 +6,23 @@
         xmlns:local="clr-namespace:iQCalendarClient"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="5*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="3*"/>
+            <RowDefinition Height="5*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-
-       
+        
+        <!--  #region oops -->
         <Grid x:Name="CalendarContainer" 
               Grid.Row="1" Grid.Column="1"
-              Margin="10"
-              >
-            
-                <Grid.ColumnDefinitions>
+              Margin="10">
+            <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
                     <ColumnDefinition />
@@ -33,21 +31,21 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
+            <Grid.RowDefinitions>
                     <RowDefinition Height="2*"/>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="8*"/>
                 </Grid.RowDefinitions>
 
+            <!--#region Month Arrows-->
             <Button x:Name="LeftArrowButton" Grid.Column="0" Grid.Row="0" BorderBrush="White" Cursor="Hand">
-                <Image Source="Resources/LeftArrow.png"></Image>
-                
+                <Image Source="Resources/LeftArrow.png"/>
             </Button>
             <Button x:Name="RightArrowButton" Grid.Column="7" Grid.Row="0" BorderBrush="White" Cursor="Hand">
                 <Image Source="Resources/RightArrow.png"/>
-
             </Button>
-    
+            <!--#endregion-->
+            
             <!--#region Viewboxevi za Dane u nedelji (Nema Kodovanja)-->
             
             <Viewbox Grid.Column="0" Grid.Row="1">
@@ -88,20 +86,13 @@
 
             <!--#endregion-->
             
-            
-            <!-- Viewbox za Mesece na gridu x:Name = MonthLabel -->
+            <!-- Viewbox za Mesece na gridu -->
             <Viewbox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="5">
-                <TextBlock x:Name="MonthLabel" Text="Mesec">
-                </TextBlock>
+                <TextBlock x:Name="MonthLabel" Text="Mesec"/>
             </Viewbox>
-                
-            
-           
-            
-            <Grid x:Name="CalendarGrid"
-              Grid.Row="2" Grid.Column="0" 
-                      Grid.ColumnSpan="7">
 
+            <Grid x:Name="CalendarGrid" 
+                  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="7">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
@@ -111,7 +102,6 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -122,7 +112,9 @@
 
                 </Grid.RowDefinitions>
 
+                <!--#region Borders (╯°□°）╯︵ ┻━┻-->
 
+                <!--VERTICAL-->
                 <Border BorderThickness="0.5 0.5 0.5 0.5"
                     BorderBrush="Black"
                     Grid.Column="0" Grid.RowSpan="7"/>
@@ -148,8 +140,7 @@
                     BorderBrush="Black"
                     Grid.Column="6" Grid.RowSpan="7"/>
 
-
-
+                <!--HORIZONTAL-->
                 <Border BorderThickness="0 0 0 0.5"
                     BorderBrush="Black"
                     Grid.Row="0" Grid.ColumnSpan="7"/>
@@ -169,16 +160,66 @@
                     BorderBrush="Black"
                     Grid.Row="5" Grid.ColumnSpan="7"/>
 
-                <!-- Viewbox Labele za Datume IMPORTANT AF!!!-->
-                <Viewbox Grid.Column="0" Grid.Row="0">
-                    <Grid>
-                        
-                        
-                    </Grid>
-                </Viewbox>
-                           
-            </Grid>
-        </Grid>
+                <!--#endregion-->
 
+                <!-- Viewbox Labele za Datume IMPORTANT AF!!!-->
+                <Border Grid.Row="0" Grid.Column="0"
+                        Background="AliceBlue"
+                        BorderBrush="Black" BorderThickness="0.5">
+                    <Viewbox>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock x:Name="cell_0_0_day"
+                                       Grid.Row="0" Grid.Column="0"
+                                       HorizontalAlignment="Left" VerticalAlignment="Top"
+                                       Margin="2"
+                                       Text="1."/>
+                            <TextBlock x:Name="cell_0_0_event"
+                                       Grid.Row="1" Grid.Column="1"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       Margin="5"
+                                       Text="Clio Registracija"/>
+                            <CheckBox x:Name="cell_0_0_check"
+                                      Grid.Row="2" Grid.Column="2"
+                                      HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                      Margin="2"/>
+
+                        </Grid>
+                    </Viewbox>
+                </Border>
+
+            </Grid>
+
+        </Grid>
+<!--#endregion-->
+        
+        <DataGrid x:Name="DataGrid"
+                  Grid.Row="1" Grid.Column="1"
+                  CanUserAddRows="False" CanUserSortColumns="False" CanUserReorderColumns="False"
+                  CanUserResizeColumns="False" CanUserResizeRows="False" CanUserDeleteRows="False"
+                  HeadersVisibility="None"
+                  Background="White">
+            <DataGrid.Columns>
+                <DataGridTextColumn/>
+                <DataGridTextColumn/>
+                <DataGridTextColumn/>
+                <DataGridTextColumn/>
+                <DataGridTextColumn/>
+                <DataGridTextColumn/>
+                <DataGridTemplateColumn/>
+            </DataGrid.Columns>
+            
+        </DataGrid>
+        
     </Grid>
 </Window>
