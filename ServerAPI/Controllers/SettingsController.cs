@@ -22,9 +22,12 @@ namespace ServerAPI.Controllers
         }
 
         [HttpGet]
-        [Route("name")]
+        [Route("{name}")]
         public async Task<ActionResult> getSettings(string name)
         {
+            if (!await _logic.AuthenticateServer(Request))
+                return Unauthorized();
+
             try
             {
                 return Ok(await _logic.GetSettings(name));
@@ -39,9 +42,12 @@ namespace ServerAPI.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPost]
         public async Task<ActionResult> updateSettings([FromBody] Settings settings)
         {
+            if (!await _logic.AuthenticateServer(Request))
+                return Unauthorized();
+
             try
             {
                 return Ok(await _logic.UpdateSettings(settings));
@@ -58,9 +64,20 @@ namespace ServerAPI.Controllers
 
         [HttpGet]
         [Route("stop/{name}")]
-        public async Task Stop(string name)
+        public async Task<ActionResult> Stop(string name)
         {
-            _applicationLifetime.StopApplication();
+            if (!await _logic.AuthenticateServer(Request))
+                return Unauthorized();
+
+            try
+            {
+                _applicationLifetime.StopApplication();
+                return Ok("Server stopped.");
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
     }
 }
