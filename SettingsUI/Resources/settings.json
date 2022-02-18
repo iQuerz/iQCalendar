@@ -1,0 +1,8 @@
+{
+  "serverName": "admin",
+  "serverPassword": "admin",
+  "port": 44389,
+  "hostEmailUsername": "example@email.com",
+  "hostEmailPassword": "somepassword",
+  "notificationTime": 8
+}
