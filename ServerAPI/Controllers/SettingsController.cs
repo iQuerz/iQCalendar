@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
@@ -12,10 +13,12 @@ namespace ServerAPI.Controllers
     [Route("api/[controller]")]
     public class SettingsController : Controller
     {
+        private readonly IHostApplicationLifetime _applicationLifetime;
         Logic _logic;
-        public SettingsController(CalendarContext context)
+        public SettingsController(CalendarContext context, IHostApplicationLifetime appLT)
         {
             _logic = new Logic(context);
+            _applicationLifetime = appLT;
         }
 
         [HttpGet]
@@ -51,6 +54,13 @@ namespace ServerAPI.Controllers
             {
                 return StatusCode(500, e.Message);
             }
+        }
+
+        [HttpGet]
+        [Route("stop/{name}")]
+        public async Task Stop(string name)
+        {
+            _applicationLifetime.StopApplication();
         }
     }
 }

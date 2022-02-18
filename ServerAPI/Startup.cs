@@ -34,6 +34,7 @@ namespace ServerAPI
             });
 
             services.AddControllers();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ServerAPI", Version = "v1" });
@@ -53,8 +54,6 @@ namespace ServerAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
