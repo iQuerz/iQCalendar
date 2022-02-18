@@ -1,8 +1,9 @@
-﻿using ServerAPI.Data.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using ServerAPI.Data.Models;
 
 namespace ServerAPI.Business
 {
@@ -23,6 +24,11 @@ namespace ServerAPI.Business
             }
 
             return account;
+        }
+
+        public async Task<List<Account>> GetAccounts(string name)
+        {
+            return _context.Accounts.ToList();
         }
 
         public async Task<Account> CreateAccount(Account account)

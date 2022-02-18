@@ -9,7 +9,7 @@ namespace ServerAPI.Business
     {
         public async Task<Settings> GetSettings(string name)
         {
-            var settings = _context.Settings.Where(s => s.ServerName == name);
+            var settings = await _context.Settings.FindAsync(name);
 
             if(settings == null)
             {
@@ -21,11 +21,12 @@ namespace ServerAPI.Business
                 throw new iQException(err, 400);
             }
 
-            return settings.FirstOrDefault();
+            return settings;
         }
+
         public async Task<Settings> UpdateSettings(Settings settings)
         {
-            var s = await _context.Settings.FindAsync(settings.revisionID);
+            var s = await _context.Settings.FindAsync(settings.ServerName);
 
             if(s == null)
             {
@@ -37,12 +38,12 @@ namespace ServerAPI.Business
                 throw new iQException(err, 404);
             }
 
+            s.ServerName = settings.ServerName;
+            s.ServerPassword = settings.ServerPassword;
             s.HostEmailPassword = settings.HostEmailPassword;
             s.HostEmailUsername = settings.HostEmailUsername;
             s.NotificationTime = settings.NotificationTime;
-            s.ServerName = settings.ServerName;
             s.Port = settings.Port;
-            s.revisionDate = System.DateTime.Now;
 
             return s;
         }

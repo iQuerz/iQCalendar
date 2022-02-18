@@ -39,6 +39,27 @@ namespace ServerAPI.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("{name}")]
+        public async Task<ActionResult> getAccounts(string name)
+        {
+            if (!await _logic.AuthenticateServer(Request))
+                return Unauthorized();
+
+            try
+            {
+                return Ok(await _logic.GetAccounts(name));
+            }
+            catch (iQException e)
+            {
+                return StatusCode(e.StatusCode, e.Error);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpPost]
         public async Task<ActionResult> createAccount([FromBody]Account account)
         {
