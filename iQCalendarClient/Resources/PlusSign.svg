@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="PlusSignVer2.svg"
+   inkscape:export-filename="D:\Programming-Projects\iQCalendar\iQCalendarClient\Resources\PlusSignVer2.png"
+   inkscape:export-xdpi="384"
+   inkscape:export-ydpi="384"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="px"
+     showgrid="false"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="139.65359"
+     inkscape:cy="283.19627"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="color:#000000;fill:#708090;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:10;stroke:#000000;stroke-opacity:1;stroke-width:7;stroke-dasharray:none"
+       d="M 70.037109,50 A 20.039504,20.039504 0 0 0 50,70.037109 V 441.96289 A 20.039504,20.039504 0 0 0 70.037109,462 H 441.96289 A 20.039504,20.039504 0 0 0 462,441.96289 V 70.037109 A 20.039504,20.039504 0 0 0 441.96289,50 Z m 20.03711,40.074219 H 421.92578 V 421.92578 H 90.074219 Z"
+       id="rect846" />
+    <path
+       id="rect2132"
+       style="fill:#708090;fill-opacity:1;stroke:#000000;stroke-width:7;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 236 140 L 236 236 L 140 236 L 140 276 L 236 276 L 236 372 L 276 372 L 276 276 L 372 276 L 372 236 L 276 236 L 276 140 L 236 140 z " />
+  </g>
+</svg>
