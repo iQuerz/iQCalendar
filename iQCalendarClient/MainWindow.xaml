@@ -5,8 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:iQCalendarClient"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid x:Name="MainGrid">
+        Title="MainWindow" Height="768" Width="1028">
+    
+    <Grid x:Name="ParentGrid" Background="LightSteelBlue"
+          RenderOptions.BitmapScalingMode="HighQuality">
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="5*"/>
@@ -14,212 +17,381 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="5*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="15*"/>
+            <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
-        
-        <!--  #region oops -->
-        <Grid x:Name="CalendarContainer" 
-              Grid.Row="1" Grid.Column="1"
-              Margin="10">
-            <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="8*"/>
-                </Grid.RowDefinitions>
 
-            <!--#region Month Arrows-->
-            <Button x:Name="LeftArrowButton" Grid.Column="0" Grid.Row="0" BorderBrush="White" Cursor="Hand">
-                <Image Source="Resources/LeftArrow.png"/>
-            </Button>
-            <Button x:Name="RightArrowButton" Grid.Column="7" Grid.Row="0" BorderBrush="White" Cursor="Hand">
-                <Image Source="Resources/RightArrow.png"/>
-            </Button>
-            <!--#endregion-->
-            
-            <!--#region Viewboxevi za Dane u nedelji (Nema Kodovanja)-->
-            
-            <Viewbox Grid.Column="0" Grid.Row="1">
-                <TextBlock x:Name="MondayLabel" Text="Pon" 
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"/>
-            </Viewbox>
-            <Viewbox Grid.Column="1" Grid.Row="1">
-                <TextBlock x:Name="TuesdayLabel" Text="Uto" 
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"/>
-            </Viewbox>
-            <Viewbox Grid.Column="2" Grid.Row="1">
-                <TextBlock x:Name="WednesdayLabel" Text="Sre" 
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"/>
-            </Viewbox>
-            <Viewbox Grid.Column="3" Grid.Row="1">
-                <TextBlock x:Name="ThursdayLabel" Text="Čet" 
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"/>
-            </Viewbox>
-            <Viewbox Grid.Column="4" Grid.Row="1">
-                <TextBlock x:Name="FridayLabel" Text="Pet" 
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"/>
-            </Viewbox>
-            <Viewbox Grid.Column="5" Grid.Row="1">
-                <TextBlock x:Name="SaturdayLabel" Text="Sub" 
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"/>
-            </Viewbox>
-            <Viewbox Grid.Column="6" Grid.Row="1">
-                <TextBlock x:Name="SundayLabel" Text="Ned" 
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"/>
-            </Viewbox>
-
-            <!--#endregion-->
-            
-            <!-- Viewbox za Mesece na gridu -->
-            <Viewbox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="5">
-                <TextBlock x:Name="MonthLabel" Text="Mesec"/>
-            </Viewbox>
-
-            <Grid x:Name="CalendarGrid" 
-                  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="7">
+        <Border Grid.Row="1" Grid.Column="1"
+                BorderBrush="Black" BorderThickness="3"
+                CornerRadius="3" Margin="10"
+                Background="White">
+            <Grid x:Name="CalendarContainer"
+                  Margin="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="8*"/>
+                    </Grid.RowDefinitions>
 
-                </Grid.RowDefinitions>
+                <!--#region Month Strip (Label & Arrows)-->
+                
+                <Button x:Name="LeftArrowButton" Grid.Row="0" Grid.Column="0"
+                        BorderBrush="SlateGray" Background="SlateGray"
+                        Cursor="Hand" ToolTip="Prošli mesec">
+                    <Image Source="Resources/LeftArrow.png"/>
+                </Button>
 
-                <!--#region Borders (╯°□°）╯︵ ┻━┻-->
-
-                <!--VERTICAL-->
-                <Border BorderThickness="0.5 0.5 0.5 0.5"
-                    BorderBrush="Black"
-                    Grid.Column="0" Grid.RowSpan="7"/>
-                <Border BorderThickness="0 0.5 0.5 0.5"
-                    BorderBrush="Black"
-                    Grid.Column="1" Grid.RowSpan="7"/>
-                <Border BorderThickness="0 0.5 0.5 0.5"
-                    BorderBrush="Black"
-                    Grid.Column="2" Grid.RowSpan="7"/>
-                <Border BorderThickness="0 0.5 0.5 0.5"
-                    BorderBrush="Black"
-                    Grid.Column="3" Grid.RowSpan="7"/>
-                <Border BorderThickness="0 0.5 0.5 0.5"
-                    BorderBrush="Black"
-                    Grid.Column="4" Grid.RowSpan="7"/>
-                <Border BorderThickness="0 0.5 0.5 0.5"
-                    BorderBrush="Black"
-                    Grid.Column="5" Grid.RowSpan="7"/>
-                <Border BorderThickness="0 0.5 0.5 0.5"
-                    BorderBrush="Black"
-                    Grid.Column="6" Grid.RowSpan="7"/>
-                <Border BorderThickness="0 0 0.5 0"
-                    BorderBrush="Black"
-                    Grid.Column="6" Grid.RowSpan="7"/>
-
-                <!--HORIZONTAL-->
-                <Border BorderThickness="0 0 0 0.5"
-                    BorderBrush="Black"
-                    Grid.Row="0" Grid.ColumnSpan="7"/>
-                <Border BorderThickness="0 0 0 0.5"
-                    BorderBrush="Black"
-                    Grid.Row="1" Grid.ColumnSpan="7"/>
-                <Border BorderThickness="0 0 0 0.5"
-                    BorderBrush="Black"
-                    Grid.Row="2" Grid.ColumnSpan="7"/>
-                <Border BorderThickness="0 0 0 0.5"
-                    BorderBrush="Black"
-                    Grid.Row="3" Grid.ColumnSpan="7"/>
-                <Border BorderThickness="0 0 0 0.5"
-                    BorderBrush="Black"
-                    Grid.Row="4" Grid.ColumnSpan="7"/>
-                <Border BorderThickness="0 0 0 0"
-                    BorderBrush="Black"
-                    Grid.Row="5" Grid.ColumnSpan="7"/>
-
-                <!--#endregion-->
-
-                <!-- Viewbox Labele za Datume IMPORTANT AF!!!-->
-                <Border Grid.Row="0" Grid.Column="0"
-                        Background="AliceBlue"
-                        BorderBrush="Black" BorderThickness="0.5">
+                <Border Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="5"
+                        Background="SlateGray">
+                    
                     <Viewbox>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-
-                            <TextBlock x:Name="cell_0_0_day"
-                                       Grid.Row="0" Grid.Column="0"
-                                       HorizontalAlignment="Left" VerticalAlignment="Top"
-                                       Margin="2"
-                                       Text="1."/>
-                            <TextBlock x:Name="cell_0_0_event"
-                                       Grid.Row="1" Grid.Column="1"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center"
-                                       Margin="5"
-                                       Text="Clio Registracija"/>
-                            <CheckBox x:Name="cell_0_0_check"
-                                      Grid.Row="2" Grid.Column="2"
-                                      HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                                      Margin="2"/>
-
-                        </Grid>
+                        <TextBlock x:Name="MonthLabel" Text="Februar"/>
                     </Viewbox>
                 </Border>
 
-            </Grid>
-
-        </Grid>
-<!--#endregion-->
-        
-        <DataGrid x:Name="DataGrid"
-                  Grid.Row="1" Grid.Column="1"
-                  CanUserAddRows="False" CanUserSortColumns="False" CanUserReorderColumns="False"
-                  CanUserResizeColumns="False" CanUserResizeRows="False" CanUserDeleteRows="False"
-                  HeadersVisibility="None"
-                  Background="White">
-            <DataGrid.Columns>
-                <DataGridTextColumn/>
-                <DataGridTextColumn/>
-                <DataGridTextColumn/>
-                <DataGridTextColumn/>
-                <DataGridTextColumn/>
-                <DataGridTextColumn/>
-                <DataGridTemplateColumn/>
-            </DataGrid.Columns>
+                <Button x:Name="RightArrowButton" Grid.Row="0" Grid.Column="7"
+                        BorderBrush="SlateGray" Background="SlateGray"
+                        Cursor="Hand" ToolTip="Sledeći mesec">
+                    <Image Source="Resources/RightArrow.png"/>
+                </Button>
+                
+                <!--#endregion-->
             
-        </DataGrid>
+                <!--#region Weekdays (Pon-Uto-Sre...)-->
+
+                <Border Grid.Row="1" Grid.Column="0"
+                        BorderBrush="Black" BorderThickness="0.5 0 0.25 0">
+                    <Viewbox>
+                        <TextBlock x:Name="MondayLabel" Text="Pon" 
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"/>
+                    </Viewbox>
+                </Border>
+
+                <Border Grid.Row="1" Grid.Column="1"
+                        BorderBrush="Black" BorderThickness="0.25 0 0.25 0">
+                    <Viewbox>
+                        <TextBlock x:Name="TuesdayLabel" Text="Uto" 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+                    </Viewbox>
+                </Border>
+
+                <Border Grid.Row="1" Grid.Column="2"
+                        BorderBrush="Black" BorderThickness="0.25 0 0.25 0">
+                    <Viewbox>
+                        <TextBlock x:Name="WednesdayLabel" Text="Sre" 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+                    </Viewbox>
+                </Border>
+                
+                <Border Grid.Row="1" Grid.Column="3"
+                        BorderBrush="Black" BorderThickness="0.25 0 0.25 0">
+                    <Viewbox>
+                        <TextBlock x:Name="ThursdayLabel" Text="Čet" 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+                    </Viewbox>
+                </Border>
+                
+                <Border Grid.Row="1" Grid.Column="4"
+                        BorderBrush="Black" BorderThickness="0.25 0 0.25 0">
+                    <Viewbox>
+                        <TextBlock x:Name="FridayLabel" Text="Pet" 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+                    </Viewbox>
+                </Border>
+                
+                <Border Grid.Row="1" Grid.Column="5"
+                        BorderBrush="Black" BorderThickness="0.25 0 0.25 0">
+                    <Viewbox>
+                        <TextBlock x:Name="SaturdayLabel" Text="Sub" 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+                    </Viewbox>
+                </Border>
+
+                <Border Grid.Row="1" Grid.Column="6"
+                        BorderBrush="Black" BorderThickness="0.25 0 0.5 0">
+                    <Viewbox>
+                        <TextBlock x:Name="SundayLabel" Text="Ned" 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+                    </Viewbox>
+                </Border>
+
+                <!--#endregion-->
+
+                <Grid x:Name="CalendarGrid" 
+                      Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="7">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+
+                    </Grid.RowDefinitions>
+
+                    <!--#region Borders (╯°□°）╯︵ ┻━┻-->
+
+
+                    <!--VERTICAL-->
+                    <!--
+                    <Border BorderThickness="0.5 0.5 0.5 0.5"
+                        BorderBrush="Black"
+                        Grid.Column="0" Grid.RowSpan="7"/>
+                    <Border BorderThickness="0 0.5 0.5 0.5"
+                        BorderBrush="Black"
+                        Grid.Column="1" Grid.RowSpan="7"/>
+                    <Border BorderThickness="0 0.5 0.5 0.5"
+                        BorderBrush="Black"
+                        Grid.Column="2" Grid.RowSpan="7"/>
+                    <Border BorderThickness="0 0.5 0.5 0.5"
+                        BorderBrush="Black"
+                        Grid.Column="3" Grid.RowSpan="7"/>
+                    <Border BorderThickness="0 0.5 0.5 0.5"
+                        BorderBrush="Black"
+                        Grid.Column="4" Grid.RowSpan="7"/>
+                    <Border BorderThickness="0 0.5 0.5 0.5"
+                        BorderBrush="Black"
+                        Grid.Column="5" Grid.RowSpan="7"/>
+                    <Border BorderThickness="0 0.5 0.5 0.5"
+                        BorderBrush="Black"
+                        Grid.Column="6" Grid.RowSpan="7"/>
+                    <Border BorderThickness="0 0 0.5 0"
+                        BorderBrush="Black"
+                        Grid.Column="6" Grid.RowSpan="7"/>
+
+                    -->
+                    
+                    <!--HORIZONTAL-->
+                    <!--
+                    <Border BorderThickness="0 0 0 0.5"
+                        BorderBrush="Black"
+                        Grid.Row="0" Grid.ColumnSpan="7"/>
+                    <Border BorderThickness="0 0 0 0.5"
+                        BorderBrush="Black"
+                        Grid.Row="1" Grid.ColumnSpan="7"/>
+                    <Border BorderThickness="0 0 0 0.5"
+                        BorderBrush="Black"
+                        Grid.Row="2" Grid.ColumnSpan="7"/>
+                    <Border BorderThickness="0 0 0 0.5"
+                        BorderBrush="Black"
+                        Grid.Row="3" Grid.ColumnSpan="7"/>
+                    <Border BorderThickness="0 0 0 0.5"
+                        BorderBrush="Black"
+                        Grid.Row="4" Grid.ColumnSpan="7"/>
+                    <Border BorderThickness="0 0 0 0"
+                        BorderBrush="Black"
+                        Grid.Row="5" Grid.ColumnSpan="7"/>-->
+
+                    <!--#endregion-->
+
+                    <!-- Viewbox Labele za Datume IMPORTANT AF!!!-->
+                    <Border x:Name="cell00border" Grid.Row="0" Grid.Column="0"
+                            Background="AliceBlue"
+                            BorderBrush="Black" BorderThickness="0.5">
+                        <Viewbox>
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock x:Name="cell00day"
+                                           Grid.Row="0" Grid.Column="0"
+                                           HorizontalAlignment="Left" VerticalAlignment="Top"
+                                           Margin="2"
+                                           Text="1."/>
+                                <TextBlock x:Name="cell00event"
+                                           Grid.Row="1" Grid.Column="1"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           Margin="5"
+                                           Text="Clio Registracija" FontWeight="Bold"/>
+                                <CheckBox x:Name="cell00check"
+                                          Grid.Row="2" Grid.Column="2"
+                                          HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                          Margin="2"/>
+                            </Grid>
+                        </Viewbox>
+                    </Border>
+
+                    <Border x:Name="cell10border" Grid.Row="1" Grid.Column="0"
+                            BorderBrush="Black" BorderThickness="0.5">
+                        <Viewbox>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock x:Name="cell10day"
+                                           Grid.Row="0" Grid.Column="0"
+                                           HorizontalAlignment="Left" VerticalAlignment="Top"
+                                           Margin="2"
+                                           Text="8."/>
+                                <TextBlock x:Name="cell10event"
+                                           Grid.Row="1" Grid.Column="1"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           Margin="5"
+                                           Text="Clio Registracija" FontWeight="Bold"/>
+                                <CheckBox x:Name="cell10check"
+                                          Grid.Row="2" Grid.Column="2"
+                                          HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                          Margin="2"/>
+                            </Grid>
+                        </Viewbox>
+                    </Border>
+
+                    <Border x:Name="cell20border" Grid.Row="2" Grid.Column="0"
+                            BorderBrush="Black" BorderThickness="0.5">
+                        <Viewbox>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock x:Name="cell20day"
+                                           Grid.Row="0" Grid.Column="0"
+                                           HorizontalAlignment="Left" VerticalAlignment="Top"
+                                           Margin="2"
+                                           Text="15."/>
+                                <TextBlock x:Name="cell20event"
+                                           Grid.Row="1" Grid.Column="1"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           Margin="5"
+                                           Text="Clio Registracija" FontWeight="Bold"/>
+                                <CheckBox x:Name="cell20check"
+                                          Grid.Row="2" Grid.Column="2"
+                                          HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                          Margin="2"/>
+                            </Grid>
+                        </Viewbox>
+                    </Border>
+
+                    <Border x:Name="cell30border" Grid.Row="3" Grid.Column="0"
+                            BorderBrush="Black" BorderThickness="0.5">
+                        <Viewbox>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock x:Name="cell30day"
+                                           Grid.Row="0" Grid.Column="0"
+                                           HorizontalAlignment="Left" VerticalAlignment="Top"
+                                           Margin="2"
+                                           Text="22."/>
+                                <TextBlock x:Name="cell30event"
+                                           Grid.Row="1" Grid.Column="1"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           Margin="5"
+                                           Text="Clio Registracija" FontWeight="Bold"/>
+                                <CheckBox x:Name="cell30check"
+                                          Grid.Row="2" Grid.Column="2"
+                                          HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                          Margin="2"/>
+                            </Grid>
+                        </Viewbox>
+                    </Border>
+
+                </Grid>
+
+            </Grid>
+        </Border>
+
+        <Viewbox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
+                 HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right" VerticalAlignment="Center">
+                
+                <Button Content="Primeni izmene"
+                        Margin="10" Padding="10"
+                        Background="SlateGray" BorderBrush="Black" BorderThickness="1.5">
+
+                </Button>
+
+                <Button Content="Poništi izmene"
+                        Margin="10" Padding="10"
+                        Background="SlateGray" BorderBrush="Black" BorderThickness="1.5">
+
+                </Button>
+                
+            </StackPanel>
+        </Viewbox>
+
+        <Viewbox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                 HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal" Margin="20">
+                
+                <Button x:Name="AddEventButton"
+                        Background="Transparent" BorderBrush="Transparent"
+                        Margin="20" ToolTip="Dodaj događaj">
+                    <Image Source="Resources/PlusSignVer2.png"/>
+                </Button>
+
+                <Button x:Name="EditEventButton"
+                        Background="Transparent" BorderBrush="Transparent"
+                        Margin="20" ToolTip="Izmeni događaj">
+                    <Image Source="Resources/PencilSign.png"/>
+                </Button>
+
+                <Button x:Name="DeleteEventButton"
+                        Background="Transparent" BorderBrush="Transparent"
+                        Margin="20" ToolTip="Obriši događaj">
+                    <Image Source="Resources/TrashBinIcon.png"/>
+                </Button>
+                
+            </StackPanel>
+        </Viewbox>
         
     </Grid>
 </Window>

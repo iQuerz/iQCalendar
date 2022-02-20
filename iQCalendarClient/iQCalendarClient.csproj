@@ -8,14 +8,33 @@
 
   <ItemGroup>
     <None Remove="Resources\LeftArrow.png" />
+    <None Remove="Resources\LeftArrow.svg" />
+    <None Remove="Resources\PencilSign.png" />
+    <None Remove="Resources\PencilSign.svg" />
+    <None Remove="Resources\PlusSign.png" />
+    <None Remove="Resources\PlusSign.svg" />
+    <None Remove="Resources\PlusSignVer2.png" />
+    <None Remove="Resources\PlusSignVer2.svg" />
     <None Remove="Resources\RightArrow.png" />
+    <None Remove="Resources\RightArrow.svg" />
+    <None Remove="Resources\TrashBinIcon.png" />
+    <None Remove="Resources\TrashBinIcon.svg" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Resources\LeftArrow.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\PencilSign.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\PlusSign.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\RightArrow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\TrashBinIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
