@@ -375,7 +375,7 @@
                 <Button x:Name="AddEventButton"
                         Background="Transparent" BorderBrush="Transparent"
                         Margin="20" ToolTip="Dodaj događaj">
-                    <Image Source="Resources/PlusSignVer2.png"/>
+                    <Image Source="Resources/PlusSign.png"/>
                 </Button>
 
                 <Button x:Name="EditEventButton"
