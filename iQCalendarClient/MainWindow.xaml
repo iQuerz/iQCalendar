@@ -211,6 +211,7 @@
                     <!--#endregion-->
 
                     <!-- Viewbox Labele za Datume IMPORTANT AF!!!-->
+                    <!-- Monday -->
                     <Border Grid.Row="0" Grid.Column="0"
                             Background="AliceBlue"
                             BorderBrush="Black" BorderThickness="0.5 0.5 0.25 0.25">
@@ -342,11 +343,14 @@
                         </Viewbox>
                     </Border>
 
+                    <!-- Tuesday -->
+                    
                 </Grid>
 
             </Grid>
         </Border>
 
+        <!-- Apply & Revert buttons-->
         <Viewbox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
                  HorizontalAlignment="Right">
             <StackPanel Orientation="Horizontal"
@@ -367,6 +371,7 @@
             </StackPanel>
         </Viewbox>
 
+        <!-- Add/Edit/Delete events-->
         <Viewbox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                  HorizontalAlignment="Left">
             <StackPanel Orientation="Horizontal" Margin="20">

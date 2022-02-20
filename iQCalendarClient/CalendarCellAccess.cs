@@ -9,8 +9,8 @@ namespace iQCalendarClient
 {
     class CalendarCellAccess
     {
-        public TextBlock Date { get; set; }
         public Border Border { get; set; }
+        public TextBlock Date { get; set; }
         public TextBlock Event { get; set; }
         public CheckBox CheckBox { get; set; }
     }

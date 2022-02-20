@@ -29,6 +29,7 @@ namespace iQCalendarClient
             InitializeComponent();
             Manager = new Manager();
             Loaded += Client_Loaded;
+            LeftArrowButton.Click += LeftArrow_Click;
         }
 
         private void Client_Loaded(object sender, EventArgs e)
@@ -52,12 +53,13 @@ namespace iQCalendarClient
             foreach(var child in children)
             {
                 Border b = (Border)child;
-                Viewbox vb = (Viewbox)b.Child;
-                Grid g = (Grid)vb.Child;
+                Grid g = (Grid)b.Child;
+                var gChildren = g.Children;
+
                 cells[i, j].Border = b;
-                cells[i, j].Date = (TextBlock)g.Children[0];
-                cells[i, j].Event = (TextBlock)g.Children[1];
-                cells[i, j].CheckBox = (CheckBox)g.Children[2];
+                cells[i, j].Date = (TextBlock) ((Viewbox)gChildren[0]).Child;
+                cells[i, j].Event = (TextBlock) ((Viewbox)gChildren[1]).Child;
+                cells[i, j].CheckBox = (CheckBox) ((Viewbox)gChildren[2]).Child;
 
                 i++;
                 if (i >= 6) { i = 0; j++; }
@@ -72,6 +74,11 @@ namespace iQCalendarClient
                 AddEventButton.Visibility = Visibility.Hidden;
             else
                 AddEventButton.Visibility = Visibility.Visible;
+        }
+
+        private void LeftArrow_Click(object sender, EventArgs e)
+        {
+            MonthLabel.Text = "Januar";
         }
     }
 }
