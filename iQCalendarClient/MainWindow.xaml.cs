@@ -34,9 +34,9 @@ namespace iQCalendarClient
         private void Client_Loaded(object sender, EventArgs e)
         {
             CalendarCellAccess[,] Cells;
-            Cells = getCellMatrix();
+            //Cells = getCellMatrix();
 
-            PreviewMouseDown += MouseDown;
+            //PreviewMouseDown += MouseDown;
         }
 
         private CalendarCellAccess[,] getCellMatrix()
