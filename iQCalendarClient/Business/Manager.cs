@@ -9,12 +9,31 @@ namespace iQCalendarClient.Business
 {
     class Manager
     {
+        private int month;
+        private int year;
         public List<Account> Accounts { get; set; }
         public List<Event> Events { get; set; }
+        public int CurrentMonth 
+        { 
+            get { return month; } 
+            set 
+            {
+                if (value == 13) { month = 1; year++; }
+                else if (value == 0) { month = 12; year--; }
+                else month = value;
+            } 
+                
+        }
+        public int CurrentYear 
+        { 
+            get { return year; }
+            set { year = value; }
+        }  
         public Manager()
         {
             Accounts = new List<Account>();
             Events = new List<Event>();
+
         }
         public void loadTestData()
         {
