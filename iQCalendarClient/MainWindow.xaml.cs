@@ -21,7 +21,7 @@ namespace iQCalendarClient
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+        CalendarCellAccess[,] Cells;
         Manager Manager;
 
         public MainWindow()
@@ -34,12 +34,33 @@ namespace iQCalendarClient
 
         private void Client_Loaded(object sender, EventArgs e)
         {
-            CalendarCellAccess[,] Cells;
-            //Cells = getCellMatrix();
-
+            
+            Cells = getCellMatrix();
+           
+            Manager.loadTestData();
+            Load_Calendar();
             //PreviewMouseDown += MouseDown;
         }
 
+        private void Load_Calendar() 
+        {
+            int month = 2;
+            int year = 2022;
+
+            int counter = 1;
+
+            int max = DateTime.DaysInMonth(year,month);
+            for(int i=0; i < 6; i++)
+            {
+                for(int j=0; j < 7; j++)
+                {
+                    Cells[i,j].Date.Text = $"{counter}.";
+                    if(counter++ == max) { counter = 1; }
+                }
+            }
+            
+          
+        }
         private CalendarCellAccess[,] getCellMatrix()
         {
             int i, j;
@@ -60,6 +81,8 @@ namespace iQCalendarClient
                 cells[i, j].Date = (TextBlock) ((Viewbox)gChildren[0]).Child;
                 cells[i, j].Event = (TextBlock) ((Viewbox)gChildren[1]).Child;
                 cells[i, j].CheckBox = (CheckBox) ((Viewbox)gChildren[2]).Child;
+
+                cells[i, j].Event.Text = String.Empty;
 
                 i++;
                 if (i >= 6) { i = 0; j++; }
