@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using ServerAPI.Business;
 using ServerAPI.Data;
 using ServerAPI.Data.Models;
+using System.Linq;
+using System.Threading;
 
 namespace ServerAPI.Controllers
 {
@@ -12,9 +14,11 @@ namespace ServerAPI.Controllers
     [Route("api/[controller]")]
     public class EventsController : ControllerBase
     {
+        CalendarContext Context;
         Logic _logic;
         public EventsController(CalendarContext context)
         {
+            Context = context;
             _logic = new Logic(context);
         }
 
@@ -22,6 +26,9 @@ namespace ServerAPI.Controllers
         [Route("{accountID}/{month}/{year}")]
         public async Task<ActionResult> getEventsByMonth(int accountID, int month, int year)
         {
+            Thread.Sleep(TimeSpan.FromSeconds(3));
+            return Ok();
+
             if (!await _logic.Authenticate(Request))
                 return Unauthorized();
             try
