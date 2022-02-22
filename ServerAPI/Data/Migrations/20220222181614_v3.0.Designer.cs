@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ServerAPI.Data;
 
 namespace ServerAPI.Migrations
 {
     [DbContext(typeof(CalendarContext))]
-    partial class CalendarContextModelSnapshot : ModelSnapshot
+    [Migration("20220222181614_v3.0")]
+    partial class v30
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,32 +111,6 @@ namespace ServerAPI.Migrations
                     b.HasKey("ServerName");
 
                     b.ToTable("Settings");
-                });
-
-            modelBuilder.Entity("ServerAPI.Data.Models.Template", b =>
-                {
-                    b.Property<int>("TemplateID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Color")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Notifications")
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("RecurringType")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("TemplateName")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("TemplateID");
-
-                    b.ToTable("Templates");
                 });
 #pragma warning restore 612, 618
         }

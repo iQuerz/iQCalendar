@@ -6,13 +6,22 @@ namespace ServerAPI.Data.Models
     {
         [Key]
         public int AccountID { get; set; }
+
+        [Required]
+        [MinLength(4)]
+        [MaxLength(15)]
         public string Name { get; set; }
+
+        [Required]
         public string Recipients { get; set; }
 
-        //[Required]
+        [Required]
+        [MinLength(5)]
         public string ClientPassword { get; set; }
 
-        //[Required]
+        [Required]
+        [MinLength(5)]
         public string AdminPassword { get; set; }
+
     }
 }

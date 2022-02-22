@@ -10,6 +10,7 @@ namespace ServerAPI.Data
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Settings> Settings { get; set; }
+        public DbSet<Template> Templates { get; set; }
 
         public CalendarContext(DbContextOptions options)
             :base(options)
