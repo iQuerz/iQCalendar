@@ -31,6 +31,8 @@ namespace iQCalendarClient
             Loaded += Client_Loaded;
             LeftArrowButton.Click += LeftArrow_Click;
             RightArrowButton.Click += RightArrow_Click;
+            AddEventButton.Click += AddEventButton_Click;
+            EditEventButton.Click += EditEventButton_Click;
         }
 
         private void Client_Loaded(object sender, EventArgs e)
@@ -186,6 +188,18 @@ namespace iQCalendarClient
         {
             Manager.CurrentMonth++;
             loadCalendar();
+        }
+
+        private void AddEventButton_Click(object sender, RoutedEventArgs e) 
+        {
+            EventViewWindow eventViewWindow1 = new EventViewWindow();
+            eventViewWindow1.Show();
+        }
+
+        private void EditEventButton_Click(object sender, RoutedEventArgs e) 
+        {
+            EventViewWindow eventViewWindow1 = new EventViewWindow();
+            eventViewWindow1.Show();
         }
         #endregion
 
