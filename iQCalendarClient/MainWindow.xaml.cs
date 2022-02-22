@@ -42,17 +42,10 @@ namespace iQCalendarClient
             Manager.CurrentMonth = DateTime.Now.Month;
             Manager.CurrentYear = DateTime.Now.Year;
             loadCalendar();
-            //PreviewMouseDown += MouseDown;
         }
 
         private void loadCalendar()
         {
-
-            Cells[2, 2].Border.BorderBrush = Brushes.Orange;
-            Cells[2, 2].Border.BorderThickness = new Thickness(3);
-            Cells[2, 2].Date.FontWeight = FontWeights.Bold;
-            Cells[2, 2].Border.ToolTip = "Danasnji Dan";
-
             //POPUNJAVANJE KALENDARA IQ200 PALI GASARA NA MAKSARU
 
             int startI1 = 0, startJ1, startI2, startJ2;
@@ -93,6 +86,16 @@ namespace iQCalendarClient
                     break;
             }
 
+            DateTime now = DateTime.Now;
+            if(Manager.CurrentMonth == now.Month && Manager.CurrentYear == now.Year)
+            {
+                int nowRow = startI1 + (now.Day / 7);
+                int nowColumn = startJ1 + (now.Day % 7) - 1; //   (」゜ロ゜)」✞  pls da radis
+                Cells[nowRow, nowColumn].Border.BorderBrush = Brushes.Orange;
+                Cells[nowRow, nowColumn].Border.BorderThickness = new Thickness(3);
+                Cells[nowRow, nowColumn].Date.FontWeight = FontWeights.Bold;
+                Cells[nowRow, nowColumn].Border.ToolTip = "Današnji Dan";
+            }
 
             // first loop variables (last month cells)
             startI2 = startI1;
@@ -142,6 +145,7 @@ namespace iQCalendarClient
             }
            
         }
+
         private CalendarCellAccess[,] getCellMatrix()
         {
             int i, j;

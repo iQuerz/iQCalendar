@@ -1476,6 +1476,23 @@
             
         </Border>
 
+        <Viewbox x:Name="EventDetails" Grid.Row="1" Grid.Column="0">
+            <TextBlock>
+            </TextBlock>
+        </Viewbox>
+
+        <Viewbox>
+            <TextBox>
+                
+            </TextBox>
+        </Viewbox>
+        <Viewbox x:Name="SearchResults" Grid.Row="1" Grid.Column="0"
+                 Visibility="Hidden">
+            <ListView>
+            </ListView>
+            
+        </Viewbox>
+        
         <!-- Apply & Revert buttons-->
         <Viewbox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
                  HorizontalAlignment="Right">
