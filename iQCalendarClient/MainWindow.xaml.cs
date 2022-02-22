@@ -41,106 +41,99 @@ namespace iQCalendarClient
             Manager.loadTestData();
             Manager.CurrentMonth = DateTime.Now.Month;
             Manager.CurrentYear = DateTime.Now.Year;
-            Load_Calendar();
+            loadCalendar();
             //PreviewMouseDown += MouseDown;
         }
 
-        private void Load_Calendar()
+        private void loadCalendar()
         {
-            Cells[2, 2].Date.Background = Brushes.Orange;
+
+            Cells[2, 2].Border.BorderBrush = Brushes.Orange;
+            Cells[2, 2].Border.BorderThickness = new Thickness(3);
             Cells[2, 2].Date.FontWeight = FontWeights.Bold;
             Cells[2, 2].Border.ToolTip = "Danasnji Dan";
-            var firstDayOfMonth = new DateTime(Manager.CurrentYear, Manager.CurrentMonth, 1);
+
+            //POPUNJAVANJE KALENDARA IQ200 PALI GASARA NA MAKSARU
+
+            int startI1 = 0, startJ1, startI2, startJ2;
+            DateTime firstDayOfMonth = new DateTime(Manager.CurrentYear, Manager.CurrentMonth, 1);
+            switch (firstDayOfMonth.DayOfWeek)
+            {
+                case DayOfWeek.Monday:
+                    startI1 = 1;
+                    startJ1 = 0;
+                    break;
+
+                case DayOfWeek.Tuesday:
+                    startJ1 = 1;
+                    break;
+
+                case DayOfWeek.Wednesday:
+                    startJ1 = 2;
+                    break;
+
+                case DayOfWeek.Thursday:
+                    startJ1 = 3;
+                    break;
+
+                case DayOfWeek.Friday:
+                    startJ1 = 4;
+                    break;
+
+                case DayOfWeek.Saturday:
+                    startJ1 = 5;
+                    break;
+
+                case DayOfWeek.Sunday:
+                    startJ1 = 6;
+                    break;
+
+                default:
+                    startJ1 = 0;
+                    break;
+            }
 
 
-            int max = DateTime.DaysInMonth(Manager.CurrentYear, Manager.CurrentMonth);
+            // first loop variables (last month cells)
+            startI2 = startI1;
+            startJ2 = startJ1 - 1;
+            if (startJ2 < 0) { startJ2 = 6; startI2--; }
 
             int tmpYear, tmpMonth;
             tmpYear = Manager.CurrentYear;
             tmpMonth = Manager.CurrentMonth - 1;
-            if(Manager.CurrentMonth == 1) 
+            if (Manager.CurrentMonth == 1)
             {
                 tmpMonth = 12;
                 tmpYear--;
             }
-            int maxLastMonth = DateTime.DaysInMonth(tmpYear, tmpMonth);
-
-
-            
-
-            //POPUNJAVANJE KALENDARA IQ200 PALI GASARA NA MAKSARU
-
-            int startI, startJ;
+            int daysInLastMonth = DateTime.DaysInMonth(tmpYear, tmpMonth);
             Brush b = Brushes.LightGray;
+            int counter = daysInLastMonth;
 
-            switch (firstDayOfMonth.DayOfWeek)
+            for (int i = startI2; i >= 0; i--) 
             {
-
-                case DayOfWeek.Monday:
-                    startI = 1;
-                    startJ = 0;
-                    break;
-
-                case DayOfWeek.Tuesday:
-                    startI = 0;
-                    startJ = 1;
-                    break;
-
-                case DayOfWeek.Wednesday:
-                    startI = 0;
-                    startJ = 2;
-                    break;
-
-                case DayOfWeek.Thursday:
-                    startI = 0;
-                    startJ = 3;
-                    break;
-
-                case DayOfWeek.Friday:
-                    startI = 0;
-                    startJ = 4;
-                    break;
-
-                case DayOfWeek.Saturday:
-                    startI = 0;
-                    startJ = 5;
-                    break;
-
-                case DayOfWeek.Sunday:
-                    startI = 0;
-                    startJ = 6;
-                    break;
-
-                default:
-                    startI = 0;
-                    startJ = 0;
-                    break;
-
-            }
-            int counter = startI+startJ+2;
-
-            counter = maxLastMonth+1;
-            for (int i = startI; i >= 0; i--) 
-            {
-                if (i < startI) startJ = 6;
-                for(int j = startJ; j >= 0; j--) 
+                if (i < startI2) startJ2 = 6;
+                for(int j = startJ2; j >= 0; j--) 
                 {
                     Cells[i, j].Date.Text = $"{counter--}.";
                     Cells[i, j].Border.Background = b;
                 }
             }
 
+            // second loop variables (current & next month cells)
             counter = 1;
             b = Brushes.AliceBlue;
+            int daysInMonth = DateTime.DaysInMonth(Manager.CurrentYear, Manager.CurrentMonth);
 
-            for (int i = startI; i < 6; i++)
+            for (int i = startI1; i < 6; i++)
             {
-                if (i > startI) startJ = 0;
-                for (int j = startJ; j < 7; j++)
+                if (i > startI1) startJ1 = 0;
+                for (int j = startJ1; j < 7; j++)
                 {
                     Cells[i, j].Date.Text = $"{counter}.";
                     Cells[i, j].Border.Background = b;
-                    if (counter++ == max) 
+                    if (counter++ == daysInMonth) 
                     { 
                         counter = 1;
                         b = Brushes.LightGray;
@@ -170,7 +163,7 @@ namespace iQCalendarClient
                 cells[i, j].Event = (TextBlock) ((Viewbox)gChildren[1]).Child;
                 cells[i, j].CheckBox = (CheckBox) ((Viewbox)gChildren[2]).Child;
 
-                cells[i, j].Event.Text = String.Empty;
+                cells[i, j].Event.Text = string.Empty;
 
                 i++;
                 if (i >= 6) { i = 0; j++; }
@@ -179,24 +172,18 @@ namespace iQCalendarClient
             return cells;
         }
 
-        private void MouseDown (object sender, EventArgs e)
-        {
-            if (AddEventButton.Visibility == Visibility.Visible)
-                AddEventButton.Visibility = Visibility.Hidden;
-            else
-                AddEventButton.Visibility = Visibility.Visible;
-        }
-
+        #region Click events
         private void LeftArrow_Click(object sender, EventArgs e)
         {
             Manager.CurrentMonth--;
-            Load_Calendar();
+            loadCalendar();
         }
-
         private void RightArrow_Click(object sender, EventArgs e)
         {
             Manager.CurrentMonth++;
-            Load_Calendar();
+            loadCalendar();
         }
+        #endregion
+
     }
 }
