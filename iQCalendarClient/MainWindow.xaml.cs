@@ -192,14 +192,20 @@ namespace iQCalendarClient
 
         private void AddEventButton_Click(object sender, RoutedEventArgs e) 
         {
-            EventViewWindow eventViewWindow1 = new EventViewWindow();
-            eventViewWindow1.Show();
+            double width = ParentGrid.DesiredSize.Width;
+            double height = ParentGrid.DesiredSize.Height;
+            EventViewWindow eventViewWindow1 = new EventViewWindow(width, height);
+            eventViewWindow1.Owner = this;            
+            eventViewWindow1.ShowDialog();
         }
 
         private void EditEventButton_Click(object sender, RoutedEventArgs e) 
         {
-            EventViewWindow eventViewWindow1 = new EventViewWindow();
-            eventViewWindow1.Show();
+            double width = ParentGrid.DesiredSize.Width;
+            double height = ParentGrid.DesiredSize.Height;
+            EventViewWindow eventViewWindow1 = new EventViewWindow(width, height);
+            eventViewWindow1.Owner = this;
+            eventViewWindow1.ShowDialog();
         }
         #endregion
 

@@ -1,0 +1,106 @@
+﻿<Window x:Class="iQCalendarClient.EventViewWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:iQCalendarClient"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        mc:Ignorable="d"
+        Title="EventViewWindow" Height="574" Width="715">
+
+
+    <Grid>
+        <!--Glavni  Grid Definitions-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="16*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Grid za ubacivanje podataka -->
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height ="1*"/>
+                    <RowDefinition Height ="1*"/>
+                    <RowDefinition Height ="1*"/>
+                    <RowDefinition Height ="2*"/>
+                    <RowDefinition Height ="1*"/>
+                    <RowDefinition Height ="2*"/>
+                    <RowDefinition Height ="1*"/>
+                    <RowDefinition Height ="2*"/>
+                    <RowDefinition Height ="1*"/>
+                    <RowDefinition Height ="2*"/>
+                </Grid.RowDefinitions>
+
+                <!--#region  Labele za EventViewWindow-->
+                <Label Grid.Column="0" Grid.Row="0" FontSize="16">Naziv Događaja:</Label>
+                <Label Grid.Column="0" Grid.Row="2" FontSize="16">Opis:</Label>
+                <Label Grid.Column="0" Grid.Row="4" FontSize="16">Odaberite datum:</Label>
+                <Label Grid.Column="0" Grid.Row="6" FontSize="16">Odaberite boju:</Label>
+                <Label Grid.Column="0" Grid.Row="8" FontSize="16">Notifikacije:</Label>
+                <!--#endregion-->
+
+
+                <TextBox Grid.Row="1">
+                </TextBox>
+
+                <Border  BorderThickness="0.5" BorderBrush="Black" Grid.Row="3">
+                    <ScrollViewer >
+                        <StackPanel>
+                            <TextBlock Padding="3" FontSize="16" TextWrapping="WrapWithOverflow" >
+                                Opis je da probam da namestim da li radi multi red i cisto da vidim koliko karaktera i to :)
+                            </TextBlock>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+
+                <DatePicker Grid.Row="5">
+                </DatePicker>
+                
+                <ComboBox Grid.Row="7">
+                </ComboBox>
+            </Grid>
+        </Grid>
+        
+        
+        <!-- Dugmici  sacuvaj i zaboravi-->
+        <Grid Grid.Row="2" Grid.Column="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Viewbox Grid.Column="0">
+                <Button 
+                        Content="Sačuvaj"
+                        Margin="10" Padding="10"
+                        Background="SlateGray" 
+                        BorderBrush="Black" BorderThickness="1.5">
+
+                </Button>
+            </Viewbox>
+            <Viewbox Grid.Column="1">
+                <Button x:Name="CloseButton"
+                        Content="Zaboravi"
+                        Margin="10" Padding="10"
+                        Background="SlateGray" 
+                        BorderBrush="Black" BorderThickness="1.5">
+                </Button>
+            </Viewbox>
+        </Grid>
+            
+        
+    </Grid>
+
+</Window>
