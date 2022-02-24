@@ -1,11 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+
+using ServerAPI.Jobs;
 
 namespace ServerAPI
 {
@@ -13,7 +10,12 @@ namespace ServerAPI
     {
         public static void Main(string[] args)
         {
+            JobsSetup js = new JobsSetup();
+            Task.Run(async () => await js.setupJobs());
+
             CreateHostBuilder(args).Build().Run();
+
+            Task.Run(async () => await js.stopJobs());
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
