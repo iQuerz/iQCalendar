@@ -47,10 +47,5 @@ namespace ServerAPI.Business
 
             return s;
         }
-
-        public async Task Shutdown()
-        {
-            await _jobScheduler.Shutdown();
-        }
     }
 }

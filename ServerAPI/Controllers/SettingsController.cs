@@ -71,7 +71,6 @@ namespace ServerAPI.Controllers
 
             try
             {
-                await _logic.Shutdown();
                 _applicationLifetime.StopApplication();
                 return Ok("Server stopped.");
             }

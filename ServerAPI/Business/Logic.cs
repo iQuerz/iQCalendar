@@ -14,41 +14,10 @@ namespace ServerAPI.Business
     public partial class Logic
     {
         CalendarContext _context;
-        IScheduler _jobScheduler;
 
         public Logic(CalendarContext context)
         {
             _context = context;
-            Task.Run(async () => await SetupJobs());
-        }
-        internal async Task SetupJobs()
-        {
-            StdSchedulerFactory factory = new StdSchedulerFactory();
-            _jobScheduler = await factory.GetScheduler();
-
-            await _jobScheduler.Start();
-
-            IJobDetail emailNotificationsJob = JobBuilder.Create<EmailNotificationJob>()
-                .WithIdentity("Email Notifications")
-                .Build();
-
-            var accounts = _context.Accounts.ToList();
-            var events = _context.Events.ToList();
-            var settings = _context.Settings.FirstOrDefault();
-            emailNotificationsJob.JobDataMap.Add("events", events);
-            emailNotificationsJob.JobDataMap.Add("accounts", accounts);
-            emailNotificationsJob.JobDataMap.Add("settings", settings);
-
-            ITrigger emailNotificationsTrigger = TriggerBuilder.Create()
-                .StartNow()
-                .WithSimpleSchedule(x => x
-                    .WithIntervalInMinutes(120)
-                    .RepeatForever())
-                .Build();
-
-            await _jobScheduler.ScheduleJob(emailNotificationsJob, emailNotificationsTrigger);
-
-            // scheduler shutdown in shutdown of settingsBusiness
         }
 
         internal async Task<bool> Authenticate(HttpRequest request)

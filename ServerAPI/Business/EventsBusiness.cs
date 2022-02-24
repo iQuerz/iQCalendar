@@ -45,6 +45,9 @@ namespace ServerAPI.Business
             //list to be returned
             List<Event> events = new List<Event>();
 
+            //var events = _context.Events.Where(e => e.AccountID == account.AccountID);
+            //events = events.Where(e => e.Date.Month == month || )
+
             foreach(Event e in _context.Events)
             {
                 if (e.AccountID != account.AccountID)
@@ -101,7 +104,7 @@ namespace ServerAPI.Business
             e.Description = @event.Description;
             e.Date = @event.Date;
             e.RecurringType = @event.RecurringType;
-            e.IterationsFinished = @event.IterationsFinished;
+            e.Finished = @event.Finished;
             e.Color = @event.Color;
             e.Notifications = @event.Notifications;
 
@@ -139,5 +142,7 @@ namespace ServerAPI.Business
             await _context.SaveChangesAsync();
         }
 
+
+        private void getDateTimesRecurringType() { } // sheesh papa idk how to start
     }
 }
