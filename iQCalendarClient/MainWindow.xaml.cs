@@ -33,6 +33,13 @@ namespace iQCalendarClient
             RightArrowButton.Click += RightArrow_Click;
             AddEventButton.Click += AddEventButton_Click;
             EditEventButton.Click += EditEventButton_Click;
+
+            //SearchTextBox.MouseDoubleClick += SearchBox_GotFocus;
+            SearchTextBox.GotKeyboardFocus += SearchBox_GotFocus;
+            SearchTextBox.TextChanged += SearchBox_GotFocus;
+            SearchTextBox.KeyDown += SearchBox_GotFocus;
+
+            SearchTextBox.LostFocus += SearchBox_LostFocus;
         }
 
         private void Client_Loaded(object sender, EventArgs e)
@@ -43,65 +50,19 @@ namespace iQCalendarClient
             Manager.loadTestData();
             Manager.CurrentMonth = DateTime.Now.Month;
             Manager.CurrentYear = DateTime.Now.Year;
-            loadCalendar();
+            setupCalendarCells();
         }
 
-        private void loadCalendar()
-        {
-            //POPUNJAVANJE KALENDARA IQ200 PALI GASARA NA MAKSARU
+        private void setupCalendarCells()
+        {//POPUNJAVANJE KALENDARA IQ200 PALI GASARA NA MAKSARU
 
-            int startI1 = 0, startJ1, startI2, startJ2;
-            DateTime firstDayOfMonth = new DateTime(Manager.CurrentYear, Manager.CurrentMonth, 1);
-            switch (firstDayOfMonth.DayOfWeek)
-            {
-                case DayOfWeek.Monday:
-                    startI1 = 1;
-                    startJ1 = 0;
-                    break;
+            int startI1, startJ1;
+            getStartCoords(out startI1, out startJ1);
 
-                case DayOfWeek.Tuesday:
-                    startJ1 = 1;
-                    break;
+            #region first loop (last month cells)
 
-                case DayOfWeek.Wednesday:
-                    startJ1 = 2;
-                    break;
-
-                case DayOfWeek.Thursday:
-                    startJ1 = 3;
-                    break;
-
-                case DayOfWeek.Friday:
-                    startJ1 = 4;
-                    break;
-
-                case DayOfWeek.Saturday:
-                    startJ1 = 5;
-                    break;
-
-                case DayOfWeek.Sunday:
-                    startJ1 = 6;
-                    break;
-
-                default:
-                    startJ1 = 0;
-                    break;
-            }
-
-            DateTime now = DateTime.Now;
-            if(Manager.CurrentMonth == now.Month && Manager.CurrentYear == now.Year)
-            {
-                int nowRow = startI1 + (now.Day / 7);
-                int nowColumn = startJ1 + (now.Day % 7) - 1; //   (」゜ロ゜)」✞  pls da radis
-                Cells[nowRow, nowColumn].Border.BorderBrush = Brushes.Orange;
-                Cells[nowRow, nowColumn].Border.BorderThickness = new Thickness(3);
-                Cells[nowRow, nowColumn].Date.FontWeight = FontWeights.Bold;
-                Cells[nowRow, nowColumn].Border.ToolTip = "Današnji Dan";
-            }
-
-            // first loop variables (last month cells)
-            startI2 = startI1;
-            startJ2 = startJ1 - 1;
+            int startI2 = startI1;
+            int startJ2 = startJ1 - 1;
             if (startJ2 < 0) { startJ2 = 6; startI2--; }
 
             int tmpYear, tmpMonth;
@@ -113,6 +74,7 @@ namespace iQCalendarClient
                 tmpYear--;
             }
             int daysInLastMonth = DateTime.DaysInMonth(tmpYear, tmpMonth);
+
             Brush b = Brushes.LightGray;
             int counter = daysInLastMonth;
 
@@ -123,29 +85,118 @@ namespace iQCalendarClient
                 {
                     Cells[i, j].Date.Text = $"{counter--}.";
                     Cells[i, j].Border.Background = b;
+                    setCellBorders(i, j);
                 }
             }
 
-            // second loop variables (current & next month cells)
+            #endregion
+
+            #region second loop (current & next month cells)
+
             counter = 1;
             b = Brushes.AliceBlue;
             int daysInMonth = DateTime.DaysInMonth(Manager.CurrentYear, Manager.CurrentMonth);
 
             for (int i = startI1; i < 6; i++)
             {
-                if (i > startI1) startJ1 = 0;
+                if(i > startI1)
+                    startJ1 = 0;
+
                 for (int j = startJ1; j < 7; j++)
                 {
                     Cells[i, j].Date.Text = $"{counter}.";
                     Cells[i, j].Border.Background = b;
-                    if (counter++ == daysInMonth) 
-                    { 
+                    setCellBorders(i, j);
+                    if (counter++ == daysInMonth)
+                    {
                         counter = 1;
                         b = Brushes.LightGray;
                     }
                 }
             }
-           
+
+            #endregion
+
+            highlightCurrentDay();
+
+        }
+        private void getStartCoords(out int StartI, out int StartJ)
+        {
+            StartI = 0;
+            DateTime firstDayOfMonth = new DateTime(Manager.CurrentYear, Manager.CurrentMonth, 1);
+            switch (firstDayOfMonth.DayOfWeek)
+            {
+                case DayOfWeek.Monday:
+                    StartI = 1;
+                    StartJ = 0;
+                    break;
+
+                case DayOfWeek.Tuesday:
+                    StartJ = 1;
+                    break;
+
+                case DayOfWeek.Wednesday:
+                    StartJ = 2;
+                    break;
+
+                case DayOfWeek.Thursday:
+                    StartJ = 3;
+                    break;
+
+                case DayOfWeek.Friday:
+                    StartJ = 4;
+                    break;
+
+                case DayOfWeek.Saturday:
+                    StartJ = 5;
+                    break;
+
+                case DayOfWeek.Sunday:
+                    StartJ = 6;
+                    break;
+
+                default:
+                    StartJ = 0;
+                    break;
+            }
+        }
+        private void highlightCurrentDay()
+        {
+            DateTime now = DateTime.Now;
+            if (Manager.CurrentMonth != now.Month || Manager.CurrentYear != now.Year)
+                return;
+
+            int startI, startJ;
+            getStartCoords(out startI, out startJ);
+            if (Manager.CurrentMonth == now.Month && Manager.CurrentYear == now.Year)
+            {
+                int nowRow = startI + (now.Day / 7);
+                int nowColumn = startJ + (now.Day % 7) - 1; //   (」゜ロ゜)」✞  pls da radis
+                Cells[nowRow, nowColumn].Border.BorderBrush = Brushes.Orange;
+                Cells[nowRow, nowColumn].Border.BorderThickness = new Thickness(3);
+                Cells[nowRow, nowColumn].Date.FontWeight = FontWeights.Bold;
+                Cells[nowRow, nowColumn].Border.ToolTip = "Današnji Dan";
+            }
+        }
+        private void setCellBorders(int i, int j)
+        {
+            Border cell = Cells[i, j].Border;
+            cell.BorderThickness = new Thickness(0.25);
+
+            if (i == 0)
+                cell.BorderThickness = new Thickness(0.25, 0.5, 0.25, 0.25);
+            else if (i == 5)
+                cell.BorderThickness = new Thickness(0.25, 0.25, 0.25, 0.5);
+            else
+                cell.BorderThickness = new Thickness(0.25);
+
+            if(j==0)
+                cell.BorderThickness = new Thickness(0.5, cell.BorderThickness.Top, 0.25, cell.BorderThickness.Bottom);
+            else if(j==6)
+                cell.BorderThickness = new Thickness(0.25, cell.BorderThickness.Top, 0.5, cell.BorderThickness.Bottom);
+            else
+                cell.BorderThickness = new Thickness(0.25, cell.BorderThickness.Top, 0.25, cell.BorderThickness.Bottom);
+                
         }
 
         private CalendarCellAccess[,] getCellMatrix()
@@ -182,12 +233,12 @@ namespace iQCalendarClient
         private void LeftArrow_Click(object sender, EventArgs e)
         {
             Manager.CurrentMonth--;
-            loadCalendar();
+            setupCalendarCells();
         }
         private void RightArrow_Click(object sender, EventArgs e)
         {
             Manager.CurrentMonth++;
-            loadCalendar();
+            setupCalendarCells();
         }
 
         private void AddEventButton_Click(object sender, RoutedEventArgs e) 
@@ -209,5 +260,19 @@ namespace iQCalendarClient
         }
         #endregion
 
+        #region Search UI Events
+
+        private void SearchBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if(SearchTextBox.Text == "Pretrazi...")
+            {
+                SearchTextBox.Text = "";
+            }
+        }
+        private void SearchBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            SearchTextBox.Text = "Pretrazi...";
+        }
+        #endregion
     }
 }
