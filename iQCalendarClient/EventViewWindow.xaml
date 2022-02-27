@@ -11,7 +11,9 @@
         Title="EventViewWindow" Height="574" Width="715">
 
 
-    <Grid>
+    <Grid x:Name="ParentGrid" Background="LightSteelBlue"
+          RenderOptions.BitmapScalingMode="HighQuality">
+        
         <!--Glavni  Grid Definitions-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
