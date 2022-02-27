@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ServerAPI.Business;
 using ServerAPI.Data;
 using ServerAPI.Data.Models;
+using ServerAPI.Logs;
 
 namespace ServerAPI.Controllers
 {
@@ -65,7 +66,9 @@ namespace ServerAPI.Controllers
         {
             try
             {
-                return Ok(await _logic.CreateAccount(account));
+                var result = Ok(await _logic.CreateAccount(account));
+                iQLogger.addLog(Request, account);
+                return result;
             }
             catch (iQException e)
             {
@@ -89,7 +92,9 @@ namespace ServerAPI.Controllers
             }
             catch (iQException e)
             {
-                return StatusCode(e.StatusCode, e.Error);
+                var result = StatusCode(e.StatusCode, e.Error);
+                iQLogger.addLog(Request, account);
+                return result;
             }
             catch (Exception e)
             {
@@ -107,6 +112,7 @@ namespace ServerAPI.Controllers
             try
             {
                 await _logic.DeleteAccount(accountID);
+                iQLogger.addLog(Request);
                 return Ok();
             }
             catch (iQException e)

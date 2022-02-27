@@ -12,6 +12,7 @@ namespace ServerAPI.Jobs
     public class JobsSetup
     {
         IScheduler _jobScheduler;
+
         public async Task setupJobs()
         {
             //database stuff
@@ -29,19 +30,29 @@ namespace ServerAPI.Jobs
                 .WithIdentity("Email Notifications")
                 .Build();
 
+            IJobDetail serverLogsJob = JobBuilder.Create<DailyServerLogsJob>()
+                .WithIdentity("Server Logs")
+                .Build();
+
+
             //triggers
             JobDataMap contextDataMap = new JobDataMap();
             contextDataMap.Add("Context", Context);
-            int timeOfDay = Context.Settings.FirstOrDefault().NotificationTime;
+            int notificationTimeOfDay = Context.Settings.FirstOrDefault().NotificationTime;
+
             ITrigger emailNotificationsTrigger = TriggerBuilder.Create()
                 .UsingJobData(contextDataMap)
-                .WithCronSchedule($"0 0 {timeOfDay} ? * * *")
+                .WithCronSchedule($"0 0 {notificationTimeOfDay} ? * * *")
+                .Build();
+
+            ITrigger serverLogsTrigger = TriggerBuilder.Create()
+                .UsingJobData(contextDataMap)
+                .WithCronSchedule($"0 59 23 ? * * *")
                 .Build();
 
             //schedule jobs
             await _jobScheduler.ScheduleJob(emailNotificationsJob, emailNotificationsTrigger);
-
-            // scheduler shutdown in shutdown of settingsBusiness
+            await _jobScheduler.ScheduleJob(serverLogsJob, serverLogsTrigger);
         }
 
         public async Task stopJobs()

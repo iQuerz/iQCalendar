@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ServerAPI.Business;
 using ServerAPI.Data;
 using ServerAPI.Data.Models;
+using ServerAPI.Logs;
 
 namespace ServerAPI.Controllers
 {
@@ -24,6 +25,7 @@ namespace ServerAPI.Controllers
         {
             if (!await _logic.Authenticate(Request))
                 return Unauthorized();
+
             try
             {
                 return Ok(await _logic.GetMonthlyEvents(accountID, month, year));
@@ -43,9 +45,12 @@ namespace ServerAPI.Controllers
         {
             if (!await _logic.AuthenticateAdmin(Request))
                 return Unauthorized();
+
             try
             {
-                return Ok(await _logic.CreateEvent(@event));
+                var result = Ok(await _logic.CreateEvent(@event));
+                iQLogger.addLog(Request, @event);
+                return result;
             }
             catch (iQException e)
             {
@@ -62,9 +67,12 @@ namespace ServerAPI.Controllers
         {
             if (!await _logic.AuthenticateAdmin(Request))
                 return Unauthorized();
+
             try
             {
-                return Ok(await _logic.UpdateEvent(@event));
+                var result = Ok(await _logic.UpdateEvent(@event));
+                iQLogger.addLog(Request, @event);
+                return result;
             }
             catch (iQException e)
             {
@@ -82,9 +90,11 @@ namespace ServerAPI.Controllers
         {
             if (!await _logic.AuthenticateAdmin(Request))
                 return Unauthorized();
+
             try
             {
-                await _logic.DeleteEvent(eventID);
+                var result = _logic.DeleteEvent(eventID);
+                iQLogger.addLog(Request);
                 return Ok();
             }
             catch (iQException e)

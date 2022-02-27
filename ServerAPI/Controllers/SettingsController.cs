@@ -45,6 +45,7 @@ namespace ServerAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> updateSettings([FromBody] Settings settings)
         {
+
             if (!await _logic.AuthenticateServer(Request))
                 return Unauthorized();
 
