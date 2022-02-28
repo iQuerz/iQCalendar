@@ -46,7 +46,7 @@
 
                 <!--#region Month Strip (Label & Arrows)-->
                 
-                <Button x:Name="LeftArrowButton" Grid.Row="0" Grid.Column="0"
+                <Button x:Name="PrevMonthButton" Grid.Row="0" Grid.Column="0"
                         BorderBrush="SlateGray" Background="SlateGray"
                         Cursor="Hand" ToolTip="Prošli mesec">
                     <Image Source="Resources/LeftArrow.png"/>
@@ -60,7 +60,7 @@
                     </Viewbox>
                 </Border>
 
-                <Button x:Name="RightArrowButton" Grid.Row="0" Grid.Column="7"
+                <Button x:Name="NextMonthButton" Grid.Row="0" Grid.Column="7"
                         BorderBrush="SlateGray" Background="SlateGray"
                         Cursor="Hand" ToolTip="Sledeći mesec">
                     <Image Source="Resources/RightArrow.png"/>
@@ -1476,6 +1476,32 @@
             </Grid>
             
         </Border>
+
+        <Grid x:Name="YearStripGrid" Grid.Row="0" Grid.Column="1">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="PrevYearButton" Grid.Row="0" Grid.Column="1"
+                        BorderBrush="Transparent" Background="Transparent"
+                        Cursor="Hand" ToolTip="Prošla godina">
+                <Image Source="Resources/LeftArrow.png"/>
+            </Button>
+            <Viewbox Grid.Column="2">
+                <TextBlock x:Name="YearLabel"
+                       Text="2022." FontWeight="Bold"/>
+            </Viewbox>
+            <Button x:Name="NextYearButton" Grid.Column="3"
+                        BorderBrush="Transparent" Background="Transparent"
+                        Cursor="Hand" ToolTip="Sledeća godina">
+                <Image Source="Resources/RightArrow.png"/>
+            </Button>
+        </Grid>
 
         <Viewbox Grid.Row="1" Grid.Column="0">
             <TextBlock x:Name="EventDetailsLabel"/>

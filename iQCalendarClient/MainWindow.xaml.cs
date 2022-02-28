@@ -1,6 +1,8 @@
 ﻿using iQCalendarClient.Business;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +24,7 @@ namespace iQCalendarClient
     public partial class MainWindow : Window
     {
         CalendarCellAccess[,] Cells;
+        ClientSettings Settings;
         Manager Manager;
 
         public MainWindow()
@@ -29,8 +32,10 @@ namespace iQCalendarClient
             InitializeComponent();
             Manager = new Manager();
             Loaded += Client_Loaded;
-            LeftArrowButton.Click += LeftArrow_Click;
-            RightArrowButton.Click += RightArrow_Click;
+            PrevMonthButton.Click += PrevMonth_Click;
+            NextMonthButton.Click += NextMonth_Click;
+            PrevYearButton.Click += PrevYear_Click;
+            NextYearButton.Click += NextYear_Click;
             AddEventButton.Click += AddEventButton_Click;
             EditEventButton.Click += EditEventButton_Click;
 
@@ -44,12 +49,18 @@ namespace iQCalendarClient
 
         private void Client_Loaded(object sender, EventArgs e)
         {
-            
+            Settings = new ClientSettings();
+
+            Title = $"iQCalendar - {Manager.Account.Name}";
+
             Cells = getCellMatrix();
            
             Manager.loadTestData();
             Manager.CurrentMonth = DateTime.Now.Month;
             Manager.CurrentYear = DateTime.Now.Year;
+
+            MonthLabel.Text = getMonthName(Manager.CurrentMonth);
+            YearLabel.Text = $"{Manager.CurrentYear}.";
             setupCalendarCells();
         }
 
@@ -228,17 +239,69 @@ namespace iQCalendarClient
 
             return cells;
         }
+        static string getMonthName(int month)
+        {
+            switch (month)
+            {
+                case 1:
+                    return "Januar";
+                case 2:
+                    return "Februar";
+                case 3:
+                    return "Mart";
+                case 4:
+                    return "April";
+                case 5:
+                    return "Maj";
+                case 6:
+                    return "Jun";
+                case 7:
+                    return "Jul";
+                case 8:
+                    return "Avgust";
+                case 9:
+                    return "Septembar";
+                case 10:
+                    return "Oktobar";
+                case 11:
+                    return "Novembar";
+                case 12:
+                    return "Decembar";
+                default:
+                    return "Invalid Month";
+            }
+        }
 
         #region Click events
-        private void LeftArrow_Click(object sender, EventArgs e)
+        private void PrevMonth_Click(object sender, EventArgs e)
         {
             Manager.CurrentMonth--;
+            MonthLabel.Text = getMonthName(Manager.CurrentMonth);
+            YearLabel.Text = $"{Manager.CurrentYear}.";
             setupCalendarCells();
+            Focus();
         }
-        private void RightArrow_Click(object sender, EventArgs e)
+        private void NextMonth_Click(object sender, EventArgs e)
         {
             Manager.CurrentMonth++;
+            MonthLabel.Text = getMonthName(Manager.CurrentMonth);
+            YearLabel.Text = $"{Manager.CurrentYear}.";
             setupCalendarCells();
+            Focus();
+        }
+        private void PrevYear_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.CurrentYear--;
+            YearLabel.Text = $"{Manager.CurrentYear}.";
+            setupCalendarCells();
+            Focus();
+        }
+        private void NextYear_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.CurrentYear++;
+            YearLabel.Text = $"{Manager.CurrentYear}.";
+            setupCalendarCells();
+            Focus();
         }
 
         private void AddEventButton_Click(object sender, RoutedEventArgs e) 
@@ -249,7 +312,6 @@ namespace iQCalendarClient
             eventViewWindow1.Owner = this;            
             eventViewWindow1.ShowDialog();
         }
-
         private void EditEventButton_Click(object sender, RoutedEventArgs e) 
         {
             double width = ParentGrid.DesiredSize.Width;
