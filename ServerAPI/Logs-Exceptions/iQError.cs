@@ -1,4 +1,4 @@
-﻿namespace ServerAPI.Business
+﻿namespace ServerAPI.Exceptions
 {
     public class iQError
     {

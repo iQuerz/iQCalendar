@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace ServerAPI.Business
+namespace ServerAPI.Exceptions
 {
     public class iQException : Exception
     {
