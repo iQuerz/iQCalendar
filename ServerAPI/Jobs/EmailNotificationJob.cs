@@ -30,7 +30,7 @@ namespace ServerAPI.Jobs
             }
 
             // Add events to each account in dictionary
-            var events = Context.Events.Where(e => !e.Finished).ToList();
+            var events = Context.Events.Where(e => !e.Finished).OrderBy(e => e.Date).ToList();
             foreach(var @event in events)
             {
                 if (IsEligibleForEmail(@event))
@@ -78,15 +78,17 @@ namespace ServerAPI.Jobs
         {
             string s = string.Empty;
 
-            s += "G'day! Here's a list of things you really don't want to miss - ";
+            s += "Ovo je vaš lični podsetnik.";
             s += "\n\n";
+            s += "Današnja obaveštenja:\n";
 
             foreach(var e in events)
             {
-                s += $"{e.Name}, due {e.Date:dd.MMM.yyyy.}\n";
-                s += $"  - {e.Description}\n";
-                s += $"\n";
+                s += $"- {e.Name}, za {e.Date:dd.MMM.yyyy.}\n";
+                s += $"{generateLinedString(e.Description, 30)}\n\n";
             }
+
+            s += "https://www.github.com/iQuerz/iQCalendar";
 
             return s;
         }
@@ -148,6 +150,29 @@ namespace ServerAPI.Jobs
             }
 
             return resultArray;
+        }
+        private static string generateLinedString(string msg, int max)
+        {// after each line that exceeds the "max" count, add a new, indented line
+            string s = "\t";
+            string[] arr = msg.Split(' ');
+
+            int count = 0;
+            foreach(var word in arr)
+            {
+                s += word;
+                count += word.Length;
+                if(count >= max)
+                {
+                    count = 0;
+                    s += "\n\t";
+                }
+            }
+
+            s = s.Trim();
+            if (!s.EndsWith("."))
+                s += ".";
+
+            return s;
         }
     }
 }
