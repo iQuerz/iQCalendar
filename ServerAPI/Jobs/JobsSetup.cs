@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq;
+using System.Threading.Tasks;
+
+using Microsoft.EntityFrameworkCore;
 using Quartz;
 using Quartz.Impl;
+
 using ServerAPI.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ServerAPI.Jobs
 {
@@ -42,6 +42,7 @@ namespace ServerAPI.Jobs
 
             ITrigger emailNotificationsTrigger = TriggerBuilder.Create()
                 .UsingJobData(contextDataMap)
+                //.StartNow() //testing purposes
                 .WithCronSchedule($"0 0 {notificationTimeOfDay} ? * * *")
                 .Build();
 

@@ -48,7 +48,7 @@ namespace ServerAPI.Jobs
                 string body = GenerateEmailMessage(pair.Value);
 
                 tasks.Add(
-                    Task.Run(async () => await
+                    Task.Run(() =>
                         SendEmailMessage(subject, 
                                          body, 
                                          settings.HostEmailUsername, 
@@ -59,7 +59,7 @@ namespace ServerAPI.Jobs
             }
         }
 
-        private static async Task SendEmailMessage(string subject, string body, string hostEmail, string hostPassword, string recipientsString)
+        private static void SendEmailMessage(string subject, string body, string hostEmail, string hostPassword, string recipientsString)
         {
             string[] recipients = recipientsString.Split(',');
 
@@ -71,26 +71,57 @@ namespace ServerAPI.Jobs
             };
             foreach(var recipient in recipients)
             {
-                smtpClient.Send(hostEmail, recipient, subject, body);
+                MailMessage msg = new MailMessage(hostEmail, recipient, subject, body);
+                msg.From = new MailAddress(hostEmail, "iQCalendar");
+                msg.IsBodyHtml = true;
+                smtpClient.Send(msg);
             }
         }
         private static string GenerateEmailMessage(List<Event> events)
         {
             string s = string.Empty;
 
-            s += "Ovo je vaš lični podsetnik.";
-            s += "\n\n";
-            s += "Današnja obaveštenja:\n";
+            s += "<h1>Vaš lični podsetnik.</h1>";
+            s += "<h3>Današnja obaveštenja:</h3>";
 
             foreach(var e in events)
             {
-                s += $"- {e.Name}, za {e.Date:dd.MMM.yyyy.}\n";
-                s += $"{generateLinedString(e.Description, 30)}\n\n";
+                s += "<p>- ";
+                s += $"<strong style=\"background-color:#b0c4de\">{e.Name}</strong>, za {e.Date:dd.MMM.yyyy.} <br/>";
+                s += $"{generateLinedString(e.Description, 50)} <br/>";
+                s += "</p> <br/>";
             }
 
-            s += "https://www.github.com/iQuerz/iQCalendar";
+            s += getFooter();
 
             return s;
+        }
+        private static string generateLinedString(string msg, int max)
+        {// after each line that exceeds the "max" count, add a new, indented line
+            string s = string.Empty;
+            string[] arr = msg.Split(' ');
+
+            int count = 0;
+            foreach (var word in arr)
+            {
+                s += word + " ";
+                count += word.Length;
+                if (count >= max)
+                {
+                    count = 0;
+                    s += " <br/>";
+                }
+            }
+
+            return s;
+        }
+        static string getFooter()
+        {
+            return "<br/><br/><br/><br/>" +
+                   "<p> Vama omoguceno od strane:<br/> " +
+                   "Nikola Rašić(<a href=\"https://github.com/iQuerz\" target=\"_blank\"> GitHub </a> | <a href = \"https://linkedin.com\" target=\"_blank\"> LinkedIn </a> | <a href = \"mailto: rasicdnikola@gmail.com\" target=\"_blank\"> Contact </a>) <br/>" +
+                   "Djordje Rašić(<a href = \"https://github.com/DjordjeRasic\" target = \"_blank\"> GitHub </a> | <a href = \"mailto: rasicdjordje@gmail.com\" target =\"_blank\"> Contact </a>) </p>" +
+                   "<p>Sav kod mozete naci na<a href=\"https://github.com/iQuerz/iQCalendar\" target=\"_blank\"> Github repozitorijumu</a>.</p>";
         }
 
         private static bool IsEligibleForEmail(Event e)
@@ -150,29 +181,6 @@ namespace ServerAPI.Jobs
             }
 
             return resultArray;
-        }
-        private static string generateLinedString(string msg, int max)
-        {// after each line that exceeds the "max" count, add a new, indented line
-            string s = "\t";
-            string[] arr = msg.Split(' ');
-
-            int count = 0;
-            foreach(var word in arr)
-            {
-                s += word;
-                count += word.Length;
-                if(count >= max)
-                {
-                    count = 0;
-                    s += "\n\t";
-                }
-            }
-
-            s = s.Trim();
-            if (!s.EndsWith("."))
-                s += ".";
-
-            return s;
         }
     }
 }
