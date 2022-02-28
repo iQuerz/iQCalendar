@@ -19,6 +19,7 @@
     <None Remove="Resources\RightArrow.svg" />
     <None Remove="Resources\TrashBinIcon.png" />
     <None Remove="Resources\TrashBinIcon.svg" />
+    <None Remove="settings.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,6 +38,13 @@
     <Content Include="Resources\TrashBinIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
 </Project>

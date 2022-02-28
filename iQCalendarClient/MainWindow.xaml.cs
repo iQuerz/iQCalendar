@@ -50,8 +50,7 @@ namespace iQCalendarClient
         private void Client_Loaded(object sender, EventArgs e)
         {
             Settings = new ClientSettings();
-
-            Title = $"iQCalendar - {Manager.Account.Name}";
+            Settings.loadSettings();
 
             Cells = getCellMatrix();
            
@@ -62,6 +61,8 @@ namespace iQCalendarClient
             MonthLabel.Text = getMonthName(Manager.CurrentMonth);
             YearLabel.Text = $"{Manager.CurrentYear}.";
             setupCalendarCells();
+
+            Title = $"iQCalendar - {Manager.Account.Name}";
         }
 
         private void setupCalendarCells()
@@ -97,6 +98,7 @@ namespace iQCalendarClient
                     Cells[i, j].Date.Text = $"{counter--}.";
                     Cells[i, j].Border.Background = b;
                     setCellBorders(i, j);
+                    Cells[i, j].Border.ToolTip = null;
                 }
             }
 
@@ -118,6 +120,7 @@ namespace iQCalendarClient
                     Cells[i, j].Date.Text = $"{counter}.";
                     Cells[i, j].Border.Background = b;
                     setCellBorders(i, j);
+                    Cells[i, j].Border.ToolTip = null;
                     if (counter++ == daysInMonth)
                     {
                         counter = 1;
@@ -131,6 +134,7 @@ namespace iQCalendarClient
             highlightCurrentDay();
 
         }
+
         private void getStartCoords(out int StartI, out int StartJ)
         {
             StartI = 0;
@@ -209,7 +213,6 @@ namespace iQCalendarClient
                 cell.BorderThickness = new Thickness(0.25, cell.BorderThickness.Top, 0.25, cell.BorderThickness.Bottom);
                 
         }
-
         private CalendarCellAccess[,] getCellMatrix()
         {
             int i, j;

@@ -10,31 +10,31 @@ namespace iQCalendarClient.Business
     class Manager
     {
         private int month;
-        private int year;
-        public List<Account> Accounts { get; set; }
+
+        public Account Account { get; set; }
         public List<Event> Events { get; set; }
-        public int CurrentMonth 
-        { 
-            get { return month; } 
-            set 
+
+        public int CurrentYear { get; set; }
+        public int CurrentMonth
+        {
+            get => month;
+            set
             {
-                if (value == 13) { month = 1; year++; }
-                else if (value == 0) { month = 12; year--; }
+                if (value == 13) { month = 1; CurrentYear++; }
+                else if (value == 0) { month = 12; CurrentYear--; }
                 else month = value;
-            } 
-                
+            }
         }
-        public int CurrentYear 
-        { 
-            get { return year; }
-            set { year = value; }
-        }  
+
         public Manager()
         {
-            Accounts = new List<Account>();
+            Account = new Account();
             Events = new List<Event>();
-
+            CurrentYear = DateTime.Now.Year;
+            month = DateTime.Now.Month;
         }
+
+
         public void loadTestData()
         {
             Events.Add(new Event
@@ -65,13 +65,13 @@ namespace iQCalendarClient.Business
                 Color = "Red"
             });
 
-            Accounts.Add(new Account
+            Account = new Account
             {
                 AccountID = 1,
                 Name = "Ralex",
                 ClientPassword = "client",
                 AdminPassword = "admin"
-            });
+            };
         }
     }
 }
