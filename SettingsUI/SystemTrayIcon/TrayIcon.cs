@@ -1,12 +1,10 @@
-﻿using SettingsUI;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 using System.Windows.Forms;
+
+using SettingsUI;
 
 namespace SystemTrayIcon
 {
@@ -62,7 +60,20 @@ namespace SystemTrayIcon
         }
         private void Logs_OnClick(object sender, EventArgs e)
         {
-            MessageBox.Show("Yet to be implemented.");
+            try
+            {
+                string process = "explorer.exe";
+                string arguments = Assembly.GetEntryAssembly().Location.Replace("SettingsUI.exe", "Logs");
+                Process.Start(process, arguments);
+            }
+            catch (Exception)
+            {
+                var result = MessageBox.Show("Logs folder not found.", "Error opening logs", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                if(result == DialogResult.Retry)
+                {
+                    Logs_OnClick(sender, e);
+                }
+            }
         }
         private void Restart_OnClick(object sender, EventArgs e)
         {
