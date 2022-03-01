@@ -6,7 +6,7 @@ using Quartz;
 
 namespace ServerAPI.Jobs
 {
-    public class DailyServerLogsJob : IJob
+    public class ServerLogsJob : IJob
     {
         public async Task Execute(IJobExecutionContext context)
         {

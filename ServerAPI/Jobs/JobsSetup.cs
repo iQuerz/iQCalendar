@@ -30,8 +30,12 @@ namespace ServerAPI.Jobs
                 .WithIdentity("Email Notifications")
                 .Build();
 
-            IJobDetail serverLogsJob = JobBuilder.Create<DailyServerLogsJob>()
+            IJobDetail serverLogsJob = JobBuilder.Create<ServerLogsJob>()
                 .WithIdentity("Server Logs")
+                .Build();
+
+            IJobDetail eventsUpdateJob = JobBuilder.Create<EventsUpdateJob>()
+                .WithIdentity("Update Events")
                 .Build();
 
 
@@ -51,9 +55,15 @@ namespace ServerAPI.Jobs
                 .WithCronSchedule($"0 59 23 ? * * *")
                 .Build();
 
+            ITrigger eventsUpdateTrigger = TriggerBuilder.Create()
+                .UsingJobData(contextDataMap)
+                .WithCronSchedule($"0 59 23 ? * * *")
+                .Build();
+
             //schedule jobs
             await _jobScheduler.ScheduleJob(emailNotificationsJob, emailNotificationsTrigger);
             await _jobScheduler.ScheduleJob(serverLogsJob, serverLogsTrigger);
+            await _jobScheduler.ScheduleJob(eventsUpdateJob, eventsUpdateTrigger);
         }
 
         public async Task stopJobs()
