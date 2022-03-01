@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SettingsUI.Properties {
+namespace iQCalendarClient.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -25,49 +25,73 @@ namespace SettingsUI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("100")]
-        public double WindowTop {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double Top {
             get {
-                return ((double)(this["WindowTop"]));
+                return ((double)(this["Top"]));
             }
             set {
-                this["WindowTop"] = value;
+                this["Top"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("100")]
-        public double WindowLeft {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double Left {
             get {
-                return ((double)(this["WindowLeft"]));
+                return ((double)(this["Left"]));
             }
             set {
-                this["WindowLeft"] = value;
+                this["Left"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("500")]
-        public double WindowHeight {
+        [global::System.Configuration.DefaultSettingValueAttribute("800")]
+        public double Height {
             get {
-                return ((double)(this["WindowHeight"]));
+                return ((double)(this["Height"]));
             }
             set {
-                this["WindowHeight"] = value;
+                this["Height"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("700")]
-        public string WindowWidth {
+        [global::System.Configuration.DefaultSettingValueAttribute("1200")]
+        public double Width {
             get {
-                return ((string)(this["WindowWidth"]));
+                return ((double)(this["Width"]));
             }
             set {
-                this["WindowWidth"] = value;
+                this["Width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Normal")]
+        public global::System.Windows.WindowState WindowState {
+            get {
+                return ((global::System.Windows.WindowState)(this["WindowState"]));
+            }
+            set {
+                this["WindowState"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Maximized {
+            get {
+                return ((bool)(this["Maximized"]));
+            }
+            set {
+                this["Maximized"] = value;
             }
         }
     }

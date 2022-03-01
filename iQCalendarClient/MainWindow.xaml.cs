@@ -27,8 +27,10 @@ namespace iQCalendarClient
         ClientSettings Settings;
         Manager Manager;
 
+       
         public MainWindow()
         {
+            
             InitializeComponent();
             Manager = new Manager();
             Loaded += Client_Loaded;
@@ -38,6 +40,7 @@ namespace iQCalendarClient
             NextYearButton.Click += NextYear_Click;
             AddEventButton.Click += AddEventButton_Click;
             EditEventButton.Click += EditEventButton_Click;
+            
 
             //SearchTextBox.MouseDoubleClick += SearchBox_GotFocus;
             SearchTextBox.GotKeyboardFocus += SearchBox_GotFocus;
@@ -45,7 +48,12 @@ namespace iQCalendarClient
             SearchTextBox.KeyDown += SearchBox_GotFocus;
 
             SearchTextBox.LostFocus += SearchBox_LostFocus;
+
+
+           
+
         }
+
 
         private void Client_Loaded(object sender, EventArgs e)
         {
@@ -63,7 +71,46 @@ namespace iQCalendarClient
             setupCalendarCells();
 
             Title = $"iQCalendar - {Manager.Account.Name}";
+            //NOVO OD OVE LINIJE DO KRAJA WINDOW CLOSING FUNKCIJE nista nisam zvao niti sam sta stigao ubacio sam novi properties file ako hoces veceras da probas ovo ako ne ja cu sutra da uradim
+            // i ima jos nekih sitnih detalja sam pushovao nesto sam doradio
+            this.Top = Properties.Settings.Default.Top;
+            this.Left = Properties.Settings.Default.Left;
+            this.Height = Properties.Settings.Default.Height;
+            this.Width = Properties.Settings.Default.Width;
+            // Very quick and dirty - but it does the job
+            if (Properties.Settings.Default.Maximized)
+            {
+                WindowState = WindowState.Maximized;
+            }
         }
+
+        private void Window_Closing(object sender, EventArgs e)
+        {
+
+            if (WindowState == WindowState.Maximized)
+            {
+                // Use the RestoreBounds as the current values will be 0, 0 and the size of the screen
+                Properties.Settings.Default.Top = RestoreBounds.Top;
+                Properties.Settings.Default.Left = RestoreBounds.Left;
+                Properties.Settings.Default.Height = RestoreBounds.Height;
+                Properties.Settings.Default.Width = RestoreBounds.Width;
+                Properties.Settings.Default.Maximized = true;
+            }
+            else
+            {
+                Properties.Settings.Default.Top = this.Top;
+                Properties.Settings.Default.Left = this.Left;
+                Properties.Settings.Default.Height = this.Height;
+                Properties.Settings.Default.Width = this.Width;
+                Properties.Settings.Default.Maximized = false;
+            }
+
+            Properties.Settings.Default.Save();
+
+        }
+
+
+
 
         private void setupCalendarCells()
         {//POPUNJAVANJE KALENDARA IQ200 PALI GASARA NA MAKSARU
@@ -323,6 +370,8 @@ namespace iQCalendarClient
             eventViewWindow1.Owner = this;
             eventViewWindow1.ShowDialog();
         }
+
+        
         #endregion
 
         #region Search UI Events
@@ -339,5 +388,6 @@ namespace iQCalendarClient
             SearchTextBox.Text = "Pretrazi...";
         }
         #endregion
+
     }
 }

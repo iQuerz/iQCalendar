@@ -8,6 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="768" Width="1028">
     
+
     <Grid x:Name="ParentGrid" Background="LightSteelBlue"
           RenderOptions.BitmapScalingMode="HighQuality">
         
@@ -135,7 +136,7 @@
 
                 <!--#endregion-->
 
-                <Grid x:Name="CalendarGrid" 
+                <Grid x:Name="CalendarGrid"   
                       Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="7">
                     
                     <Grid.ColumnDefinitions>
@@ -164,7 +165,7 @@
                             Background="AliceBlue"
                             BorderBrush="Black" BorderThickness="0.5 0.5 0.25 0.25">
 
-                        <Grid>
+                        <Grid >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="1*"/>
                                 <ColumnDefinition Width="5*"/>
@@ -1509,7 +1510,7 @@
 
         <Viewbox x:Name="SearchViewbox">
             <TextBox x:Name="SearchTextBox" Text="Pretrazi"
-                     Margin="1"/>
+                     Margin="1" RenderTransformOrigin="0.992,0.992" />
         </Viewbox>
 
         <Viewbox x:Name="SearchResults" Grid.Row="1" Grid.Column="0"

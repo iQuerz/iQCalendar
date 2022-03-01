@@ -24,11 +24,16 @@ namespace iQCalendarClient
             InitializeComponent();
             this.Width = width;
             this.Height = height;
-            CloseButton.Click += CloseButton_Click;
+            CloseButton.Click += CloseButton_Click;//
 
         }
 
         public void CloseButton_Click(object sender, EventArgs e) 
+        {
+            EventViewWindow eventViewWindow = new EventViewWindow(this.Width, this.Height);
+            this.Close();
+        }
+        private void ButtonXClose_Click(object sender, RoutedEventArgs e)
         {
             EventViewWindow eventViewWindow = new EventViewWindow(this.Width, this.Height);
             this.Close();
