@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
 
 using ServerAPI.Business;
 using ServerAPI.Data;
