@@ -45,6 +45,9 @@ namespace ServerAPI.Jobs
             var settings = Context.Settings.FirstOrDefault();
             foreach(var pair in eventLists)
             {
+                if (pair.Value.Count == 0) //skip the email sending if there are no events ready for notif.
+                    continue;
+
                 string subject = "iQCalendar daily breefing";
                 string body = GenerateEmailMessage(pair.Value);
 
@@ -120,9 +123,9 @@ namespace ServerAPI.Jobs
         {
             return "<br/><br/><br/><br/>" +
                    "<p> Vama omoguceno od strane:<br/> " +
-                   "Nikola Rašić(<a href=\"https://github.com/iQuerz\" target=\"_blank\"> GitHub </a> | <a href = \"https://linkedin.com\" target=\"_blank\"> LinkedIn </a> | <a href = \"mailto: rasicdnikola@gmail.com\" target=\"_blank\"> Contact </a>) <br/>" +
-                   "Djordje Rašić(<a href = \"https://github.com/DjordjeRasic\" target = \"_blank\"> GitHub </a> | <a href = \"mailto: rasicdjordje@gmail.com\" target =\"_blank\"> Contact </a>) </p>" +
-                   "<p>Sav kod mozete naci na<a href=\"https://github.com/iQuerz/iQCalendar\" target=\"_blank\"> Github repozitorijumu</a>.</p>";
+                   "Nikola Rašić (<a href=\"https://github.com/iQuerz\" target=\"_blank\">GitHub</a> | <a href = \"https://linkedin.com\" target=\"_blank\">LinkedIn</a> | <a href = \"mailto: rasicdnikola@gmail.com\" target=\"_blank\">Contact</a>) <br/>" +
+                   "Djordje Rašić (<a href = \"https://github.com/DjordjeRasic\" target = \"_blank\">GitHub</a> | <a href = \"mailto: rasicdjordje@gmail.com\" target =\"_blank\">Contact</a>) </p>" +
+                   "<p>Sav kod mozete naci na <a href=\"https://github.com/iQuerz/iQCalendar\" target=\"_blank\">Github repozitorijumu</a>.</p>";
         }
 
         private static bool IsEligibleForEmail(Event e)

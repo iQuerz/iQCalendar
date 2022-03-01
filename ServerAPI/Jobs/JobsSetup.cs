@@ -38,6 +38,10 @@ namespace ServerAPI.Jobs
                 .WithIdentity("Update Events")
                 .Build();
 
+            IJobDetail serverBackupJob = JobBuilder.Create<ServerBackupJob>()
+                .WithIdentity("Backup Server")
+                .Build();
+
 
             //triggers
             JobDataMap contextDataMap = new JobDataMap();
@@ -50,20 +54,17 @@ namespace ServerAPI.Jobs
                 .WithCronSchedule($"0 0 {notificationTimeOfDay} ? * * *")
                 .Build();
 
-            ITrigger serverLogsTrigger = TriggerBuilder.Create()
+            ITrigger dailyMidnightTrigger = TriggerBuilder.Create()
                 .UsingJobData(contextDataMap)
-                .WithCronSchedule($"0 59 23 ? * * *")
+                .WithCronSchedule($"1 0 0 ? * * *")
                 .Build();
 
-            ITrigger eventsUpdateTrigger = TriggerBuilder.Create()
-                .UsingJobData(contextDataMap)
-                .WithCronSchedule($"0 59 23 ? * * *")
-                .Build();
 
             //schedule jobs
             await _jobScheduler.ScheduleJob(emailNotificationsJob, emailNotificationsTrigger);
-            await _jobScheduler.ScheduleJob(serverLogsJob, serverLogsTrigger);
-            await _jobScheduler.ScheduleJob(eventsUpdateJob, eventsUpdateTrigger);
+            await _jobScheduler.ScheduleJob(serverLogsJob, dailyMidnightTrigger);
+            await _jobScheduler.ScheduleJob(serverBackupJob, dailyMidnightTrigger);
+            await _jobScheduler.ScheduleJob(eventsUpdateJob, dailyMidnightTrigger);
         }
 
         public async Task stopJobs()

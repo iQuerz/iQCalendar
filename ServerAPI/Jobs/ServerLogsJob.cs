@@ -16,8 +16,10 @@ namespace ServerAPI.Jobs
             //JobKey key = context.JobDetail.Key;
             //JobDataMap dataMap = context.MergedJobDataMap;
 
+            DateTime now = DateTime.Now.AddDays(-1); // the thing about 00:00:01... yeah same here
+
             string log = await File.ReadAllTextAsync("Logs/temp.txt");
-            await File.WriteAllTextAsync($"Logs/{DateTime.Now.ToLongDateString()}.log", log);
+            await File.WriteAllTextAsync($"Logs/{now.ToLongDateString()}.log", log);
             await File.WriteAllTextAsync("Logs/temp.txt", string.Empty);
 
         }
