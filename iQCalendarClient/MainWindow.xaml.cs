@@ -181,7 +181,8 @@ namespace iQCalendarClient
             #endregion
 
             highlightCurrentDay();
-            showEventsOnCalendar();
+            //showEventsOnCalendar();
+            addingTextEventToCells();
         }
         private void highlightCurrentDay()
         {
@@ -205,12 +206,84 @@ namespace iQCalendarClient
         #endregion
 
         #region App Logic related
-        private void showEventsOnCalendar()
+       /* private void showEventsOnCalendar()
         {
+            int startI, startJ;
+            getStartCoords(out startI, out startJ);
+            int i = 0;
+            DateTime date = Manager.Events[i].Date;
+            for (i=0; i< Manager.Events.Count; i++)
+            {
+                if(date.Month == Manager.CurrentMonth) 
+                {
+                    addingTextEventToCells();
+                }
+            }
             // srecno :D
             // pravi pomocne funkcije odmah ispod ove ako ti trebaju slobodno...
             // koristi postojece pomocne funkcije ako ti trebaju slobodno xD npr ono za startI i startJ idk, one su sve dole u Helper Functions
         }
+       */
+
+        private void addingTextEventToCells()
+        {
+            int startI, startJ, i;
+            int e_i, e_j;
+            int p1, p2;
+            i = 0;
+            int counter = 0;
+            getStartCoords(out startI, out startJ);
+
+
+            for (i = 0; i < Manager.Events.Count; i++)
+            {
+                for (int k = 0; k < Manager.Events[i].Date.Day; k++)
+                {
+                    //Manager.CurrentMonth == Manager.Events[i].Date.Month &&  
+                    if (++counter==Manager.Events[i].Date.Day)
+                    {
+                        
+                        counter = Manager.Events[i].Date.Day - 1;
+                        if (startJ + counter < 7)
+                        {
+                            e_i = startI;
+                            e_j = startJ + counter;
+                            Cells[e_i, e_j].Event.Text = Manager.Events[i].Name;
+
+                        }
+                        else
+                        {
+                            p1 = (counter + startJ) / 7;
+                            p2 = (counter + startJ) % 7;
+                            e_i = startI + p2;
+                            e_j = p1;
+                            Cells[e_i, e_j].Event.Text = Manager.Events[i].Name;
+                        }
+
+                    }
+
+                }
+            }
+        }
+
+        /*i,j,shift; i i j su startI i startJ
+     end_i,end_j;
+     shift = end_date - start_date; start date je 1 , a end date je Manager.Events[i].Date.Day
+                    if(j + shift < 7){
+            end_i = i;
+            end_j = j + shift;
+
+        } 
+        else{
+            p1 = (shift+j)/7;
+            p2 = (shift+j)%7;
+            end_i = i + p2;
+            end_j = p1;
+
+
+        }
+
+     */
 
         private CalendarCellAccess[,] getCellMatrix()
         {

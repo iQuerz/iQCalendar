@@ -9,7 +9,7 @@ namespace iQCalendarClient.Business
 {
     class Manager
     {
-        private int month;
+        private int month { get; set; }
 
         /// <summary>
         /// Represents the iQCalendar Account that Manager is tied to.
