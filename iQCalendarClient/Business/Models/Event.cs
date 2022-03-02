@@ -12,7 +12,7 @@ namespace iQCalendarClient.Business.Models
         public string Description { get; set; }
         public DateTime Date { get; set; }
         public RecurringType RecurringType { get; set; }
-        public int IterationsFinished { get; set; }
+        public bool Finished { get; set; }
         public string Color { get; set; }
         public string Notifications { get; set; }
     }

@@ -12,12 +12,12 @@ namespace iQCalendarClient.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.1.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0")]
+    internal sealed partial class WindowSettings : global::System.Configuration.ApplicationSettingsBase {
         
-        private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
+        private static WindowSettings defaultInstance = ((WindowSettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new WindowSettings())));
         
-        public static Settings Default {
+        public static WindowSettings Default {
             get {
                 return defaultInstance;
             }
@@ -49,7 +49,7 @@ namespace iQCalendarClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("800")]
+        [global::System.Configuration.DefaultSettingValueAttribute("768")]
         public double Height {
             get {
                 return ((double)(this["Height"]));
@@ -61,25 +61,13 @@ namespace iQCalendarClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1200")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1028")]
         public double Width {
             get {
                 return ((double)(this["Width"]));
             }
             set {
                 this["Width"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Normal")]
-        public global::System.Windows.WindowState WindowState {
-            get {
-                return ((global::System.Windows.WindowState)(this["WindowState"]));
-            }
-            set {
-                this["WindowState"] = value;
             }
         }
         
@@ -92,6 +80,18 @@ namespace iQCalendarClient.Properties {
             }
             set {
                 this["Maximized"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool FirstBoot {
+            get {
+                return ((bool)(this["FirstBoot"]));
+            }
+            set {
+                this["FirstBoot"] = value;
             }
         }
     }

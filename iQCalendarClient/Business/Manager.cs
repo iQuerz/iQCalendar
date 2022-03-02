@@ -11,10 +11,24 @@ namespace iQCalendarClient.Business
     {
         private int month;
 
+        /// <summary>
+        /// Represents the iQCalendar Account that Manager is tied to.
+        /// </summary>
         public Account Account { get; set; }
+
+        /// <summary>
+        /// Represents the list of Events that Manager is currently working with.
+        /// </summary>
         public List<Event> Events { get; set; }
 
+        /// <summary>
+        /// Represents the year that Manager is currently working with.
+        /// </summary>
         public int CurrentYear { get; set; }
+
+        /// <summary>
+        /// Represents the month that Manager is currently working with.
+        /// </summary>
         public int CurrentMonth
         {
             get => month;
@@ -26,6 +40,9 @@ namespace iQCalendarClient.Business
             }
         }
 
+        /// <summary>
+        /// Initializes the Manager with current month and year.
+        /// </summary>
         public Manager()
         {
             Account = new Account();
@@ -34,7 +51,10 @@ namespace iQCalendarClient.Business
             month = DateTime.Now.Month;
         }
 
-
+        /// <summary>
+        /// Loads a few static events and an account.
+        /// Delete this data before ineracting with the database using <seealso cref="deleteData()"/>
+        /// </summary>
         public void loadTestData()
         {
             Events.Add(new Event
@@ -43,8 +63,10 @@ namespace iQCalendarClient.Business
                 AccountID = 1,
                 Name = "Clio Registracija",
                 Description = "idi registruj clia",
-                Date = new DateTime(2022, 2, 20),
-                Color = "AliceBlue"
+                Date = DateTime.Now.AddDays(3),
+                Color = "Yellow",
+                Finished = false,
+                RecurringType = Models.Types.RecurringType.Weekly
             });
             Events.Add(new Event
             {
@@ -52,8 +74,10 @@ namespace iQCalendarClient.Business
                 AccountID = 1,
                 Name = "Caddy Registracija",
                 Description = "idi registruj caddyja",
-                Date = new DateTime(2022, 2, 12),
-                Color = "Green"
+                Date = DateTime.Now.AddDays(5),
+                Color = "Green",
+                Finished = false,
+                RecurringType = Models.Types.RecurringType.NonRecurring
             });
             Events.Add(new Event
             {
@@ -61,8 +85,10 @@ namespace iQCalendarClient.Business
                 AccountID = 1,
                 Name = "Dan Zaljubljenih",
                 Description = "kupi zenama cvece",
-                Date = new DateTime(2022, 2, 14),
-                Color = "Red"
+                Date = DateTime.Now.AddDays(12),
+                Color = "Red",
+                Finished = true,
+                RecurringType = Models.Types.RecurringType.Monthly
             });
 
             Account = new Account
@@ -72,6 +98,15 @@ namespace iQCalendarClient.Business
                 ClientPassword = "client",
                 AdminPassword = "admin"
             };
+        }
+
+        /// <summary>
+        /// Deletes the Account and the Events list inside the Manager.
+        /// </summary>
+        public void deleteData()
+        {
+            Events.Clear();
+            Account = new Account();
         }
     }
 }

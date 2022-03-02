@@ -1,4 +1,5 @@
 ﻿using iQCalendarClient.Business;
+using iQCalendarClient.Properties;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -26,92 +27,93 @@ namespace iQCalendarClient
         CalendarCellAccess[,] Cells;
         ClientSettings Settings;
         Manager Manager;
+        WindowSettings windowSettings;
 
-       
+        // Constructor with initialization for... everything, kinda
         public MainWindow()
         {
-            
+            //startup
             InitializeComponent();
-            Manager = new Manager();
-            Loaded += Client_Loaded;
-            PrevMonthButton.Click += PrevMonth_Click;
-            NextMonthButton.Click += NextMonth_Click;
-            PrevYearButton.Click += PrevYear_Click;
-            NextYearButton.Click += NextYear_Click;
-            AddEventButton.Click += AddEventButton_Click;
-            EditEventButton.Click += EditEventButton_Click;
-            
+            windowSettings = WindowSettings.Default;
+            Settings = new ClientSettings();
+            loadWindowState();
 
+            //some base stuff
+            Manager = new Manager();
+            Loaded += Window_Loaded;
+            Closing += Window_Closing;
+
+            //clicks
+            loadClickEventHandlers();
+
+            // ubij me ne znam
             //SearchTextBox.MouseDoubleClick += SearchBox_GotFocus;
             SearchTextBox.GotKeyboardFocus += SearchBox_GotFocus;
             SearchTextBox.TextChanged += SearchBox_GotFocus;
             SearchTextBox.KeyDown += SearchBox_GotFocus;
 
             SearchTextBox.LostFocus += SearchBox_LostFocus;
-
-
-           
-
         }
 
-
-        private void Client_Loaded(object sender, EventArgs e)
+        #region App load & App close related
+        private void Window_Loaded(object sender, EventArgs e)
         {
-            Settings = new ClientSettings();
             Settings.loadSettings();
 
             Cells = getCellMatrix();
-           
+
             Manager.loadTestData();
-            Manager.CurrentMonth = DateTime.Now.Month;
-            Manager.CurrentYear = DateTime.Now.Year;
 
             MonthLabel.Text = getMonthName(Manager.CurrentMonth);
             YearLabel.Text = $"{Manager.CurrentYear}.";
             setupCalendarCells();
 
             Title = $"iQCalendar - {Manager.Account.Name}";
-            //NOVO OD OVE LINIJE DO KRAJA WINDOW CLOSING FUNKCIJE nista nisam zvao niti sam sta stigao ubacio sam novi properties file ako hoces veceras da probas ovo ako ne ja cu sutra da uradim
-            // i ima jos nekih sitnih detalja sam pushovao nesto sam doradio
-            this.Top = Properties.Settings.Default.Top;
-            this.Left = Properties.Settings.Default.Left;
-            this.Height = Properties.Settings.Default.Height;
-            this.Width = Properties.Settings.Default.Width;
-            // Very quick and dirty - but it does the job
-            if (Properties.Settings.Default.Maximized)
-            {
-                WindowState = WindowState.Maximized;
-            }
         }
-
         private void Window_Closing(object sender, EventArgs e)
         {
+            saveWindowState();
+        }
 
+        private void loadWindowState()
+        {
+            if (windowSettings.FirstBoot)
+            {
+                windowSettings.FirstBoot = false;
+                return;
+            }
+
+            Top = windowSettings.Top;
+            Left = windowSettings.Left;
+            Height = windowSettings.Height;
+            Width = windowSettings.Width;
+
+            if (windowSettings.Maximized)
+                WindowState = WindowState.Maximized;
+        }
+        private void saveWindowState()
+        {
             if (WindowState == WindowState.Maximized)
             {
-                // Use the RestoreBounds as the current values will be 0, 0 and the size of the screen
-                Properties.Settings.Default.Top = RestoreBounds.Top;
-                Properties.Settings.Default.Left = RestoreBounds.Left;
-                Properties.Settings.Default.Height = RestoreBounds.Height;
-                Properties.Settings.Default.Width = RestoreBounds.Width;
-                Properties.Settings.Default.Maximized = true;
+                windowSettings.Top = RestoreBounds.Top;
+                windowSettings.Left = RestoreBounds.Left;
+                windowSettings.Height = RestoreBounds.Height;
+                windowSettings.Width = RestoreBounds.Width;
+                windowSettings.Maximized = true;
             }
             else
             {
-                Properties.Settings.Default.Top = this.Top;
-                Properties.Settings.Default.Left = this.Left;
-                Properties.Settings.Default.Height = this.Height;
-                Properties.Settings.Default.Width = this.Width;
-                Properties.Settings.Default.Maximized = false;
+                windowSettings.Top = Top;
+                windowSettings.Left = Left;
+                windowSettings.Height = Height;
+                windowSettings.Width = Width;
+                windowSettings.Maximized = false;
             }
-
-            Properties.Settings.Default.Save();
-
+            windowSettings.Save();
         }
+        #endregion
 
-
-
-
+        #region Calendar cells - style related
         private void setupCalendarCells()
         {//POPUNJAVANJE KALENDARA IQ200 PALI GASARA NA MAKSARU
 
@@ -179,48 +181,7 @@ namespace iQCalendarClient
             #endregion
 
             highlightCurrentDay();
-
-        }
-
-        private void getStartCoords(out int StartI, out int StartJ)
-        {
-            StartI = 0;
-            DateTime firstDayOfMonth = new DateTime(Manager.CurrentYear, Manager.CurrentMonth, 1);
-            switch (firstDayOfMonth.DayOfWeek)
-            {
-                case DayOfWeek.Monday:
-                    StartI = 1;
-                    StartJ = 0;
-                    break;
-
-                case DayOfWeek.Tuesday:
-                    StartJ = 1;
-                    break;
-
-                case DayOfWeek.Wednesday:
-                    StartJ = 2;
-                    break;
-
-                case DayOfWeek.Thursday:
-                    StartJ = 3;
-                    break;
-
-                case DayOfWeek.Friday:
-                    StartJ = 4;
-                    break;
-
-                case DayOfWeek.Saturday:
-                    StartJ = 5;
-                    break;
-
-                case DayOfWeek.Sunday:
-                    StartJ = 6;
-                    break;
-
-                default:
-                    StartJ = 0;
-                    break;
-            }
+            showEventsOnCalendar();
         }
         private void highlightCurrentDay()
         {
@@ -240,26 +201,17 @@ namespace iQCalendarClient
                 Cells[nowRow, nowColumn].Border.ToolTip = "Današnji Dan";
             }
         }
-        private void setCellBorders(int i, int j)
+
+        #endregion
+
+        #region App Logic related
+        private void showEventsOnCalendar()
         {
-            Border cell = Cells[i, j].Border;
-            cell.BorderThickness = new Thickness(0.25);
-
-            if (i == 0)
-                cell.BorderThickness = new Thickness(0.25, 0.5, 0.25, 0.25);
-            else if (i == 5)
-                cell.BorderThickness = new Thickness(0.25, 0.25, 0.25, 0.5);
-            else
-                cell.BorderThickness = new Thickness(0.25);
-
-            if(j==0)
-                cell.BorderThickness = new Thickness(0.5, cell.BorderThickness.Top, 0.25, cell.BorderThickness.Bottom);
-            else if(j==6)
-                cell.BorderThickness = new Thickness(0.25, cell.BorderThickness.Top, 0.5, cell.BorderThickness.Bottom);
-            else
-                cell.BorderThickness = new Thickness(0.25, cell.BorderThickness.Top, 0.25, cell.BorderThickness.Bottom);
-                
+            // srecno :D
+            // pravi pomocne funkcije odmah ispod ove ako ti trebaju slobodno...
+            // koristi postojece pomocne funkcije ako ti trebaju slobodno xD npr ono za startI i startJ idk, one su sve dole u Helper Functions
         }
+
         private CalendarCellAccess[,] getCellMatrix()
         {
             int i, j;
@@ -270,16 +222,16 @@ namespace iQCalendarClient
 
             var children = CalendarGrid.Children;
             i = 0; j = 0;
-            foreach(var child in children)
+            foreach (var child in children)
             {
                 Border b = (Border)child;
                 Grid g = (Grid)b.Child;
                 var gChildren = g.Children;
 
                 cells[i, j].Border = b;
-                cells[i, j].Date = (TextBlock) ((Viewbox)gChildren[0]).Child;
-                cells[i, j].Event = (TextBlock) ((Viewbox)gChildren[1]).Child;
-                cells[i, j].CheckBox = (CheckBox) ((Viewbox)gChildren[2]).Child;
+                cells[i, j].Date = (TextBlock)((Viewbox)gChildren[0]).Child;
+                cells[i, j].Event = (TextBlock)((Viewbox)gChildren[1]).Child;
+                cells[i, j].CheckBox = (CheckBox)((Viewbox)gChildren[2]).Child;
 
                 cells[i, j].Event.Text = string.Empty;
 
@@ -289,40 +241,21 @@ namespace iQCalendarClient
 
             return cells;
         }
-        static string getMonthName(int month)
-        {
-            switch (month)
-            {
-                case 1:
-                    return "Januar";
-                case 2:
-                    return "Februar";
-                case 3:
-                    return "Mart";
-                case 4:
-                    return "April";
-                case 5:
-                    return "Maj";
-                case 6:
-                    return "Jun";
-                case 7:
-                    return "Jul";
-                case 8:
-                    return "Avgust";
-                case 9:
-                    return "Septembar";
-                case 10:
-                    return "Oktobar";
-                case 11:
-                    return "Novembar";
-                case 12:
-                    return "Decembar";
-                default:
-                    return "Invalid Month";
-            }
-        }
+
+        #endregion
 
         #region Click events
+
+        private void loadClickEventHandlers()
+        {
+            PrevMonthButton.Click += PrevMonth_Click;
+            NextMonthButton.Click += NextMonth_Click;
+            PrevYearButton.Click += PrevYear_Click;
+            NextYearButton.Click += NextYear_Click;
+            AddEventButton.Click += AddEventButton_Click;
+            EditEventButton.Click += EditEventButton_Click;
+        }
+
         private void PrevMonth_Click(object sender, EventArgs e)
         {
             Manager.CurrentMonth--;
@@ -387,6 +320,123 @@ namespace iQCalendarClient
         {
             SearchTextBox.Text = "Pretrazi...";
         }
+
+        #endregion
+
+        #region Helper functions
+
+        /// <summary>
+        /// Translates month numbers (1-12) to their Serbian language counterparts. (Januar, Februar, etc.)
+        /// </summary>
+        /// <param name="month" range="1-12"> One numeber representing a month. </param>
+        /// <returns>A translated month string.</returns>
+        static string getMonthName(int month)
+        {
+            switch (month)
+            {
+                case 1:
+                    return "Januar";
+                case 2:
+                    return "Februar";
+                case 3:
+                    return "Mart";
+                case 4:
+                    return "April";
+                case 5:
+                    return "Maj";
+                case 6:
+                    return "Jun";
+                case 7:
+                    return "Jul";
+                case 8:
+                    return "Avgust";
+                case 9:
+                    return "Septembar";
+                case 10:
+                    return "Oktobar";
+                case 11:
+                    return "Novembar";
+                case 12:
+                    return "Decembar";
+                default:
+                    return "Invalid Month";
+            }
+        }
+
+        /// <summary>
+        /// Sets the cell borders to black and generates their thickness to 0.25 each.
+        /// Left, right, top and bottom rows have their edge borders set to 0.5.
+        /// </summary>
+        /// <param name="i">Row parameter</param>
+        /// <param name="j">Column parameter</param>
+        private void setCellBorders(int i, int j)
+        {
+            Border cell = Cells[i, j].Border;
+            cell.BorderThickness = new Thickness(0.25);
+            cell.BorderBrush = Brushes.Black;
+
+            if (i == 0)
+                cell.BorderThickness = new Thickness(0.25, 0.5, 0.25, 0.25);
+            else if (i == 5)
+                cell.BorderThickness = new Thickness(0.25, 0.25, 0.25, 0.5);
+            else
+                cell.BorderThickness = new Thickness(0.25);
+
+            if (j == 0)
+                cell.BorderThickness = new Thickness(0.5, cell.BorderThickness.Top, 0.25, cell.BorderThickness.Bottom);
+            else if (j == 6)
+                cell.BorderThickness = new Thickness(0.25, cell.BorderThickness.Top, 0.5, cell.BorderThickness.Bottom);
+            else
+                cell.BorderThickness = new Thickness(0.25, cell.BorderThickness.Top, 0.25, cell.BorderThickness.Bottom);
+        }
+
+        /// <summary>
+        /// Finds the first matrix cell coordinates to be populated,
+        /// depending on the selected month and year inside the Manager object.
+        /// </summary>
+        /// <param name="StartI">Reference to the Row parameter</param>
+        /// <param name="StartJ">Reference to the Column parameter</param>
+        private void getStartCoords(out int StartI, out int StartJ)
+        {
+            StartI = 0;
+            DateTime firstDayOfMonth = new DateTime(Manager.CurrentYear, Manager.CurrentMonth, 1);
+            switch (firstDayOfMonth.DayOfWeek)
+            {
+                case DayOfWeek.Monday:
+                    StartI = 1;
+                    StartJ = 0;
+                    break;
+
+                case DayOfWeek.Tuesday:
+                    StartJ = 1;
+                    break;
+
+                case DayOfWeek.Wednesday:
+                    StartJ = 2;
+                    break;
+
+                case DayOfWeek.Thursday:
+                    StartJ = 3;
+                    break;
+
+                case DayOfWeek.Friday:
+                    StartJ = 4;
+                    break;
+
+                case DayOfWeek.Saturday:
+                    StartJ = 5;
+                    break;
+
+                case DayOfWeek.Sunday:
+                    StartJ = 6;
+                    break;
+
+                default:
+                    StartJ = 0;
+                    break;
+            }
+        }
+
         #endregion
 
     }
