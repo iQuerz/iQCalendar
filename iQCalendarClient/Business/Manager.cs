@@ -108,5 +108,7 @@ namespace iQCalendarClient.Business
             Events.Clear();
             Account = new Account();
         }
+
+
     }
 }

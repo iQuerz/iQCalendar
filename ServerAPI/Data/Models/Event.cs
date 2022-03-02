@@ -30,7 +30,7 @@ namespace ServerAPI.Data.Models
         [Required]
         public bool Finished { get; set; }
 
-        
+
         public string Color { get; set; }
 
         [MaxLength(50)]

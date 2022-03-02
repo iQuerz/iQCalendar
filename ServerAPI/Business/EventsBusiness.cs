@@ -43,27 +43,10 @@ namespace ServerAPI.Business
                 throw new iQException(err, 404);
             }
 
-            //list to be returned
-            List<Event> events = new List<Event>();
+            var events = _context.Events.Where(e => e.AccountID == account.AccountID
+                                            && isEventOcurringInMonth(e, month, year));
 
-            //var events = _context.Events.Where(e => e.AccountID == account.AccountID);
-            //events = events.Where(e => e.Date.Month == month || )
-
-            foreach(Event e in _context.Events)
-            {
-                if (e.AccountID != account.AccountID)
-                    continue;
-
-                if (e.Date.Month != month)
-                    continue;
-
-                if (e.Date.Year != year)
-                    continue;
-
-                events.Add(e);
-            }
-
-            return events;
+            return events.ToList();
 
         }
 
@@ -144,6 +127,23 @@ namespace ServerAPI.Business
         }
 
 
-        private void getDateTimesRecurringType() { } // sheesh papa idk how to start
+        private bool isEventOcurringInMonth(Event e, int month, int year)
+        {
+            if (e.RecurringType == Models.Types.RecurringType.Daily
+             || e.RecurringType == Models.Types.RecurringType.Weekly
+             || e.RecurringType == Models.Types.RecurringType.Monthly)
+                return true;
+
+            if (e.Date.Year == year && e.Date.Month == month)
+                return true;
+
+            if (e.RecurringType == Models.Types.RecurringType.NonRecurring)
+                return false;
+
+            if (e.RecurringType == Models.Types.RecurringType.Yearly || e.Date.Month == month)
+                return true;
+
+            return false;
+        }
     }
 }
