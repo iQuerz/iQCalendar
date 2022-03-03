@@ -181,8 +181,7 @@ namespace iQCalendarClient
             #endregion
 
             highlightCurrentDay();
-            //showEventsOnCalendar();
-            addingTextEventToCells();
+            showEventsOnCalendar();
         }
         private void highlightCurrentDay()
         {
@@ -206,24 +205,23 @@ namespace iQCalendarClient
         #endregion
 
         #region App Logic related
-       /* private void showEventsOnCalendar()
+        private void showEventsOnCalendar()
         {
             int startI, startJ;
             getStartCoords(out startI, out startJ);
-            int i = 0;
-            DateTime date = Manager.Events[i].Date;
-            for (i=0; i< Manager.Events.Count; i++)
+
+            for (int i = 0; i < Manager.Events.Count; i++)
             {
-                if(date.Month == Manager.CurrentMonth) 
-                {
-                    addingTextEventToCells();
-                }
+                int day = Manager.Events[i].Date.Day;
+                int column = (startJ + day - 1) % 7 ;
+                int row = (startI + day) / 7;
+                Cells[row, column].Event.Text = Manager.Events[i].Name;
             }
             // srecno :D
             // pravi pomocne funkcije odmah ispod ove ako ti trebaju slobodno...
             // koristi postojece pomocne funkcije ako ti trebaju slobodno xD npr ono za startI i startJ idk, one su sve dole u Helper Functions
         }
-       */
+
 
         private void addingTextEventToCells()
         {
