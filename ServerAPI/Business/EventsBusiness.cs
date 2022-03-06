@@ -44,9 +44,16 @@ namespace ServerAPI.Business
             }
 
             var events = _context.Events.Where(e => e.AccountID == account.AccountID
-                                            && isEventOcurringInMonth(e, month, year));
+                                                 && e.Date.Year <= year
+                                                 && e.Date.Month <= month).ToList();
 
-            return events.ToList();
+            List<Event> returnList = new List<Event>();
+
+            foreach (var e in events)
+                if (isEventOcurringInMonth(e, month, year))
+                    returnList.Add(e);
+
+            return events;
 
         }
 
