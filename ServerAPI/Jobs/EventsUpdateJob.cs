@@ -20,10 +20,13 @@ namespace ServerAPI.Jobs
             CalendarContext Context = (CalendarContext)dataMap["Context"];
 
             var events = Context.Events.Where(e => e.Finished == true
-                                                && e.RecurringType == RecurringType.NonRecurring);
+                                                && e.RecurringType != RecurringType.NonRecurring);
 
             foreach (var e in events)
+            {
                 e.Date = getNextDate(e);
+                e.Finished = false;
+            }
 
             await Context.SaveChangesAsync();
         }
