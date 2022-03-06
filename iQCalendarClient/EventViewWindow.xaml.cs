@@ -19,24 +19,23 @@ namespace iQCalendarClient
     /// </summary>
     public partial class EventViewWindow : Window
     {
-        public EventViewWindow(double width, double height)
+        public EventViewWindow(MainWindow main)
         {
             InitializeComponent();
-            this.Width = width;
-            this.Height = height;
-            CloseButton.Click += CloseButton_Click;//
+            Owner = main;
+            Width = main.ParentGrid.DesiredSize.Width;
+            Height = main.ParentGrid.DesiredSize.Height;
 
+            CloseButton.Click += CloseButton_Click;
         }
 
         public void CloseButton_Click(object sender, EventArgs e) 
         {
-            EventViewWindow eventViewWindow = new EventViewWindow(this.Width, this.Height);
-            this.Close();
+            Close();
         }
         private void ButtonXClose_Click(object sender, RoutedEventArgs e)
         {
-            EventViewWindow eventViewWindow = new EventViewWindow(this.Width, this.Height);
-            this.Close();
+            Close();
         }
     }
 }

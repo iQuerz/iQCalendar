@@ -26,8 +26,8 @@ namespace iQCalendarClient
     public partial class MainWindow : Window
     {
         CalendarCellAccess[,] Cells;
-        Manager Manager;
-        WindowSettings windowSettings;
+        readonly Manager Manager;
+        readonly WindowSettings windowSettings;
 
         // Constructor with initialization for... everything, kinda
         public MainWindow()
@@ -59,10 +59,10 @@ namespace iQCalendarClient
         {
             Cells = getCellMatrix();
 
-            await Manager.loadEventsAsync();
+            try { await Manager.loadEventsAsync(); }
+            catch (Exception ex) { showMsgBoxError(ex.Message); }
 
-            MonthLabel.Text = getMonthName(Manager.CurrentMonth);
-            YearLabel.Text = $"{Manager.CurrentYear}.";
+            setupLabels();
             setupCalendarCells();
 
             Title = $"iQCalendar - {Manager.Account.Name}";
@@ -201,6 +201,40 @@ namespace iQCalendarClient
             }
         }
 
+        /// <summary>
+        /// Sets the cell borders to black and generates their thickness to 0.25 each.
+        /// Left, right, top and bottom rows have their edge borders set to 0.5.
+        /// </summary>
+        /// <param name="i">Row parameter</param>
+        /// <param name="j">Column parameter</param>
+        private void setCellBorders(int i, int j)
+        {
+            Border cell = Cells[i, j].Border;
+            cell.BorderThickness = new Thickness(0.25);
+            cell.BorderBrush = Brushes.Black;
+
+            if (i == 0)
+                cell.BorderThickness = new Thickness(0.25, 0.5, 0.25, 0.25);
+            else if (i == 5)
+                cell.BorderThickness = new Thickness(0.25, 0.25, 0.25, 0.5);
+            else
+                cell.BorderThickness = new Thickness(0.25);
+
+            if (j == 0)
+                cell.BorderThickness = new Thickness(0.5, cell.BorderThickness.Top, 0.25, cell.BorderThickness.Bottom);
+            else if (j == 6)
+                cell.BorderThickness = new Thickness(0.25, cell.BorderThickness.Top, 0.5, cell.BorderThickness.Bottom);
+            else
+                cell.BorderThickness = new Thickness(0.25, cell.BorderThickness.Top, 0.25, cell.BorderThickness.Bottom);
+        }
+
+        private void setupLabels()
+        {
+            MonthLabel.Text = getMonthName(Manager.CurrentMonth);
+            YearLabel.Text = $"{Manager.CurrentYear}.";
+            Focus();
+        }
+
         #endregion
 
         #region App Logic related
@@ -268,6 +302,7 @@ namespace iQCalendarClient
 
         #region Click events
 
+        // load static event handlers
         private void loadClickEventHandlers()
         {
             PrevMonthButton.Click += PrevMonth_Click;
@@ -278,55 +313,53 @@ namespace iQCalendarClient
             EditEventButton.Click += EditEventButton_Click;
         }
 
+        // calendar cell handlers
+        private void CalendarCell_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void CalendarCell_DoubleClick(object sender, EventArgs e)
+        {
+
+        }
+
+        // static button handlers
         private void PrevMonth_Click(object sender, EventArgs e)
         {
             Manager.CurrentMonth--;
-            MonthLabel.Text = getMonthName(Manager.CurrentMonth);
-            YearLabel.Text = $"{Manager.CurrentYear}.";
+            setupLabels();
             setupCalendarCells();
-            Focus();
         }
         private void NextMonth_Click(object sender, EventArgs e)
         {
             Manager.CurrentMonth++;
-            MonthLabel.Text = getMonthName(Manager.CurrentMonth);
-            YearLabel.Text = $"{Manager.CurrentYear}.";
+            setupLabels();
             setupCalendarCells();
-            Focus();
         }
         private void PrevYear_Click(object sender, RoutedEventArgs e)
         {
             Manager.CurrentYear--;
-            YearLabel.Text = $"{Manager.CurrentYear}.";
+            setupLabels();
             setupCalendarCells();
-            Focus();
         }
         private void NextYear_Click(object sender, RoutedEventArgs e)
         {
             Manager.CurrentYear++;
-            YearLabel.Text = $"{Manager.CurrentYear}.";
+            setupLabels();
             setupCalendarCells();
-            Focus();
         }
 
         private void AddEventButton_Click(object sender, RoutedEventArgs e) 
         {
-            double width = ParentGrid.DesiredSize.Width;
-            double height = ParentGrid.DesiredSize.Height;
-            EventViewWindow eventViewWindow1 = new EventViewWindow(width, height);
-            eventViewWindow1.Owner = this;            
-            eventViewWindow1.ShowDialog();
+            EventViewWindow eventViewWindow = new EventViewWindow(this);
+            eventViewWindow.ShowDialog();
         }
         private void EditEventButton_Click(object sender, RoutedEventArgs e) 
         {
-            double width = ParentGrid.DesiredSize.Width;
-            double height = ParentGrid.DesiredSize.Height;
-            EventViewWindow eventViewWindow1 = new EventViewWindow(width, height);
-            eventViewWindow1.Owner = this;
-            eventViewWindow1.ShowDialog();
+            EventViewWindow eventViewWindow = new EventViewWindow(this);
+            eventViewWindow.ShowDialog();
         }
 
-        
         #endregion
 
         #region Search UI Events
@@ -383,33 +416,6 @@ namespace iQCalendarClient
                 default:
                     return "Invalid Month";
             }
-        }
-
-        /// <summary>
-        /// Sets the cell borders to black and generates their thickness to 0.25 each.
-        /// Left, right, top and bottom rows have their edge borders set to 0.5.
-        /// </summary>
-        /// <param name="i">Row parameter</param>
-        /// <param name="j">Column parameter</param>
-        private void setCellBorders(int i, int j)
-        {
-            Border cell = Cells[i, j].Border;
-            cell.BorderThickness = new Thickness(0.25);
-            cell.BorderBrush = Brushes.Black;
-
-            if (i == 0)
-                cell.BorderThickness = new Thickness(0.25, 0.5, 0.25, 0.25);
-            else if (i == 5)
-                cell.BorderThickness = new Thickness(0.25, 0.25, 0.25, 0.5);
-            else
-                cell.BorderThickness = new Thickness(0.25);
-
-            if (j == 0)
-                cell.BorderThickness = new Thickness(0.5, cell.BorderThickness.Top, 0.25, cell.BorderThickness.Bottom);
-            else if (j == 6)
-                cell.BorderThickness = new Thickness(0.25, cell.BorderThickness.Top, 0.5, cell.BorderThickness.Bottom);
-            else
-                cell.BorderThickness = new Thickness(0.25, cell.BorderThickness.Top, 0.25, cell.BorderThickness.Bottom);
         }
 
         /// <summary>
@@ -480,6 +486,11 @@ namespace iQCalendarClient
                 default:
                     return date;
             }
+        }
+
+        private void showMsgBoxError(string message)
+        {
+            MessageBox.Show(this, message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         #endregion
