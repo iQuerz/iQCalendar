@@ -1,8 +1,9 @@
 {
   "DefaultLanguage": "SRB",
   "DateTimeFormat": "dd-MMM-yyyy",
-  "AccountID": "",
-  "CachedPassword": "",
-  "ServerIP": "",
-  "ServerPort": ""
+  "AccountID": "1",
+  "CachedUsername": "ExampleAccount",
+  "CachedPassword": "admin",
+  "ServerIP": "localhost",
+  "ServerPort": "44389"
 }

@@ -1,5 +1,6 @@
-﻿using Newtonsoft.Json;
-using System.IO;
+﻿using System.IO;
+
+using Newtonsoft.Json;
 
 namespace iQCalendarClient.Business
 {
@@ -8,6 +9,7 @@ namespace iQCalendarClient.Business
         public string DefaultLanguage { get; set; }
         public string DateTimeFormat { get; set; }
         public int? AccountID { get; set; }
+        public string CachedUsername { get; set; }
         public string CachedPassword { get; set; }
         public string ServerIP { get; set; }
         public string ServerPort { get; set; }
@@ -20,6 +22,7 @@ namespace iQCalendarClient.Business
             DefaultLanguage = settings.DefaultLanguage;
             DateTimeFormat = settings.DateTimeFormat;
             AccountID = settings.AccountID;
+            CachedUsername = settings.CachedUsername;
             CachedPassword = settings.CachedPassword;
             ServerIP = settings.ServerIP;
             ServerPort = settings.ServerPort;
