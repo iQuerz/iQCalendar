@@ -22,7 +22,7 @@ namespace ServerAPI.Exceptions
             log += "\n";
             log += StackTrace;
 
-            File.WriteAllText($"Logs/{DateTime.Now}-{StatusCode}.log", log);
+            File.WriteAllText($"ExceptionLogs/{DateTime.Now}-{StatusCode}.log", log);
         }
     }
 }
