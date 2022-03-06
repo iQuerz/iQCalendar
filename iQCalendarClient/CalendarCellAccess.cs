@@ -13,5 +13,6 @@ namespace iQCalendarClient
         public TextBlock Date { get; set; }
         public TextBlock Event { get; set; }
         public CheckBox CheckBox { get; set; }
+        public int eventIndex { get; set; }
     }
 }

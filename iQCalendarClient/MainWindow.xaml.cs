@@ -25,7 +25,9 @@ namespace iQCalendarClient
     /// </summary>
     public partial class MainWindow : Window
     {
+
         CalendarCellAccess[,] Cells;
+        private CalendarCellAccess ActiveCell;
         readonly Manager Manager;
         readonly WindowSettings windowSettings;
 
@@ -43,7 +45,8 @@ namespace iQCalendarClient
             Closing += Window_Closing;
 
             //clicks
-            loadClickEventHandlers();
+            loadStaticClickEventHandlers();
+            loadCalendarCellClickEventHandlers();
 
             // ubij me ne znam
             //SearchTextBox.MouseDoubleClick += SearchBox_GotFocus;
@@ -58,9 +61,12 @@ namespace iQCalendarClient
         private async void Window_Loaded(object sender, EventArgs e)
         {
             Cells = getCellMatrix();
+            Cursor = Cursors.Wait; // need a better solution (semi-transparent "loading" window over the existing one)
 
             try { await Manager.loadEventsAsync(); }
             catch (Exception ex) { showMsgBoxError(ex.Message); }
+
+            Cursor = Cursors.Arrow;
 
             setupLabels();
             setupCalendarCells();
@@ -108,6 +114,7 @@ namespace iQCalendarClient
             }
             windowSettings.Save();
         }
+
         #endregion
 
         #region Calendar cells - style related
@@ -123,29 +130,24 @@ namespace iQCalendarClient
             int startJ2 = startJ1 - 1;
             if (startJ2 < 0) { startJ2 = 6; startI2--; }
 
-            int tmpYear, tmpMonth;
-            tmpYear = Manager.CurrentYear;
-            tmpMonth = Manager.CurrentMonth - 1;
+            int tmpYear = Manager.CurrentYear;
+            int tmpMonth = Manager.CurrentMonth - 1;
             if (Manager.CurrentMonth == 1)
             {
                 tmpMonth = 12;
                 tmpYear--;
             }
             int daysInLastMonth = DateTime.DaysInMonth(tmpYear, tmpMonth);
-
-            Brush b = Brushes.LightGray;
             int counter = daysInLastMonth;
+            Brush b = Brushes.LightGray;
 
             for (int i = startI2; i >= 0; i--) 
             {
                 if (i < startI2) startJ2 = 6;
                 for(int j = startJ2; j >= 0; j--) 
                 {
-                    Cells[i, j].Date.Text = $"{counter--}.";
-                    Cells[i, j].Border.Background = b;
-                    Cells[i, j].Event.Text = "";
-                    setCellBorders(i, j);
-                    Cells[i, j].Border.ToolTip = null;
+                    setupCalendarCell(Cells[i, j], b, "", null, $"{counter--}.");
+                    setCellBorders(Cells[i,j]);
                 }
             }
 
@@ -164,11 +166,9 @@ namespace iQCalendarClient
 
                 for (int j = startJ1; j < 7; j++)
                 {
-                    Cells[i, j].Date.Text = $"{counter}.";
-                    Cells[i, j].Border.Background = b;
-                    Cells[i, j].Event.Text = "";
-                    setCellBorders(i, j);
-                    Cells[i, j].Border.ToolTip = null;
+                    setupCalendarCell(Cells[i, j], b, "", null, $"{counter}.");
+                    setCellBorders(Cells[i,j]);
+
                     if (counter++ == daysInMonth)
                     {
                         counter = 1;
@@ -181,7 +181,9 @@ namespace iQCalendarClient
 
             highlightCurrentDay();
             showEventsOnCalendar();
+            ActiveCell = null;
         }
+
         private void highlightCurrentDay()
         {
             DateTime now = DateTime.Now;
@@ -201,38 +203,57 @@ namespace iQCalendarClient
             }
         }
 
+
         /// <summary>
         /// Sets the cell borders to black and generates their thickness to 0.25 each.
         /// Left, right, top and bottom rows have their edge borders set to 0.5.
         /// </summary>
         /// <param name="i">Row parameter</param>
         /// <param name="j">Column parameter</param>
-        private void setCellBorders(int i, int j)
+        private void setCellBorders(CalendarCellAccess cell)
         {
-            Border cell = Cells[i, j].Border;
-            cell.BorderThickness = new Thickness(0.25);
-            cell.BorderBrush = Brushes.Black;
+            Border border = cell.Border;
+            int i = Grid.GetRow(border);
+            int j = Grid.GetColumn(border);
+
+            border.BorderThickness = new Thickness(0.25);
+            border.BorderBrush = Brushes.Black;
 
             if (i == 0)
-                cell.BorderThickness = new Thickness(0.25, 0.5, 0.25, 0.25);
+                border.BorderThickness = new Thickness(0.25, 0.5, 0.25, 0.25);
             else if (i == 5)
-                cell.BorderThickness = new Thickness(0.25, 0.25, 0.25, 0.5);
+                border.BorderThickness = new Thickness(0.25, 0.25, 0.25, 0.5);
             else
-                cell.BorderThickness = new Thickness(0.25);
+                border.BorderThickness = new Thickness(0.25);
 
             if (j == 0)
-                cell.BorderThickness = new Thickness(0.5, cell.BorderThickness.Top, 0.25, cell.BorderThickness.Bottom);
+                border.BorderThickness = new Thickness(0.5, border.BorderThickness.Top, 0.25, border.BorderThickness.Bottom);
             else if (j == 6)
-                cell.BorderThickness = new Thickness(0.25, cell.BorderThickness.Top, 0.5, cell.BorderThickness.Bottom);
+                border.BorderThickness = new Thickness(0.25, border.BorderThickness.Top, 0.5, border.BorderThickness.Bottom);
             else
-                cell.BorderThickness = new Thickness(0.25, cell.BorderThickness.Top, 0.25, cell.BorderThickness.Bottom);
+                border.BorderThickness = new Thickness(0.25, border.BorderThickness.Top, 0.25, border.BorderThickness.Bottom);
         }
 
+
+        /// <summary>
+        /// Sets the <see cref="MonthLabel"/> and <see cref="YearLabel"/> to their correct values.
+        /// </summary>
         private void setupLabels()
         {
             MonthLabel.Text = getMonthName(Manager.CurrentMonth);
             YearLabel.Text = $"{Manager.CurrentYear}.";
             Focus();
+        }
+
+
+        private void setupCalendarCell(CalendarCellAccess cell, Brush background, string eventText = "", string tooltip = null, string dateText = "", int index = -1)
+        {
+            cell.Date.Text = dateText;
+            cell.Date.FontWeight = FontWeights.Normal;
+            cell.Event.Text = eventText;
+            cell.Border.Background = background;
+            cell.Border.ToolTip = tooltip;
+            cell.eventIndex = index;
         }
 
         #endregion
@@ -302,8 +323,8 @@ namespace iQCalendarClient
 
         #region Click events
 
-        // load static event handlers
-        private void loadClickEventHandlers()
+        // event handler loaders
+        private void loadStaticClickEventHandlers()
         {
             PrevMonthButton.Click += PrevMonth_Click;
             NextMonthButton.Click += NextMonth_Click;
@@ -312,15 +333,51 @@ namespace iQCalendarClient
             AddEventButton.Click += AddEventButton_Click;
             EditEventButton.Click += EditEventButton_Click;
         }
+        private void loadCalendarCellClickEventHandlers()
+        {
+            foreach(var child in CalendarGrid.Children)
+            {
+                Border b = (Border)child;
+                b.PreviewMouseDown += CalendarCell_Click;
+            }
+        }
+
 
         // calendar cell handlers
-        private void CalendarCell_Click(object sender, EventArgs e)
-        {
+        private void CalendarCell_Click(object sender, MouseEventArgs e)
+        {//marks the cell as "active".
+            Border b = (Border)sender;
 
-        }
-        private void CalendarCell_DoubleClick(object sender, EventArgs e)
-        {
+            int i = Grid.GetRow(b);
+            int j = Grid.GetColumn(b);
 
+            if (Cells[i, j].Border.Background == Brushes.LightGray)
+                return; // return if the user clicked outside of current month cells
+
+            if (ActiveCell != null)
+            {
+                if (ActiveCell == Cells[i, j]) // if we click on a selected cell
+                {
+                    DateTime selectedDate = new DateTime(Manager.CurrentYear, Manager.CurrentMonth, Convert.ToInt32(ActiveCell.Date.Text.Trim('.')));
+                    if (ActiveCell.eventIndex == -1) // -1 means it's empty
+                    {// create new event if the user clicked on an empty cell
+                        EventViewWindow newEventWindow = new EventViewWindow(this, selectedDate);
+                        newEventWindow.ShowDialog();
+                    }
+                    else
+                    {// edit existing event if the user clicked on a populated cell
+                        EventViewWindow editEventWindow = new EventViewWindow(this, selectedDate, Manager.Events[ActiveCell.eventIndex]);
+                        editEventWindow.ShowDialog();
+                    }
+                    return;
+                }
+                setCellBorders(ActiveCell); //bring back to default
+                highlightCurrentDay();
+            }
+
+            ActiveCell = Cells[i, j];
+            ActiveCell.Border.BorderBrush = Brushes.Green;
+            ActiveCell.Border.BorderThickness = new Thickness(3);
         }
 
         // static button handlers
@@ -349,14 +406,14 @@ namespace iQCalendarClient
             setupCalendarCells();
         }
 
-        private void AddEventButton_Click(object sender, RoutedEventArgs e) 
+        private void AddEventButton_Click(object sender, RoutedEventArgs e)
         {
-            EventViewWindow eventViewWindow = new EventViewWindow(this);
+            var eventViewWindow = new EventViewWindow(this, DateTime.Now);
             eventViewWindow.ShowDialog();
         }
-        private void EditEventButton_Click(object sender, RoutedEventArgs e) 
+        private void EditEventButton_Click(object sender, RoutedEventArgs e)
         {
-            EventViewWindow eventViewWindow = new EventViewWindow(this);
+            var eventViewWindow = new EventViewWindow(this, DateTime.Now);
             eventViewWindow.ShowDialog();
         }
 
@@ -366,10 +423,7 @@ namespace iQCalendarClient
 
         private void SearchBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            if(SearchTextBox.Text == "Pretrazi...")
-            {
-                SearchTextBox.Text = "";
-            }
+            
         }
         private void SearchBox_LostFocus(object sender, RoutedEventArgs e)
         {

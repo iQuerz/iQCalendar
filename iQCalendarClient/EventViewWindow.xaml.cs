@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iQCalendarClient.Business.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,7 @@ namespace iQCalendarClient
     /// </summary>
     public partial class EventViewWindow : Window
     {
-        public EventViewWindow(MainWindow main)
+        public EventViewWindow(MainWindow main, DateTime date, Event @event = null)
         {
             InitializeComponent();
             Owner = main;
@@ -27,6 +28,15 @@ namespace iQCalendarClient
             Height = main.ParentGrid.DesiredSize.Height;
 
             CloseButton.Click += CloseButton_Click;
+        }
+
+        private void setupWindow(Event e, DateTime date)
+        {
+            EventDatePicker.SelectedDate = date;
+
+            if (e == null)
+                return;
+            
         }
 
         public void CloseButton_Click(object sender, EventArgs e) 

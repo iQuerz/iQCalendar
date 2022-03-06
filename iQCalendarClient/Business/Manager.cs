@@ -31,12 +31,10 @@ namespace iQCalendarClient.Business
         /// </summary>
         public ClientSettings Settings { get; set; }
 
-
         /// <summary>
         /// Represents the year that Manager is currently working with.
         /// </summary>
         public int CurrentYear { get; set; }
-
 
         /// <summary>
         /// Represents the month that Manager is currently working with.
@@ -52,10 +50,7 @@ namespace iQCalendarClient.Business
             }
         }
 
-        private string apiUrl
-        {
-            get { return $"https://{Settings.ServerIP}:{Settings.ServerPort}/"; }
-        }
+        private string apiUrl => $"https://{Settings.ServerIP}:{Settings.ServerPort}/";
 
         #endregion
 
