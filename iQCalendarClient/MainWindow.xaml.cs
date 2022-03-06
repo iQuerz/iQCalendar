@@ -1,4 +1,5 @@
 ﻿using iQCalendarClient.Business;
+using iQCalendarClient.Business.Models.Types;
 using iQCalendarClient.Properties;
 using Newtonsoft.Json;
 using System;
@@ -25,7 +26,6 @@ namespace iQCalendarClient
     public partial class MainWindow : Window
     {
         CalendarCellAccess[,] Cells;
-        ClientSettings Settings;
         Manager Manager;
         WindowSettings windowSettings;
 
@@ -35,7 +35,6 @@ namespace iQCalendarClient
             //startup
             InitializeComponent();
             windowSettings = WindowSettings.Default;
-            Settings = new ClientSettings();
             loadWindowState();
 
             //some base stuff
@@ -56,13 +55,11 @@ namespace iQCalendarClient
         }
 
         #region App load & App close related
-        private void Window_Loaded(object sender, EventArgs e)
+        private async void Window_Loaded(object sender, EventArgs e)
         {
-            Settings.loadSettings();
-
             Cells = getCellMatrix();
 
-            Manager.loadTestData();
+            await Manager.loadEventsAsync();
 
             MonthLabel.Text = getMonthName(Manager.CurrentMonth);
             YearLabel.Text = $"{Manager.CurrentYear}.";
@@ -146,6 +143,7 @@ namespace iQCalendarClient
                 {
                     Cells[i, j].Date.Text = $"{counter--}.";
                     Cells[i, j].Border.Background = b;
+                    Cells[i, j].Event.Text = "";
                     setCellBorders(i, j);
                     Cells[i, j].Border.ToolTip = null;
                 }
@@ -168,6 +166,7 @@ namespace iQCalendarClient
                 {
                     Cells[i, j].Date.Text = $"{counter}.";
                     Cells[i, j].Border.Background = b;
+                    Cells[i, j].Event.Text = "";
                     setCellBorders(i, j);
                     Cells[i, j].Border.ToolTip = null;
                     if (counter++ == daysInMonth)
@@ -213,75 +212,27 @@ namespace iQCalendarClient
             for (int i = 0; i < Manager.Events.Count; i++)
             {
                 int day = Manager.Events[i].Date.Day;
-                int column = (startJ + day - 1) % 7 ;
+                int column = (startJ + day - 1) % 7;
                 int row = (startI + day) / 7;
                 Cells[row, column].Event.Text = Manager.Events[i].Name;
-            }
-            // srecno :D
-            // pravi pomocne funkcije odmah ispod ove ako ti trebaju slobodno...
-            // koristi postojece pomocne funkcije ako ti trebaju slobodno xD npr ono za startI i startJ idk, one su sve dole u Helper Functions
-        }
 
-
-        private void addingTextEventToCells()
-        {
-            int startI, startJ, i;
-            int e_i, e_j;
-            int p1, p2;
-            i = 0;
-            int counter = 0;
-            getStartCoords(out startI, out startJ);
-
-
-            for (i = 0; i < Manager.Events.Count; i++)
-            {
-                for (int k = 0; k < Manager.Events[i].Date.Day; k++)
+                // apply 
+                if(Manager.Events[i].RecurringType != RecurringType.NonRecurring)
                 {
-                    //Manager.CurrentMonth == Manager.Events[i].Date.Month &&  
-                    if (++counter==Manager.Events[i].Date.Day)
+                    DateTime currentDate = Manager.Events[i].Date;
+                    while(currentDate.Month == Manager.CurrentMonth)
                     {
-                        
-                        counter = Manager.Events[i].Date.Day - 1;
-                        if (startJ + counter < 7)
-                        {
-                            e_i = startI;
-                            e_j = startJ + counter;
-                            Cells[e_i, e_j].Event.Text = Manager.Events[i].Name;
+                        day = currentDate.Day;
+                        column = (startJ + day - 1) % 7;
+                        row = (startI + day) / 7;
+                        Cells[row, column].Event.Text = Manager.Events[i].Name;
 
-                        }
-                        else
-                        {
-                            p1 = (counter + startJ) / 7;
-                            p2 = (counter + startJ) % 7;
-                            e_i = startI + p2;
-                            e_j = p1;
-                            Cells[e_i, e_j].Event.Text = Manager.Events[i].Name;
-                        }
-
+                        currentDate = getNextDateFromRecurringType(currentDate, Manager.Events[i].RecurringType);
                     }
-
                 }
             }
-        }
-
-        /*i,j,shift; i i j su startI i startJ
-     end_i,end_j;
-     shift = end_date - start_date; start date je 1 , a end date je Manager.Events[i].Date.Day
-                    if(j + shift < 7){
-            end_i = i;
-            end_j = j + shift;
-
-        } 
-        else{
-            p1 = (shift+j)/7;
-            p2 = (shift+j)%7;
-            end_i = i + p2;
-            end_j = p1;
-
 
         }
-
-     */
 
         private CalendarCellAccess[,] getCellMatrix()
         {
@@ -505,6 +456,29 @@ namespace iQCalendarClient
                 default:
                     StartJ = 0;
                     break;
+            }
+        }
+
+        /// <summary>
+        /// Finds the next date repetition in regards to its RecurringType
+        /// </summary>
+        /// <param name="date">Date from which to calculate.</param>
+        /// <param name="recurringType">RecurringType used for calculation.</param>
+        /// <returns>The next date calculated if RecurringType is above 0. Returns the same date otherwise</returns>
+        static DateTime getNextDateFromRecurringType(DateTime date, RecurringType recurringType)
+        {
+            switch (recurringType)
+            {
+                case RecurringType.Daily:
+                    return date.AddDays(1);
+                case RecurringType.Weekly:
+                    return date.AddDays(7);
+                case RecurringType.Monthly:
+                    return date.AddMonths(1);
+                case RecurringType.Yearly:
+                    return date.AddYears(1);
+                default:
+                    return date;
             }
         }
 
