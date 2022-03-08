@@ -84,7 +84,7 @@ namespace iQCalendarClient.Business
                 Date = DateTime.Now.AddDays(3),
                 Color = "Yellow",
                 Finished = false,
-                RecurringType = Models.Types.RecurringType.Weekly
+                RecurringType = RecurringType.NonRecurring
             });
             Events.Add(new Event
             {
@@ -95,7 +95,7 @@ namespace iQCalendarClient.Business
                 Date = DateTime.Now.AddDays(5),
                 Color = "Green",
                 Finished = false,
-                RecurringType = Models.Types.RecurringType.NonRecurring
+                RecurringType = RecurringType.NonRecurring
             });
             Events.Add(new Event
             {
@@ -106,7 +106,18 @@ namespace iQCalendarClient.Business
                 Date = DateTime.Now.AddDays(12),
                 Color = "Red",
                 Finished = true,
-                RecurringType = Models.Types.RecurringType.Monthly
+                RecurringType = RecurringType.Monthly
+            });
+            Events.Add(new Event
+            {
+                EventID = 4,
+                AccountID = 1,
+                Name = "Overflow test",
+                Description = "wtf",
+                Date = DateTime.Now.AddDays(12),
+                Color = "Red",
+                Finished = true,
+                RecurringType = RecurringType.Monthly
             });
 
             Account = new Account

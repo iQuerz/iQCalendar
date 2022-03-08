@@ -63,8 +63,9 @@ namespace iQCalendarClient
             Cells = getCellMatrix();
             Cursor = Cursors.Wait; // need a better solution (semi-transparent "loading" window over the existing one)
 
-            try { await Manager.loadEventsAsync(); }
-            catch (Exception ex) { showMsgBoxError(ex.Message); }
+            Manager.loadTestData();
+            //try { await Manager.loadEventsAsync(); }
+            //catch (Exception ex) { showMsgBoxError(ex.Message); }
 
             Cursor = Cursors.Arrow;
 
@@ -120,6 +121,8 @@ namespace iQCalendarClient
         #region Calendar cells - style related
         private void setupCalendarCells()
         {//POPUNJAVANJE KALENDARA IQ200 PALI GASARA NA MAKSARU
+
+            cleanupEvents();
 
             int startI1, startJ1;
             getStartCoords(out startI1, out startJ1);
@@ -198,7 +201,7 @@ namespace iQCalendarClient
                 int nowColumn = startJ + (now.Day % 7) - 1; //   (」゜ロ゜)」✞  pls da radis
                 Cells[nowRow, nowColumn].Border.BorderBrush = Brushes.Orange;
                 Cells[nowRow, nowColumn].Border.BorderThickness = new Thickness(3);
-                Cells[nowRow, nowColumn].Date.FontWeight = FontWeights.Bold;
+                Cells[nowRow, nowColumn].DateText.FontWeight = FontWeights.Bold;
                 Cells[nowRow, nowColumn].Border.ToolTip = "Današnji Dan";
             }
         }
@@ -246,19 +249,19 @@ namespace iQCalendarClient
         }
 
 
-        private void setupCalendarCell(CalendarCellAccess cell, Brush background, string eventText = "", string tooltip = null, string dateText = "", int index = -1)
+        private void setupCalendarCell(CalendarCellAccess cell, Brush background, string eventText = "", string tooltip = null, string dateText = "")
         {
-            cell.Date.Text = dateText;
-            cell.Date.FontWeight = FontWeights.Normal;
-            cell.Event.Text = eventText;
+            cell.DateText.Text = dateText;
+            cell.DateText.FontWeight = FontWeights.Normal;
+            cell.EventText.Text = eventText;
             cell.Border.Background = background;
             cell.Border.ToolTip = tooltip;
-            cell.eventIndex = index;
         }
 
         #endregion
 
         #region App Logic related
+
         private void showEventsOnCalendar()
         {
             int startI, startJ;
@@ -269,24 +272,22 @@ namespace iQCalendarClient
                 int day = Manager.Events[i].Date.Day;
                 int column = (startJ + day - 1) % 7;
                 int row = (startI + day) / 7;
-                Cells[row, column].Event.Text = Manager.Events[i].Name;
+                Cells[row,column].AddEvent(Manager.Events[i]);
 
-                // apply 
-                if(Manager.Events[i].RecurringType != RecurringType.NonRecurring)
+                if (Manager.Events[i].RecurringType != RecurringType.NonRecurring)
                 {
-                    DateTime currentDate = Manager.Events[i].Date;
-                    while(currentDate.Month == Manager.CurrentMonth)
+                    DateTime currentDate = getNextDateFromRecurringType(Manager.Events[i].Date, Manager.Events[i].RecurringType);
+                    while (currentDate.Month <= Manager.CurrentMonth)
                     {
                         day = currentDate.Day;
                         column = (startJ + day - 1) % 7;
                         row = (startI + day) / 7;
-                        Cells[row, column].Event.Text = Manager.Events[i].Name;
+                        Cells[row, column].AddEvent(Manager.Events[i]);
 
                         currentDate = getNextDateFromRecurringType(currentDate, Manager.Events[i].RecurringType);
                     }
                 }
             }
-
         }
 
         private CalendarCellAccess[,] getCellMatrix()
@@ -306,11 +307,12 @@ namespace iQCalendarClient
                 var gChildren = g.Children;
 
                 cells[i, j].Border = b;
-                cells[i, j].Date = (TextBlock)((Viewbox)gChildren[0]).Child;
-                cells[i, j].Event = (TextBlock)((Viewbox)gChildren[1]).Child;
-                cells[i, j].CheckBox = (CheckBox)((Viewbox)gChildren[2]).Child;
-
-                cells[i, j].Event.Text = string.Empty;
+                cells[i, j].DateText = (TextBlock)((Viewbox)gChildren[0]).Child;
+                cells[i, j].OverflowText = (TextBlock)((Viewbox)gChildren[1]).Child;
+                cells[i, j].OverflowText.Text = "";
+                cells[i, j].EventText = (TextBlock)((Viewbox)gChildren[2]).Child;
+                cells[i, j].EventText.Text = string.Empty;
+                cells[i, j].CheckBox = (CheckBox)((Viewbox)gChildren[3]).Child;
 
                 i++;
                 if (i >= 6) { i = 0; j++; }
@@ -339,12 +341,13 @@ namespace iQCalendarClient
             {
                 Border b = (Border)child;
                 b.PreviewMouseDown += CalendarCell_Click;
+                b.PreviewMouseWheel += CalendarCell_Scroll;
             }
         }
 
 
         // calendar cell handlers
-        private void CalendarCell_Click(object sender, MouseEventArgs e)
+        private void CalendarCell_Click(object sender, MouseButtonEventArgs e)
         {//marks the cell as "active".
             Border b = (Border)sender;
 
@@ -354,30 +357,62 @@ namespace iQCalendarClient
             if (Cells[i, j].Border.Background == Brushes.LightGray)
                 return; // return if the user clicked outside of current month cells
 
-            if (ActiveCell != null)
+            if (e.LeftButton == MouseButtonState.Pressed) //left btn
             {
-                if (ActiveCell == Cells[i, j]) // if we click on a selected cell
+                if (ActiveCell == Cells[i, j]) //second click
                 {
-                    DateTime selectedDate = new DateTime(Manager.CurrentYear, Manager.CurrentMonth, Convert.ToInt32(ActiveCell.Date.Text.Trim('.')));
-                    if (ActiveCell.eventIndex == -1) // -1 means it's empty
-                    {// create new event if the user clicked on an empty cell
+                    DateTime selectedDate = new DateTime(Manager.CurrentYear, Manager.CurrentMonth, Convert.ToInt32(ActiveCell.DateText.Text.Trim('.')));
+                    if (ActiveCell.ActiveIndex == -1) //cell is empty
+                    {
                         EventViewWindow newEventWindow = new EventViewWindow(this, selectedDate);
                         newEventWindow.ShowDialog();
                     }
-                    else
-                    {// edit existing event if the user clicked on a populated cell
-                        EventViewWindow editEventWindow = new EventViewWindow(this, selectedDate, Manager.Events[ActiveCell.eventIndex]);
+                    else //cell has an event
+                    {
+                        EventViewWindow editEventWindow = new EventViewWindow(this, selectedDate, Manager.Events[ActiveCell.ActiveIndex]);
                         editEventWindow.ShowDialog();
                     }
-                    return;
                 }
+                else
+                { //first click
+                    if (ActiveCell != null)
+                    {
+                        setCellBorders(ActiveCell);
+                        highlightCurrentDay();
+                    }
+
+                    ActiveCell = Cells[i, j];
+                    ActiveCell.Border.BorderBrush = Brushes.Green;
+                    ActiveCell.Border.BorderThickness = new Thickness(3);
+                }
+            }
+            else if(e.RightButton == MouseButtonState.Pressed)
+            {
+                if (ActiveCell == null)
+                    return;
+
+                if (ActiveCell != Cells[i, j])
+                    return;
+
                 setCellBorders(ActiveCell); //bring back to default
                 highlightCurrentDay();
+                ActiveCell = null;
             }
+        }
+        private void CalendarCell_Scroll(object sender, MouseWheelEventArgs e)
+        {
+            Border b = (Border)sender;
 
-            ActiveCell = Cells[i, j];
-            ActiveCell.Border.BorderBrush = Brushes.Green;
-            ActiveCell.Border.BorderThickness = new Thickness(3);
+            int i = Grid.GetRow(b);
+            int j = Grid.GetColumn(b);
+
+            if (Cells[i, j].Border.Background == Brushes.LightGray)
+                return; // return if the user clicked outside of current month cells
+
+            if (Cells[i, j].Events.Count < 2)
+                return;
+
+            Cells[i, j].ActiveIndex++;
         }
 
         // static button handlers
@@ -408,12 +443,23 @@ namespace iQCalendarClient
 
         private void AddEventButton_Click(object sender, RoutedEventArgs e)
         {
-            var eventViewWindow = new EventViewWindow(this, DateTime.Now);
+            var date = DateTime.Now;
+            if (ActiveCell != null)
+                date = new(Manager.CurrentYear, Manager.CurrentMonth, ActiveCell.Day);
+
+            var eventViewWindow = new EventViewWindow(this, date);
             eventViewWindow.ShowDialog();
         }
         private void EditEventButton_Click(object sender, RoutedEventArgs e)
         {
-            var eventViewWindow = new EventViewWindow(this, DateTime.Now);
+            if (ActiveCell == null)
+                return;
+
+            if (ActiveCell.Events.Count < 1)
+                return;
+
+            var date = new DateTime(Manager.CurrentYear, Manager.CurrentMonth, ActiveCell.Day);
+            var eventViewWindow = new EventViewWindow(this, date, ActiveCell.Events[ActiveCell.ActiveIndex]);
             eventViewWindow.ShowDialog();
         }
 
@@ -545,6 +591,14 @@ namespace iQCalendarClient
         private void showMsgBoxError(string message)
         {
             MessageBox.Show(this, message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void cleanupEvents()
+        {
+            foreach(var cell in Cells)
+            {
+                cell.ClearEvents();
+            }
         }
 
         #endregion

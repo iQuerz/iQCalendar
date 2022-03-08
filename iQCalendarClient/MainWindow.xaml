@@ -181,6 +181,11 @@
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                             Margin="2" Text="1."/>
                             </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
+                            </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -211,6 +216,11 @@
                             <Viewbox Grid.Row="0" Grid.Column="0">
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
                             </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
@@ -243,6 +253,11 @@
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
                             </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
+                            </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -273,6 +288,11 @@
                             <Viewbox Grid.Row="0" Grid.Column="0">
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
                             </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
@@ -305,6 +325,11 @@
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
                             </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
+                            </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -336,6 +361,11 @@
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
                             </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
+                            </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -347,6 +377,7 @@
                             </Viewbox>
                         </Grid>
                     </Border>
+                    
                     <!-- Tuesday -->
                     <Border Grid.Row="0" Grid.Column="1" 
                             Background="AliceBlue"
@@ -367,6 +398,11 @@
                             <Viewbox Grid.Row="0" Grid.Column="0">
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                             Margin="2" Text="1."/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
                             </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
@@ -399,6 +435,11 @@
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
                             </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
+                            </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -429,6 +470,11 @@
                             <Viewbox Grid.Row="0" Grid.Column="0">
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
                             </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
@@ -461,6 +507,11 @@
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
                             </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
+                            </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -491,6 +542,11 @@
                             <Viewbox Grid.Row="0" Grid.Column="0">
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
                             </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
@@ -523,6 +579,11 @@
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
                             </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
+                            </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -534,6 +595,7 @@
                             </Viewbox>
                         </Grid>
                     </Border>
+                    
                     <!-- Wednesday -->
                     <Border Grid.Row="0" Grid.Column="2" 
                             Background="AliceBlue"
@@ -554,6 +616,11 @@
                             <Viewbox Grid.Row="0" Grid.Column="0">
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                             Margin="2" Text="1."/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
                             </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
@@ -586,6 +653,11 @@
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
                             </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
+                            </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -616,6 +688,11 @@
                             <Viewbox Grid.Row="0" Grid.Column="0">
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
                             </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
@@ -648,6 +725,11 @@
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
                             </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
+                            </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -678,6 +760,11 @@
                             <Viewbox Grid.Row="0" Grid.Column="0">
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
                             </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
@@ -710,6 +797,11 @@
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
                             </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
+                            </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -721,6 +813,7 @@
                             </Viewbox>
                         </Grid>
                     </Border>
+                    
                     <!-- Thrusday -->
                     <Border Grid.Row="0" Grid.Column="3" 
                             Background="AliceBlue"
@@ -741,6 +834,11 @@
                             <Viewbox Grid.Row="0" Grid.Column="0">
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                             Margin="2" Text="1."/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
                             </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
@@ -773,6 +871,11 @@
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
                             </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
+                            </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -803,6 +906,11 @@
                             <Viewbox Grid.Row="0" Grid.Column="0">
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
                             </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
@@ -835,6 +943,11 @@
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
                             </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
+                            </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -865,6 +978,11 @@
                             <Viewbox Grid.Row="0" Grid.Column="0">
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
                             </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
@@ -897,6 +1015,11 @@
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
                             </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
+                            </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -908,6 +1031,7 @@
                             </Viewbox>
                         </Grid>
                     </Border>
+                    
                     <!-- Friday -->
                     <Border Grid.Row="0" Grid.Column="4" 
                             Background="AliceBlue"
@@ -928,6 +1052,11 @@
                             <Viewbox Grid.Row="0" Grid.Column="0">
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                             Margin="2" Text="1."/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
                             </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
@@ -960,6 +1089,11 @@
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
                             </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
+                            </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -990,6 +1124,11 @@
                             <Viewbox Grid.Row="0" Grid.Column="0">
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
                             </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
@@ -1022,6 +1161,11 @@
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
                             </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
+                            </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -1052,6 +1196,11 @@
                             <Viewbox Grid.Row="0" Grid.Column="0">
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
                             </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
@@ -1084,6 +1233,11 @@
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
                             </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
+                            </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -1095,6 +1249,7 @@
                             </Viewbox>
                         </Grid>
                     </Border>
+                    
                     <!-- Saturday -->
                     <Border Grid.Row="0" Grid.Column="5" 
                             Background="AliceBlue"
@@ -1115,6 +1270,11 @@
                             <Viewbox Grid.Row="0" Grid.Column="0">
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                             Margin="2" Text="1."/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
                             </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
@@ -1147,6 +1307,11 @@
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
                             </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
+                            </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -1177,6 +1342,11 @@
                             <Viewbox Grid.Row="0" Grid.Column="0">
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
                             </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
@@ -1209,6 +1379,11 @@
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
                             </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
+                            </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -1239,6 +1414,11 @@
                             <Viewbox Grid.Row="0" Grid.Column="0">
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
                             </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
@@ -1271,6 +1451,11 @@
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
                             </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
+                            </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -1282,6 +1467,7 @@
                             </Viewbox>
                         </Grid>
                     </Border>
+                    
                     <!-- Sunday -->
                     <Border Grid.Row="0" Grid.Column="6" 
                             Background="AliceBlue"
@@ -1302,6 +1488,11 @@
                             <Viewbox Grid.Row="0" Grid.Column="0">
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                             Margin="2" Text="1."/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
                             </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
@@ -1334,6 +1525,11 @@
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
                             </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
+                            </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -1364,6 +1560,11 @@
                             <Viewbox Grid.Row="0" Grid.Column="0">
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
                             </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
@@ -1396,6 +1597,11 @@
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
                             </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
+                            </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -1427,6 +1633,11 @@
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
                             </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
+                            </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -1457,6 +1668,11 @@
                             <Viewbox Grid.Row="0" Grid.Column="0">
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"
                                            Margin="2" Text="1."/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2">
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                           Margin="2" Text="+1" Foreground="Red"
+                                           FontWeight="Bold"/>
                             </Viewbox>
                             <Viewbox Grid.Row="1" Grid.Column="0"
                                      Grid.ColumnSpan="3" Margin="5">
