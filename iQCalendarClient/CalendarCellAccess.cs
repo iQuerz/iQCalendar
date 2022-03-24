@@ -1,10 +1,15 @@
 ﻿using iQCalendarClient.Business.Models;
 using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace iQCalendarClient
 {
+
+    /// <summary>
+    /// A class representing one calendar cell. Used primarily to work with data.
+    /// </summary>
     class CalendarCellAccess
     {
         public Border Border { get; set; }
@@ -55,6 +60,8 @@ namespace iQCalendarClient
         {
             Events.Add(e);
             ActiveIndex = Events.Count - 1;
+            CheckBox.Visibility = Visibility.Visible;
+            CheckBox.IsChecked = e.Finished;
 
             if (Events.Count > 1)
                 OverflowText.Text = $"+{Events.Count - 1}";
@@ -75,6 +82,7 @@ namespace iQCalendarClient
                 EventText.Text = "";
                 Events.RemoveAt(0);
                 _activeIndex = -1;
+                CheckBox.Visibility = Visibility.Hidden;
                 return;
             }
 
@@ -86,7 +94,22 @@ namespace iQCalendarClient
         public void ClearEvents()
         {
             Events.Clear();
+            CheckBox.Visibility = Visibility.Hidden;
         }
 
+        /// <summary>
+        /// Updates the cell look with its respective's active event data.
+        /// </summary>
+        public void loadCellData()
+        {
+            if (Events.Count > 0)
+            {
+                EventText.Text = Events[_activeIndex].Name.ToString();
+                CheckBox.IsChecked = Events[_activeIndex].Finished;
+            }
+            EventText.Text = string.Empty;
+            CheckBox.Visibility = Visibility.Hidden;
+            OverflowText.Text = string.Empty;
+        }
     }
 }

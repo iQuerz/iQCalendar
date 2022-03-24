@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -69,7 +70,7 @@ namespace iQCalendarClient
 
             Cursor = Cursors.Arrow;
 
-            setupLabels();
+            setupCalendarLabels();
             setupCalendarCells();
 
             Title = $"iQCalendar - {Manager.Account.Name}";
@@ -144,13 +145,13 @@ namespace iQCalendarClient
             int counter = daysInLastMonth;
             Brush b = Brushes.LightGray;
 
-            for (int i = startI2; i >= 0; i--) 
+            for (int i = startI2; i >= 0; i--)
             {
-                if (i < startI2) startJ2 = 6;
-                for(int j = startJ2; j >= 0; j--) 
+                if (i < startI2)
+                    startJ2 = 6;
+                for (int j = startJ2; j >= 0; j--)
                 {
-                    setupCalendarCell(Cells[i, j], b, "", null, $"{counter--}.");
-                    setCellBorders(Cells[i,j]);
+                    setupCalendarCell(Cells[i, j], b, $"{counter--}");
                 }
             }
 
@@ -169,8 +170,7 @@ namespace iQCalendarClient
 
                 for (int j = startJ1; j < 7; j++)
                 {
-                    setupCalendarCell(Cells[i, j], b, "", null, $"{counter}.");
-                    setCellBorders(Cells[i,j]);
+                    setupCalendarCell(Cells[i, j], b, $"{counter}.");
 
                     if (counter++ == daysInMonth)
                     {
@@ -241,7 +241,7 @@ namespace iQCalendarClient
         /// <summary>
         /// Sets the <see cref="MonthLabel"/> and <see cref="YearLabel"/> to their correct values.
         /// </summary>
-        private void setupLabels()
+        private void setupCalendarLabels()
         {
             MonthLabel.Text = getMonthName(Manager.CurrentMonth);
             YearLabel.Text = $"{Manager.CurrentYear}.";
@@ -249,13 +249,14 @@ namespace iQCalendarClient
         }
 
 
-        private void setupCalendarCell(CalendarCellAccess cell, Brush background, string eventText = "", string tooltip = null, string dateText = "")
+        private void setupCalendarCell(CalendarCellAccess cell, Brush background, string dateText = "")
         {
             cell.DateText.Text = dateText;
             cell.DateText.FontWeight = FontWeights.Normal;
-            cell.EventText.Text = eventText;
             cell.Border.Background = background;
-            cell.Border.ToolTip = tooltip;
+            cell.Border.ToolTip = null;
+            setCellBorders(cell);
+            cell.loadCellData();
         }
 
         #endregion
@@ -340,7 +341,8 @@ namespace iQCalendarClient
             foreach(var child in CalendarGrid.Children)
             {
                 Border b = (Border)child;
-                b.PreviewMouseDown += CalendarCell_Click;
+                b.MouseDown += CalendarCell_Click;
+                //b.PreviewMouseDown += CalendarCell_Click;
                 b.PreviewMouseWheel += CalendarCell_Scroll;
             }
         }
@@ -348,7 +350,7 @@ namespace iQCalendarClient
 
         // calendar cell handlers
         private void CalendarCell_Click(object sender, MouseButtonEventArgs e)
-        {//marks the cell as "active".
+        {//marks the cell as "active" on the first click, and opens add/edit window on the second click
             Border b = (Border)sender;
 
             int i = Grid.GetRow(b);
@@ -369,7 +371,7 @@ namespace iQCalendarClient
                     }
                     else //cell has an event
                     {
-                        EventViewWindow editEventWindow = new EventViewWindow(this, selectedDate, Manager.Events[ActiveCell.ActiveIndex]);
+                        EventViewWindow editEventWindow = new EventViewWindow(this, selectedDate, ActiveCell.Events[ActiveCell.ActiveIndex]);
                         editEventWindow.ShowDialog();
                     }
                 }
@@ -419,49 +421,53 @@ namespace iQCalendarClient
         private void PrevMonth_Click(object sender, EventArgs e)
         {
             Manager.CurrentMonth--;
-            setupLabels();
+            setupCalendarLabels();
             setupCalendarCells();
         }
         private void NextMonth_Click(object sender, EventArgs e)
         {
             Manager.CurrentMonth++;
-            setupLabels();
+            setupCalendarLabels();
             setupCalendarCells();
         }
         private void PrevYear_Click(object sender, RoutedEventArgs e)
         {
             Manager.CurrentYear--;
-            setupLabels();
+            setupCalendarLabels();
             setupCalendarCells();
         }
         private void NextYear_Click(object sender, RoutedEventArgs e)
         {
             Manager.CurrentYear++;
-            setupLabels();
+            setupCalendarLabels();
             setupCalendarCells();
         }
 
         private void AddEventButton_Click(object sender, RoutedEventArgs e)
         {
+            //dodaj admin proveru
+
             var date = DateTime.Now;
             if (ActiveCell != null)
                 date = new(Manager.CurrentYear, Manager.CurrentMonth, ActiveCell.Day);
 
+            //blur pozadina
             var eventViewWindow = new EventViewWindow(this, date);
             eventViewWindow.ShowDialog();
+            //unblur pozadina
         }
         private void EditEventButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ActiveCell == null)
-                return;
+            if (ActiveCell == null || ActiveCell.Events.Count < 1) //dodaj proveru za admina
+                return; //nekako obavestiti korisnika da nije moguce edit na prazno
 
-            if (ActiveCell.Events.Count < 1)
-                return;
-
+            //blur pozadina
             var date = new DateTime(Manager.CurrentYear, Manager.CurrentMonth, ActiveCell.Day);
             var eventViewWindow = new EventViewWindow(this, date, ActiveCell.Events[ActiveCell.ActiveIndex]);
             eventViewWindow.ShowDialog();
+            //unblur pozadina
         }
+
 
         #endregion
 
@@ -600,6 +606,8 @@ namespace iQCalendarClient
                 cell.ClearEvents();
             }
         }
+
+
 
         #endregion
 

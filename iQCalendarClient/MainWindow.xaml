@@ -14,13 +14,13 @@
         
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="15*"/>
-            <RowDefinition Height="3*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
 
         <Border Grid.Row="1" Grid.Column="1"
@@ -1734,52 +1734,57 @@
             <ListView/>
         </Viewbox>
         
-        <!-- Apply & Revert buttons-->
-        <Viewbox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
-                 HorizontalAlignment="Right">
-            <StackPanel Orientation="Horizontal"
+        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <!-- Apply & Revert buttons-->
+            <Viewbox Grid.Column="1" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right" VerticalAlignment="Center">
-                
-                <Button Content="Primeni izmene"
+
+                    <Button Content="Primeni izmene"
                         Margin="10" Padding="10"
                         Background="SlateGray" BorderBrush="Black" BorderThickness="1.5">
 
-                </Button>
+                    </Button>
 
-                <Button Content="Poništi izmene"
+                    <Button Content="Poništi izmene"
                         Margin="10" Padding="10"
                         Background="SlateGray" BorderBrush="Black" BorderThickness="1.5">
 
-                </Button>
-                
-            </StackPanel>
-        </Viewbox>
+                    </Button>
 
-        <!-- Add/Edit/Delete events-->
-        <Viewbox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
-                 HorizontalAlignment="Left">
-            <StackPanel Orientation="Horizontal" Margin="20">
-                
-                <Button x:Name="AddEventButton"
+                </StackPanel>
+            </Viewbox>
+
+            <!-- Add/Edit/Delete events-->
+            <Viewbox Grid.Column="0" HorizontalAlignment="Left">
+                <StackPanel Orientation="Horizontal" Margin="20">
+
+                    <Button x:Name="AddEventButton"
                         Background="Transparent" BorderBrush="Transparent"
                         Margin="20" ToolTip="Dodaj događaj">
-                    <Image Source="Resources/PlusSign.png"/>
-                </Button>
+                        <Image Source="Resources/PlusSign.png"/>
+                    </Button>
 
-                <Button x:Name="EditEventButton"
+                    <Button x:Name="EditEventButton"
                         Background="Transparent" BorderBrush="Transparent"
                         Margin="20" ToolTip="Izmeni događaj">
-                    <Image Source="Resources/PencilSign.png"/>
-                </Button>
+                        <Image Source="Resources/PencilSign.png"/>
+                    </Button>
 
-                <Button x:Name="DeleteEventButton"
+                    <Button x:Name="DeleteEventButton"
                         Background="Transparent" BorderBrush="Transparent"
                         Margin="20" ToolTip="Obriši događaj">
-                    <Image Source="Resources/TrashBinIcon.png"/>
-                </Button>
-                
-            </StackPanel>
-        </Viewbox>
+                        <Image Source="Resources/TrashBinIcon.png"/>
+                    </Button>
+
+                </StackPanel>
+            </Viewbox>
+        </Grid>
+        
         
     </Grid>
     

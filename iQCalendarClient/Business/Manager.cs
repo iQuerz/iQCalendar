@@ -84,7 +84,8 @@ namespace iQCalendarClient.Business
                 Date = DateTime.Now.AddDays(3),
                 Color = "Yellow",
                 Finished = false,
-                RecurringType = RecurringType.NonRecurring
+                RecurringType = RecurringType.NonRecurring,
+                Notifications = "0,1,week"
             });
             Events.Add(new Event
             {
@@ -95,7 +96,8 @@ namespace iQCalendarClient.Business
                 Date = DateTime.Now.AddDays(5),
                 Color = "Green",
                 Finished = false,
-                RecurringType = RecurringType.NonRecurring
+                RecurringType = RecurringType.NonRecurring,
+                Notifications = "week,twoweek,3,2,1,month"
             });
             Events.Add(new Event
             {
@@ -106,7 +108,8 @@ namespace iQCalendarClient.Business
                 Date = DateTime.Now.AddDays(12),
                 Color = "Red",
                 Finished = true,
-                RecurringType = RecurringType.Monthly
+                RecurringType = RecurringType.Monthly,
+                Notifications = "5,week,month"
             });
             Events.Add(new Event
             {
@@ -117,7 +120,8 @@ namespace iQCalendarClient.Business
                 Date = DateTime.Now.AddDays(12),
                 Color = "Red",
                 Finished = true,
-                RecurringType = RecurringType.Monthly
+                RecurringType = RecurringType.Monthly,
+                Notifications = "1,2,week"
             });
 
             Account = new Account
